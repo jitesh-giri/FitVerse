@@ -1,0 +1,297 @@
+<!DOCTYPE html><html class="dark" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>User Profile - FitVerse</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&amp;family=Montserrat:wght@700;800&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-tint": "#adc6ff",
+                        "on-secondary-fixed": "#1a1c1c",
+                        "secondary-fixed-dim": "#c6c6c7",
+                        "on-background": "#e5e2e1",
+                        "on-tertiary-fixed-variant": "#7c2e00",
+                        "secondary-fixed": "#e2e2e2",
+                        "inverse-surface": "#e5e2e1",
+                        "on-secondary": "#2f3131",
+                        "surface-container-highest": "#353534",
+                        "tertiary-fixed-dim": "#ffb595",
+                        "on-tertiary": "#571e00",
+                        "error": "#ffb4ab",
+                        "on-primary": "#002e69",
+                        "tertiary-fixed": "#ffdbcc",
+                        "on-surface-variant": "#c1c6d7",
+                        "secondary": "#c6c6c7",
+                        "outline": "#8b90a0",
+                        "surface-bright": "#3a3939",
+                        "outline-variant": "#414755",
+                        "primary-fixed-dim": "#adc6ff",
+                        "surface-container-high": "#2a2a2a",
+                        "on-primary-container": "#00285c",
+                        "on-surface": "#e5e2e1",
+                        "primary": "#adc6ff",
+                        "secondary-container": "#454747",
+                        "on-error": "#690005",
+                        "on-tertiary-container": "#4c1a00",
+                        "surface-container": "#201f1f",
+                        "background": "#131313",
+                        "on-primary-fixed": "#001a41",
+                        "inverse-primary": "#005bc1",
+                        "surface-container-lowest": "#0e0e0e",
+                        "surface-variant": "#353534",
+                        "on-tertiary-fixed": "#351000",
+                        "on-secondary-container": "#b4b5b5",
+                        "tertiary": "#ffb595",
+                        "tertiary-container": "#ef6719",
+                        "on-error-container": "#ffdad6",
+                        "primary-container": "#4b8eff",
+                        "inverse-on-surface": "#313030",
+                        "error-container": "#93000a",
+                        "surface-container-low": "#1c1b1b",
+                        "on-secondary-fixed-variant": "#454747",
+                        "on-primary-fixed-variant": "#004493",
+                        "surface-dim": "#131313",
+                        "primary-fixed": "#d8e2ff",
+                        "surface": "#131313"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "gutter": "24px",
+                        "margin-mobile": "20px",
+                        "border-thick": "8px",
+                        "margin-desktop": "64px",
+                        "unit": "8px"
+                    },
+                    "fontFamily": {
+                        "headline-lg": ["Montserrat"],
+                        "body-md": ["Inter"],
+                        "headline-md": ["Montserrat"],
+                        "headline-lg-mobile": ["Montserrat"],
+                        "headline-xl": ["Montserrat"],
+                        "label-caps": ["Inter"],
+                        "body-lg": ["Inter"]
+                    },
+                    "fontSize": {
+                        "headline-lg": ["40px", { "lineHeight": "1.2", "letterSpacing": "-0.01em", "fontWeight": "700" }],
+                        "body-md": ["16px", { "lineHeight": "1.5", "fontWeight": "400" }],
+                        "headline-md": ["24px", { "lineHeight": "1.3", "fontWeight": "700" }],
+                        "headline-lg-mobile": ["32px", { "lineHeight": "1.2", "fontWeight": "700" }],
+                        "headline-xl": ["64px", { "lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "800" }],
+                        "label-caps": ["12px", { "lineHeight": "1", "letterSpacing": "0.1em", "fontWeight": "600" }],
+                        "body-lg": ["18px", { "lineHeight": "1.6", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { background-color: theme('colors.background'); color: theme('colors.on-background'); }
+        .bg-gradient-border { background: linear-gradient(to right, #9c27b0, #e91e63, #ff9800, #ffeb3b); }
+        .glass-panel { background: rgba(18, 18, 18, 0.7); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid theme('colors.outline-variant'); }
+        .glowing-line { stroke: theme('colors.primary'); filter: drop-shadow(0 0 4px theme('colors.primary')); }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="antialiased min-h-screen flex flex-col selection:bg-primary-container selection:text-on-primary-container">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-background border-b-8 border-primary flat no shadows transition-transform duration-300">
+<div class="flex justify-between items-center px-margin-mobile md:px-margin-desktop py-4 w-full max-w-full mx-auto">
+<div class="flex items-center gap-4 cursor-pointer scale-95 active:scale-90 transition-transform hover:opacity-80">
+<span aria-hidden="true" class="material-symbols-outlined text-primary text-3xl" data-icon="fitness_center">fitness_center</span>
+<span class="font-headline-md text-headline-md font-bold text-primary">FitVerse</span>
+</div>
+<nav aria-label="Main Navigation" class="hidden md:flex gap-8 items-center">
+<a class="text-on-surface-variant font-medium hover:text-primary transition-colors duration-300 font-body-md text-body-md" href="#">Dashboard</a>
+<a class="text-on-surface-variant font-medium hover:text-primary transition-colors duration-300 font-body-md text-body-md" href="#">Workouts</a>
+<a aria-current="page" class="text-primary font-bold hover:text-primary transition-colors duration-300 font-body-md text-body-md" href="#">Profile</a>
+</nav>
+<button class="bg-primary text-on-primary font-body-md text-body-md font-semibold px-6 py-2 rounded scale-95 active:scale-90 transition-transform hover:bg-primary-fixed-dim">
+                Get Started
+            </button>
+</div>
+</header>
+<div class="flex flex-1 pt-24">
+<!-- Navigation Drawer (Desktop) -->
+<aside class="hidden lg:flex flex-col h-full w-80 rounded-r-xl bg-surface-container-high shadow-xl transition-all duration-200 p-gutter shrink-0 sticky top-24 ml-0">
+<div class="mb-12">
+<h2 class="font-headline-lg text-headline-lg font-black text-primary">FitVerse</h2>
+</div>
+<nav aria-label="Sidebar Navigation" class="flex flex-col gap-2 font-body-lg text-body-lg">
+<a class="flex items-center gap-4 p-4 text-on-surface-variant hover:bg-surface-variant rounded-lg transition-colors group" href="#">
+<span class="material-symbols-outlined group-hover:text-primary transition-colors" data-icon="bolt">bolt</span>
+<span class="">Features</span>
+</a>
+<a class="flex items-center gap-4 p-4 text-on-surface-variant hover:bg-surface-variant rounded-lg transition-colors group" href="#">
+<span class="material-symbols-outlined group-hover:text-primary transition-colors" data-icon="groups">groups</span>
+<span class="">Community</span>
+</a>
+<a class="flex items-center gap-4 p-4 bg-primary-container text-on-primary-container rounded-lg transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+<span class="">Profile</span>
+</a>
+<a class="flex items-center gap-4 p-4 text-on-surface-variant hover:bg-surface-variant rounded-lg transition-colors group" href="#">
+<span class="material-symbols-outlined group-hover:text-primary transition-colors" data-icon="payments">payments</span>
+<span class="">Pricing</span>
+</a>
+<a class="flex items-center gap-4 p-4 text-on-surface-variant hover:bg-surface-variant rounded-lg transition-colors group" href="#">
+<span class="material-symbols-outlined group-hover:text-primary transition-colors" data-icon="info">info</span>
+<span class="">About</span>
+</a>
+</nav>
+</aside>
+<!-- Main Content -->
+<main class="flex-1 px-margin-mobile md:px-margin-desktop py-12 md:py-24 max-w-7xl mx-auto w-full">
+<!-- Hero Profile Section -->
+<section class="flex flex-col md:flex-row items-center md:items-start gap-12 mb-24">
+<div class="relative shrink-0">
+<div class="w-48 h-48 md:w-64 md:h-64 rounded-full p-[10px] bg-gradient-border">
+
+</div>
+</div>
+<div class="flex-1 text-center md:text-left flex flex-col justify-center h-full pt-4">
+<h1 class="font-headline-xl text-headline-xl text-on-surface mb-2">ALEX V.</h1>
+<p class="font-body-lg text-body-lg text-primary mb-8 tracking-wide">ELITE ATHLETE TIER</p>
+<div class="flex flex-wrap justify-center md:justify-start gap-4">
+<button class="bg-primary text-on-primary font-body-md text-body-md font-bold px-8 py-4 rounded-sm hover:opacity-90 transition-opacity">
+                            Edit Profile
+                        </button>
+<button class="border-[8px] border-primary text-primary font-body-md text-body-md font-bold px-8 py-3 rounded-sm hover:bg-primary hover:text-on-primary transition-colors">
+                            Share Stats
+                        </button>
+</div>
+</div>
+</section>
+<!-- AI Fitness Twin Bento Grid -->
+<section class="mb-24">
+<div class="flex items-center gap-4 mb-8">
+<span class="material-symbols-outlined text-primary text-3xl" data-icon="hub">hub</span>
+<h2 class="font-headline-md text-headline-md text-on-surface">AI Fitness Twin</h2>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-12 gap-8">
+<!-- Stats Card -->
+<div class="md:col-span-5 glass-panel p-8 rounded-xl flex flex-col border-[8px] border-surface-container-high hover:border-primary transition-colors duration-500 group">
+<h3 class="font-label-caps text-label-caps text-on-surface-variant mb-6 tracking-widest">BIOMETRICS</h3>
+<div class="space-y-8 flex-1">
+<div>
+<div class="flex justify-between text-body-md font-body-md mb-2">
+<span class="text-on-surface">Weight</span>
+<span class="text-primary font-bold">185 lbs</span>
+</div>
+<div class="w-full bg-surface-container h-2 rounded-full overflow-hidden">
+<div class="bg-primary h-full w-[70%] group-hover:w-[75%] transition-all duration-1000 ease-out"></div>
+</div>
+</div>
+<div>
+<div class="flex justify-between text-body-md font-body-md mb-2">
+<span class="text-on-surface">Body Fat</span>
+<span class="text-tertiary font-bold">12%</span>
+</div>
+<div class="w-full bg-surface-container h-2 rounded-full overflow-hidden">
+<div class="bg-tertiary h-full w-[30%] group-hover:w-[25%] transition-all duration-1000 ease-out"></div>
+</div>
+</div>
+<div>
+<div class="flex justify-between text-body-md font-body-md mb-2">
+<span class="text-on-surface">Muscle Mass</span>
+<span class="text-primary font-bold">82 lbs</span>
+</div>
+<div class="w-full bg-surface-container h-2 rounded-full overflow-hidden">
+<div class="bg-primary h-full w-[80%] group-hover:w-[85%] transition-all duration-1000 ease-out"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Progress Chart Card -->
+<div class="md:col-span-7 glass-panel p-8 rounded-xl flex flex-col border-[8px] border-surface-container-high relative overflow-hidden">
+<h3 class="font-label-caps text-label-caps text-on-surface-variant mb-6 tracking-widest z-10">PERFORMANCE TRAJECTORY</h3>
+<div class="flex-1 flex items-end relative h-64 mt-4 z-10">
+<!-- SVG Progress Line -->
+<svg class="w-full h-full" preserveAspectRatio="none" viewBox="0 0 100 100">
+<path class="glowing-line" d="M0,90 Q25,85 50,60 T100,20" fill="none" stroke-width="2" vector-effect="non-scaling-stroke"></path>
+<path d="M0,90 Q25,85 50,60 T100,20 L100,100 L0,100 Z" fill="url(#gradient)" opacity="0.2"></path>
+<defs>
+<linearGradient id="gradient" x1="0%" x2="0%" y1="0%" y2="100%">
+<stop offset="0%" stop-color="theme('colors.primary')"></stop>
+<stop offset="100%" stop-color="transparent"></stop>
+</linearGradient>
+</defs>
+<!-- Grid lines -->
+<line stroke="theme('colors.surface-container')" stroke-width="0.5" vector-effect="non-scaling-stroke" x1="0" x2="100" y1="25" y2="25"></line>
+<line stroke="theme('colors.surface-container')" stroke-width="0.5" vector-effect="non-scaling-stroke" x1="0" x2="100" y1="50" y2="50"></line>
+<line stroke="theme('colors.surface-container')" stroke-width="0.5" vector-effect="non-scaling-stroke" x1="0" x2="100" y1="75" y2="75"></line>
+</svg>
+<!-- Overlay Text -->
+<div class="absolute inset-0 flex items-center justify-center pointer-events-none">
+<p class="font-headline-md text-headline-md text-on-surface opacity-20 uppercase tracking-widest mix-blend-overlay font-black text-center">+15% EFFICIENCY<br>OVER 30 DAYS</p>
+</div>
+</div>
+</div>
+<!-- Goals Card -->
+<div class="md:col-span-12 glass-panel p-8 rounded-xl border-[8px] border-surface-container-high flex flex-col md:flex-row gap-8 items-center">
+<div class="shrink-0">
+<h3 class="font-label-caps text-label-caps text-on-surface-variant mb-2 tracking-widest">ACTIVE PROTOCOLS</h3>
+<p class="font-headline-md text-headline-md text-on-surface">Target Goals</p>
+</div>
+<div class="flex-1 flex gap-4 w-full md:w-auto overflow-x-auto pb-4 md:pb-0 hide-scrollbar">
+<div class="bg-surface-container-high px-6 py-4 rounded-full border border-outline-variant flex items-center gap-3 shrink-0 cursor-pointer hover:border-primary transition-colors">
+<span class="material-symbols-outlined text-primary" data-icon="fitness_center">fitness_center</span>
+<span class="font-body-md text-body-md text-on-surface font-semibold">Strength Phase III</span>
+</div>
+<div class="bg-surface-container-high px-6 py-4 rounded-full border border-outline-variant flex items-center gap-3 shrink-0 cursor-pointer hover:border-primary transition-colors">
+<span class="material-symbols-outlined text-tertiary" data-icon="directions_run">directions_run</span>
+<span class="font-body-md text-body-md text-on-surface font-semibold">Endurance Prep</span>
+</div>
+<div class="bg-surface-container-low px-6 py-4 rounded-full border border-surface-container flex items-center gap-3 shrink-0 cursor-pointer hover:border-outline-variant transition-colors opacity-50">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="add">add</span>
+<span class="font-body-md text-body-md text-on-surface-variant font-semibold">Add Goal</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Decorative Image Break -->
+<section class="mb-24 h-96 w-full rounded-xl overflow-hidden border-[8px] border-surface-container-high relative">
+<div class="bg-cover bg-center w-full h-full absolute inset-0" data-alt="A wide, cinematic shot of a modern, dark-themed fitness studio interior. Heavy architectural lines frame the space, with subtle electric blue lighting reflecting off metallic surfaces. The atmosphere is quiet, intense, and focused, embodying a premium digital gym aesthetic." style="background-image: url(&quot;https://lh3.googleusercontent.com/aida-public/AB6AXuD6sKm9wAxeNwweOapvTWTeqREmWisj2QZAAFND2VktGIbsQzAXVdap_M4jnaXhCq2m2Zlwmnv39owM1Bpeqt3iimuCjv1Y7LDPEqToTW5Uy9Hc5kr1aF0eD6S3JanVx7KAKtq_As4YLzB0BCno6jwuPViU1gU3A3SZ2qOERzEIJsgRW8UtFqCrGaCmyNUCMcRZvFIpcrZOvnta__yeq6Epyevybs2ukOuwBCRGFLwviXUd3QMW2y5N&quot;);"></div>
+<div class="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent"></div>
+</section>
+</main>
+</div>
+<!-- Footer -->
+<footer class="bg-surface-container-lowest border-t-8 border-surface-variant flat no shadows w-full mt-auto">
+<div class="flex flex-col md:flex-row justify-between items-center px-margin-desktop py-12 w-full max-w-7xl mx-auto gap-8">
+<div class="font-headline-md text-headline-md text-on-surface font-bold">FitVerse</div>
+<nav aria-label="Footer Links" class="flex flex-wrap justify-center gap-6">
+<a class="font-label-caps text-label-caps text-on-surface-variant hover:text-primary-fixed opacity-80 hover:opacity-100 transition-all" href="#">Privacy Policy</a>
+<a class="font-label-caps text-label-caps text-on-surface-variant hover:text-primary-fixed opacity-80 hover:opacity-100 transition-all" href="#">Terms of Service</a>
+<a class="font-label-caps text-label-caps text-on-surface-variant hover:text-primary-fixed opacity-80 hover:opacity-100 transition-all" href="#">Contact</a>
+<a class="font-label-caps text-label-caps text-on-surface-variant hover:text-primary-fixed opacity-80 hover:opacity-100 transition-all" href="#">Support</a>
+</nav>
+<div class="font-label-caps text-label-caps text-on-surface-variant opacity-80 text-center md:text-right">
+                © 2024 FitVerse. All rights reserved.
+            </div>
+</div>
+</footer>
+<style>
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+
+
+</body></html>

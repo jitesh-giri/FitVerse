@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>FitVerse - Workout Plan</title>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&amp;family=Montserrat:wght@700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Config from Brand Anchors -->
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface-tint": "#adc6ff",
+                    "on-secondary-fixed": "#1a1c1c",
+                    "secondary-fixed-dim": "#c6c6c7",
+                    "on-background": "#e5e2e1",
+                    "on-tertiary-fixed-variant": "#7c2e00",
+                    "secondary-fixed": "#e2e2e2",
+                    "inverse-surface": "#e5e2e1",
+                    "on-secondary": "#2f3131",
+                    "surface-container-highest": "#353534",
+                    "tertiary-fixed-dim": "#ffb595",
+                    "on-tertiary": "#571e00",
+                    "error": "#ffb4ab",
+                    "on-primary": "#002e69",
+                    "tertiary-fixed": "#ffdbcc",
+                    "on-surface-variant": "#c1c6d7",
+                    "secondary": "#c6c6c7",
+                    "outline": "#8b90a0",
+                    "surface-bright": "#3a3939",
+                    "outline-variant": "#414755",
+                    "primary-fixed-dim": "#adc6ff",
+                    "surface-container-high": "#2a2a2a",
+                    "on-primary-container": "#00285c",
+                    "on-surface": "#e5e2e1",
+                    "primary": "#adc6ff",
+                    "secondary-container": "#454747",
+                    "on-error": "#690005",
+                    "on-tertiary-container": "#4c1a00",
+                    "surface-container": "#201f1f",
+                    "background": "#131313",
+                    "on-primary-fixed": "#001a41",
+                    "inverse-primary": "#005bc1",
+                    "surface-container-lowest": "#0e0e0e",
+                    "surface-variant": "#353534",
+                    "on-tertiary-fixed": "#351000",
+                    "on-secondary-container": "#b4b5b5",
+                    "tertiary": "#ffb595",
+                    "tertiary-container": "#ef6719",
+                    "on-error-container": "#ffdad6",
+                    "primary-container": "#4b8eff",
+                    "inverse-on-surface": "#313030",
+                    "error-container": "#93000a",
+                    "surface-container-low": "#1c1b1b",
+                    "on-secondary-fixed-variant": "#454747",
+                    "on-primary-fixed-variant": "#004493",
+                    "surface-dim": "#131313",
+                    "primary-fixed": "#d8e2ff",
+                    "surface": "#131313"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "gutter": "24px",
+                    "margin-mobile": "20px",
+                    "border-thick": "8px",
+                    "margin-desktop": "64px",
+                    "unit": "8px"
+            },
+            "fontFamily": {
+                    "headline-lg": ["Montserrat"],
+                    "body-md": ["Inter"],
+                    "headline-md": ["Montserrat"],
+                    "headline-lg-mobile": ["Montserrat"],
+                    "headline-xl": ["Montserrat"],
+                    "label-caps": ["Inter"],
+                    "body-lg": ["Inter"]
+            },
+            "fontSize": {
+                    "headline-lg": ["40px", {"lineHeight": "1.2", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                    "body-md": ["16px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                    "headline-md": ["24px", {"lineHeight": "1.3", "fontWeight": "700"}],
+                    "headline-lg-mobile": ["32px", {"lineHeight": "1.2", "fontWeight": "700"}],
+                    "headline-xl": ["64px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "800"}],
+                    "label-caps": ["12px", {"lineHeight": "1", "letterSpacing": "0.1em", "fontWeight": "600"}],
+                    "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}]
+            }
+          }
+        }
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+          font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .icon-fill {
+            font-variation-settings: 'FILL' 1;
+        }
+        
+        /* Vibrant Gradient Accent */
+        .text-gradient-vibrant {
+            background: linear-gradient(135deg, #adc6ff 0%, #ffb595 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            color: transparent;
+        }
+
+        /* Custom Scrollbar for dark theme */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #131313;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #353534;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #adc6ff;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background min-h-screen flex flex-col font-body-md overflow-x-hidden">
+<!-- TopAppBar from JSON -->
+<nav class="fixed top-0 w-full z-50 bg-background border-b-border-thick border-primary flex justify-between items-center px-margin-mobile md:px-margin-desktop py-4 max-w-full mx-auto">
+<div class="flex items-center gap-4">
+<button aria-label="Menu" class="text-primary scale-95 active:scale-90 transition-transform flex items-center justify-center p-2 rounded-full hover:bg-surface-container">
+<span class="material-symbols-outlined text-3xl">fitness_center</span>
+</button>
+<span class="font-headline-md text-headline-md font-bold text-primary">FitVerse</span>
+</div>
+<div>
+<button class="bg-primary text-on-primary font-label-caps text-label-caps px-6 py-3 rounded uppercase tracking-widest hover:bg-primary-container transition-colors shadow-[0_0_15px_rgba(173,198,255,0.3)]">
+                Get Started
+            </button>
+</div>
+</nav>
+<!-- Main Content Canvas -->
+<main class="flex-grow pt-32 pb-24 px-margin-mobile md:px-margin-desktop max-w-[1440px] mx-auto w-full flex flex-col gap-12">
+<!-- Header Section -->
+<header class="flex flex-col gap-4 max-w-3xl">
+<h1 class="font-headline-xl text-headline-xl text-gradient-vibrant">Hypertrophy Core Matrix</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant opacity-80">
+                A precision-engineered protocol designed to maximize mechanical tension. Follow the prescribed tempo and respect the rest intervals to ensure optimal metabolic stress.
+            </p>
+</header>
+<!-- Workout Grid / Table-like structure -->
+<div class="flex flex-col gap-6 w-full">
+<!-- Column Headers (Hidden on mobile, visible on desktop) -->
+<div class="hidden md:grid grid-cols-12 gap-4 px-6 pb-2 border-b-2 border-surface-variant font-label-caps text-label-caps text-on-surface-variant uppercase tracking-wider">
+<div class="col-span-5">Movement Protocol</div>
+<div class="col-span-3 text-center">Volume Structure</div>
+<div class="col-span-4 text-right">Execution</div>
+</div>
+<!-- Exercise Row 1 -->
+<div class="bg-surface-container rounded-lg border-l-border-thick border-surface-variant hover:border-primary transition-all duration-300 group overflow-hidden">
+<!-- Main Visible Row -->
+<div class="grid grid-cols-1 md:grid-cols-12 gap-4 p-6 items-center">
+<div class="col-span-1 md:col-span-5 flex flex-col gap-1">
+<span class="font-headline-md text-headline-md text-on-surface group-hover:text-primary transition-colors">Barbell Deadlift</span>
+<span class="font-label-caps text-label-caps text-primary uppercase">Primary Compound</span>
+</div>
+<div class="col-span-1 md:col-span-3 flex md:justify-center items-center gap-4">
+<div class="bg-surface-container-high px-4 py-2 rounded border border-surface-variant flex flex-col items-center">
+<span class="font-label-caps text-label-caps text-on-surface-variant">Sets</span>
+<span class="font-headline-md text-[20px] font-bold text-on-surface">4</span>
+</div>
+<span class="text-surface-variant text-2xl font-light">×</span>
+<div class="bg-surface-container-high px-4 py-2 rounded border border-surface-variant flex flex-col items-center">
+<span class="font-label-caps text-label-caps text-on-surface-variant">Reps</span>
+<span class="font-headline-md text-[20px] font-bold text-on-surface">6-8</span>
+</div>
+</div>
+<div class="col-span-1 md:col-span-4 flex justify-start md:justify-end gap-3 mt-4 md:mt-0">
+<button class="flex items-center gap-2 border-2 border-primary text-primary px-4 py-2 rounded font-label-caps text-label-caps uppercase hover:bg-primary hover:text-on-primary transition-colors">
+<span class="material-symbols-outlined text-[18px]">play_circle</span>
+                            Watch
+                        </button>
+<button aria-expanded="false" class="demo-toggle flex items-center gap-2 bg-surface-container-high border border-outline-variant text-on-surface px-4 py-2 rounded font-label-caps text-label-caps uppercase hover:bg-surface-bright transition-colors">
+                            Demo
+                            <span class="material-symbols-outlined toggle-icon text-[18px]">expand_more</span>
+</button>
+</div>
+</div>
+<!-- Expandable Demo Section -->
+<div class="demo-content hidden border-t border-surface-variant bg-surface p-6">
+<div class="flex flex-col md:flex-row gap-8">
+<!-- Thick Border Image Container -->
+<div class="w-full md:w-5/12 aspect-video border-border-thick border-primary rounded relative overflow-hidden bg-surface-container-lowest">
+<div class="w-full h-full bg-cover bg-center opacity-80 mix-blend-screen" data-alt="A high-contrast wireframe animation of a human figure performing a barbell deadlift, rendered in electric blue lines against a deep black void. The lighting emphasizes the tension in the posterior chain, reflecting a futuristic, data-driven fitness aesthetic." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBW8mqj9CVq8FHoRguiti6lrJVidE62jIWTsDxnbOtsXBpSi8PrksuhqCOCmfc6sLBeARx71tou2fpd730jtY0bzAf8-eHWgS2Frgp_J4apBJY4ADsmrVTeTUY3shQTjyJM-olcdXdG-DJ2Y4VTZm52JPyNdeypBFnoxl8x6lHLJ7VbS9X9cz0p5q_tEh8W9jZt77mufAko8Zp5kcWI3xlsuKECrnmCacI_mIvRd1q1chQ8nZUfNTki')"></div>
+<div class="absolute inset-0 border border-primary/20 m-2 rounded-sm pointer-events-none"></div>
+</div>
+<div class="w-full md:w-7/12 flex flex-col gap-4 justify-center">
+<h4 class="font-headline-md text-headline-md text-on-surface flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">psychology</span>
+                                Mind-Muscle Connection
+                            </h4>
+<ul class="flex flex-col gap-3 font-body-md text-on-background">
+<li class="flex gap-3">
+<span class="text-primary mt-1">01.</span>
+<span>Hinge at the hips, maintaining a neutral spine. Engage lats by pulling the bar close to your shins before initiating the pull.</span>
+</li>
+<li class="flex gap-3">
+<span class="text-primary mt-1">02.</span>
+<span>Drive through the mid-foot, extending hips and knees simultaneously. Do not let the hips rise faster than the shoulders.</span>
+</li>
+<li class="flex gap-3">
+<span class="text-primary mt-1">03.</span>
+<span>Lock out forcefully at the top by squeezing the glutes, avoiding hyperextension of the lower back.</span>
+</li>
+</ul>
+<div class="mt-4 flex gap-2">
+<span class="bg-surface-container-high text-on-surface-variant font-label-caps text-label-caps px-3 py-1 rounded border border-surface-variant">Tempo: 2-0-1-0</span>
+<span class="bg-surface-container-high text-on-surface-variant font-label-caps text-label-caps px-3 py-1 rounded border border-surface-variant">Rest: 120s</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Exercise Row 2 -->
+<div class="bg-surface-container rounded-lg border-l-border-thick border-surface-variant hover:border-tertiary transition-all duration-300 group overflow-hidden">
+<div class="grid grid-cols-1 md:grid-cols-12 gap-4 p-6 items-center">
+<div class="col-span-1 md:col-span-5 flex flex-col gap-1">
+<span class="font-headline-md text-headline-md text-on-surface group-hover:text-tertiary transition-colors">Bulgarian Split Squat</span>
+<span class="font-label-caps text-label-caps text-tertiary uppercase">Unilateral Accessory</span>
+</div>
+<div class="col-span-1 md:col-span-3 flex md:justify-center items-center gap-4">
+<div class="bg-surface-container-high px-4 py-2 rounded border border-surface-variant flex flex-col items-center">
+<span class="font-label-caps text-label-caps text-on-surface-variant">Sets</span>
+<span class="font-headline-md text-[20px] font-bold text-on-surface">3</span>
+</div>
+<span class="text-surface-variant text-2xl font-light">×</span>
+<div class="bg-surface-container-high px-4 py-2 rounded border border-surface-variant flex flex-col items-center">
+<span class="font-label-caps text-label-caps text-on-surface-variant">Reps</span>
+<span class="font-headline-md text-[20px] font-bold text-on-surface">10-12 /leg</span>
+</div>
+</div>
+<div class="col-span-1 md:col-span-4 flex justify-start md:justify-end gap-3 mt-4 md:mt-0">
+<button class="flex items-center gap-2 border-2 border-tertiary text-tertiary px-4 py-2 rounded font-label-caps text-label-caps uppercase hover:bg-tertiary hover:text-on-tertiary transition-colors">
+<span class="material-symbols-outlined text-[18px]">play_circle</span>
+                            Watch
+                        </button>
+<button aria-expanded="false" class="demo-toggle flex items-center gap-2 bg-surface-container-high border border-outline-variant text-on-surface px-4 py-2 rounded font-label-caps text-label-caps uppercase hover:bg-surface-bright transition-colors">
+                            Demo
+                            <span class="material-symbols-outlined toggle-icon text-[18px]">expand_more</span>
+</button>
+</div>
+</div>
+<!-- Expandable Demo Section -->
+<div class="demo-content hidden border-t border-surface-variant bg-surface p-6">
+<div class="flex flex-col md:flex-row gap-8">
+<div class="w-full md:w-5/12 aspect-video border-border-thick border-tertiary rounded relative overflow-hidden bg-surface-container-lowest">
+<div class="w-full h-full bg-cover bg-center opacity-80 mix-blend-screen" data-alt="A side-profile cinematic shot of a glowing translucent anatomical model executing a Bulgarian Split Squat. The working leg muscles are highlighted in fiery orange and neon pink against a stark dark studio background, visualizing muscle activation during the eccentric phase." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAu-_r2A5GMDTDEMg_AVspq7FCTMTyq8psGExIwfmCombzxEGiNtvvejd36Ltb1wXmtz1VHwtLT3FjcF2fRRU-Z0nlrrgA9bkRQon6sn53JCsAv0LIskhd1aYa862hQWAocsYi2nRkFgned6kWw123ImdKhHXnPhPlLRP3KNGE4w0Tfp7sMZwYyWbhHuG5hnhjsimfvEPUnnq-Uzavyu6Nhq8TN-6mWQr2z9fPMSVNxylmyYj430wtF')"></div>
+<div class="absolute inset-0 border border-tertiary/20 m-2 rounded-sm pointer-events-none"></div>
+</div>
+<div class="w-full md:w-7/12 flex flex-col gap-4 justify-center">
+<h4 class="font-headline-md text-headline-md text-on-surface flex items-center gap-2">
+<span class="material-symbols-outlined text-tertiary">psychology</span>
+                                Form Mechanics
+                            </h4>
+<ul class="flex flex-col gap-3 font-body-md text-on-background">
+<li class="flex gap-3">
+<span class="text-tertiary mt-1">01.</span>
+<span>Elevate rear foot on a bench. Keep the front foot positioned so the knee doesn't track excessively past the toes.</span>
+</li>
+<li class="flex gap-3">
+<span class="text-tertiary mt-1">02.</span>
+<span>Descend slowly, focusing the load entirely on the front quadriceps and glutes. Keep torso slightly pitched forward for glute bias.</span>
+</li>
+<li class="flex gap-3">
+<span class="text-tertiary mt-1">03.</span>
+<span>Push the floor away through the front heel to return to the starting position. Maintain constant tension.</span>
+</li>
+</ul>
+<div class="mt-4 flex gap-2">
+<span class="bg-surface-container-high text-on-surface-variant font-label-caps text-label-caps px-3 py-1 rounded border border-surface-variant">Tempo: 3-1-1-0</span>
+<span class="bg-surface-container-high text-on-surface-variant font-label-caps text-label-caps px-3 py-1 rounded border border-surface-variant">Rest: 90s</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Footer from JSON -->
+<footer class="bg-surface-container-lowest border-t-border-thick border-surface-variant flex flex-col md:flex-row justify-between items-center px-margin-mobile md:px-margin-desktop py-12 w-full mt-auto">
+<span class="font-headline-md text-headline-md text-on-surface font-bold tracking-tight">FitVerse</span>
+<div class="flex flex-wrap justify-center gap-6 font-label-caps text-label-caps text-on-surface-variant my-6 md:my-0">
+<a class="hover:text-primary-fixed opacity-80 hover:opacity-100 transition-opacity uppercase tracking-widest" href="#">Privacy Policy</a>
+<a class="hover:text-primary-fixed opacity-80 hover:opacity-100 transition-opacity uppercase tracking-widest" href="#">Terms of Service</a>
+<a class="hover:text-primary-fixed opacity-80 hover:opacity-100 transition-opacity uppercase tracking-widest" href="#">Contact</a>
+<a class="hover:text-primary-fixed opacity-80 hover:opacity-100 transition-opacity uppercase tracking-widest" href="#">Support</a>
+</div>
+<span class="font-label-caps text-label-caps text-on-surface-variant opacity-60">© 2024 FitVerse. All rights reserved.</span>
+</footer>
+<!-- Interactive Logic -->
+<script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const toggleButtons = document.querySelectorAll('.demo-toggle');
+
+            toggleButtons.forEach(button => {
+                button.addEventListener('click', (e) => {
+                    const rowContainer = button.closest('.bg-surface-container');
+                    const demoContent = rowContainer.querySelector('.demo-content');
+                    const icon = button.querySelector('.toggle-icon');
+                    
+                    const isExpanded = button.getAttribute('aria-expanded') === 'true';
+                    
+                    // Close others (Accordion behavior - optional, but keeps UI clean)
+                    /*
+                    document.querySelectorAll('.demo-content:not(.hidden)').forEach(content => {
+                        if (content !== demoContent) {
+                            content.classList.add('hidden');
+                            const otherBtn = content.closest('.bg-surface-container').querySelector('.demo-toggle');
+                            otherBtn.setAttribute('aria-expanded', 'false');
+                            otherBtn.querySelector('.toggle-icon').textContent = 'expand_more';
+                        }
+                    });
+                    */
+
+                    if (isExpanded) {
+                        demoContent.classList.add('hidden');
+                        button.setAttribute('aria-expanded', 'false');
+                        icon.textContent = 'expand_more';
+                        rowContainer.classList.remove('bg-surface', 'shadow-xl');
+                    } else {
+                        demoContent.classList.remove('hidden');
+                        button.setAttribute('aria-expanded', 'true');
+                        icon.textContent = 'expand_less';
+                        // Add some pop to the expanded row
+                        rowContainer.classList.add('bg-surface', 'shadow-[0_10px_30px_rgba(0,0,0,0.5)]');
+                    }
+                });
+            });
+        });
+    </script>
+</body></html>

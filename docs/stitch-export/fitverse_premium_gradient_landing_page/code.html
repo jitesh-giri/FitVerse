@@ -1,0 +1,532 @@
+<!DOCTYPE html><html class="dark" lang="en" style=""><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>FitVerse - Elevate Your Fitness Journey</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&amp;family=Montserrat:wght@700;800&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-tint": "#adc6ff",
+                        "inverse-on-surface": "#313030",
+                        "primary-fixed-dim": "#adc6ff",
+                        "tertiary-fixed": "#ffdbcc",
+                        "on-surface": "#e5e2e1",
+                        "surface-variant": "#353534",
+                        "secondary-fixed-dim": "#c6c6c7",
+                        "primary": "#adc6ff",
+                        "on-error": "#690005",
+                        "tertiary": "#ffb595",
+                        "surface-container-lowest": "#0e0e0e",
+                        "on-primary-fixed": "#001a41",
+                        "surface-container-low": "#1c1b1b",
+                        "surface-container-highest": "#353534",
+                        "inverse-primary": "#005bc1",
+                        "secondary": "#c6c6c7",
+                        "on-secondary-container": "#b4b5b5",
+                        "surface": "#131313",
+                        "tertiary-fixed-dim": "#ffb595",
+                        "secondary-container": "#454747",
+                        "error": "#ffb4ab",
+                        "tertiary-container": "#ef6719",
+                        "on-secondary-fixed": "#1a1c1c",
+                        "on-tertiary-fixed-variant": "#7c2e00",
+                        "surface-container-high": "#2a2a2a",
+                        "on-primary": "#002e69",
+                        "secondary-fixed": "#e2e2e2",
+                        "on-secondary": "#2f3131",
+                        "error-container": "#93000a",
+                        "on-background": "#e5e2e1",
+                        "outline": "#8b90a0",
+                        "on-secondary-fixed-variant": "#454747",
+                        "primary-container": "#4b8eff",
+                        "on-primary-fixed-variant": "#004493",
+                        "outline-variant": "#414755",
+                        "surface-bright": "#3a3939",
+                        "surface-dim": "#131313",
+                        "on-primary-container": "#00285c",
+                        "on-tertiary": "#571e00",
+                        "inverse-surface": "#e5e2e1",
+                        "on-surface-variant": "#c1c6d7",
+                        "primary-fixed": "#d8e2ff",
+                        "on-tertiary-container": "#4c1a00",
+                        "background": "#131313",
+                        "on-error-container": "#ffdad6",
+                        "surface-container": "#201f1f",
+                        "on-tertiary-fixed": "#351000"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "margin-desktop": "64px",
+                        "unit": "8px",
+                        "border-thick": "8px",
+                        "gutter": "24px",
+                        "margin-mobile": "20px"
+                    },
+                    "fontFamily": {
+                        "label-caps": ["Inter"],
+                        "body-md": ["Inter"],
+                        "headline-md": ["Montserrat"],
+                        "headline-lg-mobile": ["Montserrat"],
+                        "body-lg": ["Inter"],
+                        "headline-xl": ["Montserrat"],
+                        "headline-lg": ["Montserrat"]
+                    },
+                    "fontSize": {
+                        "label-caps": ["12px", { "lineHeight": "1", "letterSpacing": "0.1em", "fontWeight": "600" }],
+                        "body-md": ["16px", { "lineHeight": "1.5", "fontWeight": "400" }],
+                        "headline-md": ["24px", { "lineHeight": "1.3", "fontWeight": "700" }],
+                        "headline-lg-mobile": ["32px", { "lineHeight": "1.2", "fontWeight": "700" }],
+                        "body-lg": ["18px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "headline-xl": ["64px", { "lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "800" }],
+                        "headline-lg": ["40px", { "lineHeight": "1.2", "letterSpacing": "-0.01em", "fontWeight": "700" }]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        
+        .gradient-text {
+            background: linear-gradient(to right, #8B5CF6, #EC4899, #F97316, #EAB308);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .gradient-bg {
+            background: linear-gradient(to right, #8B5CF6, #EC4899, #F97316, #EAB308);
+        }
+
+        .gradient-border {
+            border-image: linear-gradient(to right, #8B5CF6, #EC4899, #F97316, #EAB308) 1;
+        }
+
+        .gallery-border {
+            border-color: #6b7280;
+            box-shadow: 0 0 15px rgba(234, 179, 8, 0.4);
+        }
+        
+        .rotating-word-container {
+            display: inline-block;
+            height: 1.2em;
+            overflow: hidden;
+            position: relative;
+            vertical-align: bottom;
+        }
+
+        .rotating-word::before {
+            content: "TRANSFORM\AELEVATE\AREWRITE";
+            white-space: pre;
+            animation: wordRoll 9s cubic-bezier(0.68, -0.55, 0.265, 1.55) infinite;
+            display: inline-block;
+            text-align: center;
+        }
+
+        @keyframes wordRoll {
+            0%, 25% { transform: translateY(0); }
+            33%, 58% { transform: translateY(-1.2em); }
+            66%, 91% { transform: translateY(-2.4em); }
+            100% { transform: translateY(-3.6em); }
+        }
+
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+</head>
+<body class="bg-[#121212] text-on-background min-h-screen flex flex-col font-body-md overflow-x-hidden">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-[#121212] border-b-[8px] border-surface-variant">
+<div class="flex justify-between items-center px-margin-mobile md:px-margin-desktop py-4 w-full max-w-full mx-auto">
+<div class="flex items-center gap-4">
+<button class="text-on-background hover:text-primary transition-colors duration-300 md:hidden scale-95 active:scale-90 transition-transform">
+<span class="material-symbols-outlined text-[24px]">menu</span>
+</button>
+<div class="flex items-center gap-2 font-headline-md text-headline-md font-bold gradient-text">
+
+<span class="" style="background: linear-gradient(to right, rgb(255, 253, 208), rgb(255, 255, 255)) text; -webkit-text-fill-color: transparent;">FitVerse</span>
+</div>
+</div>
+<nav class="hidden md:flex gap-8">
+<a class="text-on-surface-variant font-medium hover:text-white transition-colors duration-300" href="#">Features</a>
+<a class="text-on-surface-variant font-medium hover:text-white transition-colors duration-300" href="#">Community</a>
+<a class="text-on-surface-variant font-medium hover:text-white transition-colors duration-300" href="#">Pricing</a>
+<a class="text-on-surface-variant font-medium hover:text-white transition-colors duration-300" href="#">About</a>
+</nav>
+<button class="gradient-bg text-white font-label-caps text-label-caps px-6 py-3 rounded-lg transition-colors duration-300 scale-95 active:scale-90 transition-transform hidden sm:block font-bold">
+                Get Started
+            </button>
+</div>
+</header>
+<!-- NavigationDrawer (Mobile) - Hidden by default, shown via JS if implemented -->
+<aside class="fixed inset-y-0 left-0 z-40 w-80 bg-surface-container-high shadow-xl transform -translate-x-full transition-all duration-200 flex flex-col p-gutter rounded-r-xl md:hidden">
+<div class="font-headline-lg-mobile text-headline-lg-mobile font-black mb-8 mt-20 gradient-text">
+            FitVerse
+        </div>
+<nav class="flex flex-col gap-2 font-body-lg text-body-lg">
+<a class="flex items-center gap-4 p-4 text-on-surface-variant hover:bg-surface-variant rounded-lg transition-all duration-200" href="#">
+<span class="material-symbols-outlined">bolt</span>
+                Features
+            </a>
+<a class="flex items-center gap-4 p-4 text-on-surface-variant hover:bg-surface-variant rounded-lg transition-all duration-200" href="#">
+<span class="material-symbols-outlined">groups</span>
+                Community
+            </a>
+<a class="flex items-center gap-4 p-4 text-on-surface-variant hover:bg-surface-variant rounded-lg transition-all duration-200" href="#">
+<span class="material-symbols-outlined">payments</span>
+                Pricing
+            </a>
+<a class="flex items-center gap-4 p-4 text-on-surface-variant hover:bg-surface-variant rounded-lg transition-all duration-200" href="#">
+<span class="material-symbols-outlined">info</span>
+                About
+            </a>
+</nav>
+</aside>
+<!-- Hero Section -->
+<main class="flex-grow relative pt-32 pb-20 px-margin-mobile md:px-margin-desktop min-h-[90vh] flex flex-col justify-center items-center overflow-hidden">
+<!-- Background Floating Elements (Abstract framing) -->
+<div class="absolute inset-0 pointer-events-none opacity-20">
+<div class="absolute top-1/4 left-[-10%] w-96 h-96 border-[8px] border-surface-variant rounded-full mix-blend-overlay"></div>
+<div class="absolute bottom-[-10%] right-[-5%] w-[40rem] h-[40rem] border-[8px] border-secondary-container rounded-full mix-blend-overlay"></div>
+</div>
+<!-- Floating Image Cards -->
+<div class="absolute inset-0 pointer-events-none z-0 overflow-hidden">
+<!-- Card 1 -->
+<img alt="" class="absolute top-[15%] left-[5%] w-40 h-56 object-cover rounded-xl border-[10px] gallery-border shadow-2xl transform -rotate-12 opacity-80 md:w-64 md:h-80 md:left-[10%]" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC415EZij6X09f1rYvV8ImUMSimltvWZB91fzgxCkmEih5xpnVR7CuztzbmfHOMeoOulGzUNe1uRdXhPGb9ZKSvMpZMlQwuU0Lv5P3QXvYh84ToWZ4D9eJJ9kUSqyfzs5yjglRg50XpPeTzRYfecDszrXmMSkPfbPoIJBvljd8r3oEP2diZCgwVFSQ6bvyKEKxT_kVf_sviErkXEzQJ8mYqoq-R3Gn_7Ds64OZWdAIDlEhDcTLnXpPyZPVfvv18tS0aSw">
+<!-- Card 2 -->
+<img alt="" class="absolute top-[10%] right-[5%] w-32 h-48 object-cover rounded-xl border-[10px] gallery-border shadow-2xl transform rotate-6 opacity-70 md:w-56 md:h-72 md:right-[15%]" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDNhIAHH8pAlrHJxoYLsu3AYCR2Xy0sZO4F-QBw1BrGHYok4Q_cm8zLOuIlyLcJo1mUuYuusKPCAMJcsG6KyDBAaKzaMGWE-6jBYm9pS6Mgmrox0iy8Dz_kzZSgm8MTk7eXmbtxQz7hjNQyG8yi5Wdf6xZ0QCTO5xLm-74j3gDA-s3v0RK-iF1_RgSYbHgu8SITsvM7yoiumYF0EjGTAKAsen_EJ3sHqqUni2pkbuvdRtVt0yrDWmdp78bXmuCq9X1Nsg">
+<!-- Card 3 -->
+<img alt="" class="absolute bottom-[20%] left-[10%] w-36 h-52 object-cover rounded-xl border-[10px] gallery-border shadow-2xl transform rotate-12 opacity-60 md:w-60 md:h-80 md:bottom-[15%]" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCl83UmMLuFGhkizahuLCO6nzcIL7amcx1eNvY3TpK9xY3XZz52vSLZffaOxfdZ13u_igpBRPQMSSGdClQl4kN214tlDNM0Ho60tiP_iY8Q8KRLvDo57C0dj648D1zBBc3hgh0pDe5HX14o8YeVIL6XjpQ3kwIl9fHqyTpOyp_puKFCJb7tdnU8hcB92rhMibi7GEEWx9epj2kzbeI0oag09wJD3EnE6AcYc9JTMgn9sGfkheOth_N_EXQKpOjDcNHpAw">
+<!-- Card 4 -->
+<img alt="" class="absolute bottom-[15%] right-[10%] w-44 h-60 object-cover rounded-xl border-[10px] gallery-border shadow-2xl transform -rotate-6 opacity-90 md:w-72 md:h-96 md:bottom-[10%] md:right-[5%]" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDdOL2oJAh-nBYD2Hgt0B-21BWRqW3fL4BuLKrpyL5SVTmhiX_AcTLi_mA789cXn2kQI3tAXjADLfKfa3D9FRdWdkBjEqLtnePVDACN8-h2WM1mZsX4bCnxa7DTOM2qoo01tQkzsy25IJi5LSpcZvk3t3zX--Os1R4xeqvvUYKXc3IC15BcVE4erettfABqdfzBL0SK_NCdegaXBWP_cfYYPX-G6b08Lfxup-gX7ubtGRfn67W9ly6fU4bcDgz1VdikGA">
+<!-- Card 5 (Center-ish background) -->
+<img alt="" class="absolute top-[40%] left-[50%] -translate-x-1/2 w-48 h-48 object-cover rounded-xl border-[10px] gallery-border shadow-2xl transform rotate-45 opacity-30 md:w-80 md:h-80 mix-blend-luminosity" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBwEDx6tiW5t5T7-HK40O2QnWJlHfUlXEEFnRZBp8BKzHeiqWfy8xiQKieqpdlrZRcomUYjly7nEDRfABResLkdCPKeUxn3AuuROOEUQTVaNUUPA2AsfORmdgXxAcSaYcmynC5vQTwurLtgx5ASJtSUcMwzbOp1NExFw34RzpWqjhUOskseulRdnJgRSPOqSMCvsXjDxtw91HrMFqkUgbssM3YNqb4Ux_TfR82d8E50smIdcitvAd87hxLsv83Qo1CGaA">
+</div>
+<!-- Hero Content Canvas -->
+<div class="relative z-10 flex flex-col items-center text-center max-w-4xl mx-auto mt-12 md:mt-0 bg-[#121212]/80 backdrop-blur-sm p-8 rounded-3xl border border-surface-variant">
+<h1 class="font-headline-xl text-[48px] md:text-headline-xl font-black text-on-background leading-tight mb-4 flex flex-col items-center justify-center min-h-[140px] md:min-h-[160px] text-center">
+<div class="rotating-word-container h-[60px] md:h-[80px]">
+<div class="gradient-text rotating-word tracking-tighter uppercase">
+    <span class="h-[1.2em] flex items-center justify-center">TRANSFORM</span>
+    <span class="h-[1.2em] flex items-center justify-center">ELEVATE</span>
+    <span class="h-[1.2em] flex items-center justify-center">REWRITE</span>
+</div>
+</div>
+<span class="block mt-2 font-headline-xl">Your Fitness Path</span>
+</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl mx-auto mb-10">
+                Experience high-performance training engineered for clarity, discipline, and data-driven progress. The ultimate digital environment for your physical evolution.
+            </p>
+<div class="flex flex-col sm:flex-row gap-6 items-center justify-center w-full relative">
+<!-- Primary CTA -->
+<button class="w-full sm:w-auto bg-transparent border-thick border-surface-variant font-label-caps text-label-caps px-8 py-4 rounded-lg hover:bg-surface-variant/50 transition-all duration-300 scale-100 hover:scale-105 active:scale-95 font-bold z-20 mix-blend-screen backdrop-blur-md text-white hover:bg-white/10">
+                    START YOUR TRANSFORMATION
+                </button>
+<!-- Secondary CTA (Ghost) -->
+<button class="w-full sm:w-auto bg-transparent border-thick border-surface-variant font-label-caps text-label-caps px-8 py-4 rounded-lg hover:bg-surface-variant/50 transition-all duration-300 scale-100 hover:scale-105 active:scale-95 font-bold z-10 sm:-ml-4 sm:mt-4 mix-blend-screen backdrop-blur-md text-white hover:bg-white/10">
+                    SEE HOW IT WORKS
+                </button>
+</div>
+</div>
+<!-- Scroll Indicator -->
+<div class="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-70 animate-bounce">
+<span class="font-label-caps text-label-caps text-on-surface-variant">SCROLL</span>
+<span class="material-symbols-outlined text-on-surface-variant">keyboard_arrow_down</span>
+</div>
+</main>
+<!-- HOW IT WORKS Section -->
+<section class="py-24 px-margin-mobile md:px-margin-desktop w-full max-w-7xl mx-auto">
+<h2 class="font-headline-lg text-headline-lg font-extrabold text-center mb-16 gradient-text tracking-tight">HOW IT WORKS</h2>
+<div class="flex flex-col gap-8 max-w-3xl mx-auto">
+<!-- Step 1 -->
+<div class="bg-surface-container-low p-8 rounded-xl border-[8px] border-surface-variant flex flex-col sm:flex-row items-start sm:items-center gap-6 relative overflow-hidden group hover:border-[#6b7280] transition-colors duration-300">
+<div class="gradient-text font-headline-xl text-[80px] font-black opacity-20 absolute -right-4 -bottom-8 group-hover:scale-110 transition-transform duration-500">01</div>
+
+<div class="z-10">
+<h3 class="font-headline-md text-headline-md font-bold mb-2 text-on-surface">Create Profile</h3>
+<p class="text-on-surface-variant font-body-lg text-body-lg">Set up your baseline metrics and define your ultimate physical goals.</p>
+</div>
+</div>
+<!-- Step 2 -->
+<div class="bg-surface-container-low p-8 rounded-xl border-[8px] border-surface-variant flex flex-col sm:flex-row items-start sm:items-center gap-6 relative overflow-hidden group hover:border-[#6b7280] transition-colors duration-300">
+<div class="gradient-text font-headline-xl text-[80px] font-black opacity-20 absolute -right-4 -bottom-8 group-hover:scale-110 transition-transform duration-500">02</div>
+
+<div class="z-10">
+<h3 class="font-headline-md text-headline-md font-bold mb-2 text-on-surface">AI Builds Your Plan</h3>
+<p class="text-on-surface-variant font-body-lg text-body-lg">Our engine designs a data-backed regimen tailored specifically to you.</p>
+</div>
+</div>
+<!-- Step 3 -->
+<div class="bg-surface-container-low p-8 rounded-xl border-[8px] border-surface-variant flex flex-col sm:flex-row items-start sm:items-center gap-6 relative overflow-hidden group hover:border-[#6b7280] transition-colors duration-300">
+<div class="gradient-text font-headline-xl text-[80px] font-black opacity-20 absolute -right-4 -bottom-8 group-hover:scale-110 transition-transform duration-500">03</div>
+
+<div class="z-10">
+<h3 class="font-headline-md text-headline-md font-bold mb-2 text-on-surface">Train &amp; Track</h3>
+<p class="text-on-surface-variant font-body-lg text-body-lg">Execute your workouts and log progress for continuous adaptation.</p>
+</div>
+</div>
+<!-- Step 4 -->
+<div class="bg-surface-container-low p-8 rounded-xl border-[8px] border-surface-variant flex flex-col sm:flex-row items-start sm:items-center gap-6 relative overflow-hidden group hover:border-[#6b7280] transition-colors duration-300">
+<div class="gradient-text font-headline-xl text-[80px] font-black opacity-20 absolute -right-4 -bottom-8 group-hover:scale-110 transition-transform duration-500">04</div>
+
+<div class="z-10">
+<h3 class="font-headline-md text-headline-md font-bold mb-2 text-on-surface">Join the Community</h3>
+<p class="text-on-surface-variant font-body-lg text-body-lg">Connect, compete, and evolve alongside driven individuals.</p>
+</div>
+</div>
+</div>
+</section>
+<!-- GLIMPSES Section -->
+<section class="py-24 w-full overflow-hidden">
+<h2 class="font-headline-lg text-headline-lg font-extrabold text-center mb-16 gradient-text tracking-tight px-margin-mobile md:px-margin-desktop">GLIMPSES</h2>
+<div class="flex gap-8 overflow-x-auto pb-12 pt-4 px-margin-mobile md:px-margin-desktop snap-x snap-mandatory hide-scrollbar">
+<div class="min-w-[280px] md:min-w-[400px] snap-center shrink-0">
+<img alt="Fitness training" class="w-full h-80 md:h-[400px] object-cover rounded-xl border-[10px] gallery-border hover:scale-[1.02] transition-transform duration-300" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDrH1o1LJKrYm86sARP839Jp7urQiJiR13Wv38k63RUE1CgADsEwHUXeiK9OUkRx6EnZypxDPXRnUzUZ7ckp9p7Bzh4urX92g3cW_s2M8fYN9kCGwPy08aXulIK-iGQrJ680XxUlziGN3xq8w7di154tMyFNVOLr4lOp-zSjbD5nxcKpa18-gLCPxh3nc2m64_0WjhhbNdLq1oLAxvJ68gDm5Uhdxpm2qrRmK3ThhRnMilJWPgFJ1ouz4Kmq-tMBYgI6g">
+</div>
+<div class="min-w-[280px] md:min-w-[400px] snap-center shrink-0">
+<img alt="Strength training" class="w-full h-80 md:h-[400px] object-cover rounded-xl border-[10px] gallery-border hover:scale-[1.02] transition-transform duration-300" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCOPxJif1RcFX7yNdytoKHMCTY-jHQMxs9b8p6vZfe5jr845G_tzPDsVa4Af6zjCI1M_XEyVZm6cuZKD8N3joQM1sn7eZrqHbn6Hy6AFtLV-w2GYl4aIe5eNAEqe8m1FbaH8hsTsEyTHIg69feqgVwBoKnHnjugc2qdVgBYsKPIxmKP3dpdqJOT6YiBy1gr7rVdG8LujwgQx2h8Atc8F1wLcEOOFx6BAY38Q4u9ACS6KqlKgf57kiU-qxS95rWlaeg8PA">
+</div>
+<div class="min-w-[280px] md:min-w-[400px] snap-center shrink-0">
+<img alt="Running group" class="w-full h-80 md:h-[400px] object-cover rounded-xl border-[10px] gallery-border hover:scale-[1.02] transition-transform duration-300" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDIKLooNTQOncUTEU2-WpENC0tZa84-NN1kD1OxqIJw3Hw6c-oRw5j4HLlQu1Dzz3DPe7-Ya2zOqoKixY4X-spV8h84QMIaeT9RV1yzsgv0sinQ7uJBiS5oc5lSp33-iVU0rISBllpKPs5x9y1RU804J3Nmj9EBwm-zCyXFsCqSSkcxP-H6kWyy01m82g8lRTlrBo5dBkzKshUF3oW4NDJEt12_C4T7y76GlNwPB91WtDw8AA_UXsi86pPGoHoWB8Yw3w">
+</div>
+<div class="min-w-[280px] md:min-w-[400px] snap-center shrink-0">
+<img alt="Basketball court" class="w-full h-80 md:h-[400px] object-cover rounded-xl border-[10px] gallery-border hover:scale-[1.02] transition-transform duration-300" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBuUfIG21U-WL4NI55tnHP6A0mgZ4phS-jBG6UuL_t3TTMhes25qLevKZnfFBhV8FU6imqMpMikHptMnuxd8ceLY_LZNCzK4nld0CX-yIP4xHO5QZkh-CMNEUX5Kbg3ZA05-oJBr-67wmx5DFqrIpklBN1MR_oLN2PySH6bvIm6qKPQXVgr0mnR5r9cUnEtNGzCQmiQAk61ljGZ0idDR8mkmyZgvHhmQyB7rjauCxcIIXET3dwPC-FaeA9CjPbhSdOyFw">
+</div>
+<div class="min-w-[280px] md:min-w-[400px] snap-center shrink-0">
+<img alt="Yoga pose" class="w-full h-80 md:h-[400px] object-cover rounded-xl border-[10px] gallery-border hover:scale-[1.02] transition-transform duration-300" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDoqJ6bjcm13Z2OJp-mnifDeJS-8xqtfFh71_rrvqM2dbYqp8JawJ-NDuFItUrKKILrpdgO1urN31W5ZAMysgfT5YN7pmOHBxU0EFPe4ZsnJef_MTF7N5YW7tkNXQm_Kz7MDM_Hv55xSf2JMTUFjFXa0lB1E8I2GORlmdWZn2qbD0Dg9SJG86lMfy5Y7h1FLkYJhW3gKdkTNYHGJ4KSDIz5_KraVLEemjz3FaINEuQSKNDYmtHWnb4fJ3QuxUyPkbVH9Q">
+</div>
+<div class="min-w-[280px] md:min-w-[400px] snap-center shrink-0">
+<img alt="Group stretching" class="w-full h-80 md:h-[400px] object-cover rounded-xl border-[10px] gallery-border hover:scale-[1.02] transition-transform duration-300" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDD-x0rWuRHYF3L-3LFjEOJ5FbJxz-O7P5-0bkqXJ3vKy3wWcjwzC9sQXTMQ_T9sWXUcU73ka_cgrpqX3K5L3ehFD8hPB9SM-6E-wewmvwEVNmHbTWVoAqN3S---DrPWc0_eFMrgkl4PQb9nwk4EWkaxC0oVmHNOcqjk7g4nYLnKJVWnQxzunv9O1AnutmVUbfhUPRXYmXtSFV2onKbfWFnQNvoQSjRc5jFablRMBLbHbXD2z-vB6eh9OtV-uWC_wk2MA">
+</div>
+</div>
+</section>
+<!-- GOING LIVE Section -->
+<section class="py-24 px-margin-mobile md:px-margin-desktop bg-surface-container-low border-y-[8px] border-surface-variant overflow-hidden">
+<div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-16">
+<div class="flex-1 text-center md:text-left z-10">
+<h2 class="font-headline-xl text-[40px] md:text-headline-xl font-extrabold mb-10 gradient-text uppercase tracking-tighter leading-tight">GOING LIVE ACROSS INDIA</h2>
+<div class="flex flex-col sm:flex-row gap-12 justify-center md:justify-start">
+<div>
+<div class="font-headline-xl text-headline-xl font-black gradient-text mb-2">1</div>
+<div class="font-label-caps text-label-caps text-on-surface-variant tracking-widest">CITY</div>
+</div>
+<div>
+<div class="font-headline-xl text-headline-xl font-black gradient-text mb-2">0</div>
+<div class="font-label-caps text-label-caps text-on-surface-variant tracking-widest">MEMBERS</div>
+</div>
+</div>
+</div>
+<div class="flex-1 relative h-80 w-full flex items-center justify-center pointer-events-none">
+<!-- Abstract Shapes representing growth/network -->
+<div class="absolute w-64 h-64 rounded-full border-[12px] border-surface-variant opacity-20 animate-[spin_10s_linear_infinite]"></div>
+<div class="absolute w-48 h-48 rounded-xl border-[12px] border-[#6b7280] opacity-30 transform rotate-45 animate-[spin_15s_linear_infinite_reverse]"></div>
+<div class="absolute w-32 h-32 rounded-full border-[12px] border-[#eab308] opacity-40"></div>
+<span class="material-symbols-outlined text-[120px] gradient-text z-10">share</span>
+</div>
+</div>
+</section>
+<!-- REVIEWS Section -->
+<section class="py-24 w-full overflow-hidden">
+<div class="px-margin-mobile md:px-margin-desktop max-w-7xl mx-auto">
+<h2 class="font-headline-lg text-headline-lg font-extrabold text-center mb-16 gradient-text tracking-tight">REVIEWS</h2>
+</div>
+<!-- Horizontal Scroll Carousel -->
+<div class="flex gap-8 overflow-x-auto pb-12 pt-4 px-margin-mobile md:px-margin-desktop snap-x snap-mandatory hide-scrollbar">
+<!-- Review Card 1 -->
+<div class="min-w-[320px] md:min-w-[450px] bg-surface-container-low p-8 rounded-xl border-[8px] border-surface-variant snap-center shrink-0 hover:border-[#6b7280] transition-colors duration-300">
+<div class="flex items-center gap-6 mb-6">
+<div class="w-16 h-16 rounded-full bg-surface-variant border-4 border-surface-variant flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined gradient-text text-[32px]">person</span>
+</div>
+<div>
+<div class="font-headline-md text-headline-md font-bold text-on-surface">Alex M.</div>
+<div class="flex gap-1 mt-1">
+<span class="material-symbols-outlined gradient-text text-[20px]" style="font-variation-settings: &quot;FILL&quot; 1;">star</span>
+<span class="material-symbols-outlined gradient-text text-[20px]" style="font-variation-settings: &quot;FILL&quot; 1;">star</span>
+<span class="material-symbols-outlined gradient-text text-[20px]" style="font-variation-settings: &quot;FILL&quot; 1;">star</span>
+<span class="material-symbols-outlined gradient-text text-[20px]" style="font-variation-settings: &quot;FILL&quot; 1;">star</span>
+<span class="material-symbols-outlined gradient-text text-[20px]" style="font-variation-settings: &quot;FILL&quot; 1;">star</span>
+</div>
+</div>
+</div>
+<p class="font-body-lg text-body-lg text-on-surface-variant italic">"The AI-driven routines completely transformed my training regimen. I've never seen progress like this before."</p>
+</div>
+<!-- Review Card 2 -->
+<div class="min-w-[320px] md:min-w-[450px] bg-surface-container-low p-8 rounded-xl border-[8px] border-surface-variant snap-center shrink-0 hover:border-[#6b7280] transition-colors duration-300">
+<div class="flex items-center gap-6 mb-6">
+<div class="w-16 h-16 rounded-full bg-surface-variant border-4 border-surface-variant flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined gradient-text text-[32px]">person</span>
+</div>
+<div>
+<div class="font-headline-md text-headline-md font-bold text-on-surface">Sarah K.</div>
+<div class="flex gap-1 mt-1">
+<span class="material-symbols-outlined gradient-text text-[20px]" style="font-variation-settings: &quot;FILL&quot; 1;">star</span>
+<span class="material-symbols-outlined gradient-text text-[20px]" style="font-variation-settings: &quot;FILL&quot; 1;">star</span>
+<span class="material-symbols-outlined gradient-text text-[20px]" style="font-variation-settings: &quot;FILL&quot; 1;">star</span>
+<span class="material-symbols-outlined gradient-text text-[20px]" style="font-variation-settings: &quot;FILL&quot; 1;">star</span>
+<span class="material-symbols-outlined gradient-text text-[20px]" style="font-variation-settings: &quot;FILL&quot; 1;">star</span>
+</div>
+</div>
+</div>
+<p class="font-body-lg text-body-lg text-on-surface-variant italic">"Finally, an app that focuses on discipline and pure metrics. The interface is clean and exactly what I needed."</p>
+</div>
+<!-- Review Card 3 -->
+<div class="min-w-[320px] md:min-w-[450px] bg-surface-container-low p-8 rounded-xl border-[8px] border-surface-variant snap-center shrink-0 hover:border-[#6b7280] transition-colors duration-300">
+<div class="flex items-center gap-6 mb-6">
+<div class="w-16 h-16 rounded-full bg-surface-variant border-4 border-surface-variant flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined gradient-text text-[32px]">person</span>
+</div>
+<div>
+<div class="font-headline-md text-headline-md font-bold text-on-surface">Rahul T.</div>
+<div class="flex gap-1 mt-1">
+<span class="material-symbols-outlined gradient-text text-[20px]" style="font-variation-settings: &quot;FILL&quot; 1;">star</span>
+<span class="material-symbols-outlined gradient-text text-[20px]" style="font-variation-settings: &quot;FILL&quot; 1;">star</span>
+<span class="material-symbols-outlined gradient-text text-[20px]" style="font-variation-settings: &quot;FILL&quot; 1;">star</span>
+<span class="material-symbols-outlined gradient-text text-[20px]" style="font-variation-settings: &quot;FILL&quot; 1;">star</span>
+<span class="material-symbols-outlined gradient-text text-[20px]" style="font-variation-settings: &quot;FILL&quot; 1;">star</span>
+</div>
+</div>
+</div>
+<p class="font-body-lg text-body-lg text-on-surface-variant italic">"The community aspect is unmatched. Everyone is dialed in, and the leaderboards push you to the limit."</p>
+</div>
+<!-- Review Card 4 -->
+<div class="min-w-[320px] md:min-w-[450px] bg-surface-container-low p-8 rounded-xl border-[8px] border-surface-variant snap-center shrink-0 hover:border-[#6b7280] transition-colors duration-300">
+<div class="flex items-center gap-6 mb-6">
+<div class="w-16 h-16 rounded-full bg-surface-variant border-4 border-surface-variant flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined gradient-text text-[32px]">person</span>
+</div>
+<div>
+<div class="font-headline-md text-headline-md font-bold text-on-surface">Priya D.</div>
+<div class="flex gap-1 mt-1">
+<span class="material-symbols-outlined gradient-text text-[20px]" style="font-variation-settings: &quot;FILL&quot; 1;">star</span>
+<span class="material-symbols-outlined gradient-text text-[20px]" style="font-variation-settings: &quot;FILL&quot; 1;">star</span>
+<span class="material-symbols-outlined gradient-text text-[20px]" style="font-variation-settings: &quot;FILL&quot; 1;">star</span>
+<span class="material-symbols-outlined gradient-text text-[20px]" style="font-variation-settings: &quot;FILL&quot; 1;">star</span>
+<span class="material-symbols-outlined gradient-text text-[20px]" style="font-variation-settings: &quot;FILL&quot; 1;">star</span>
+</div>
+</div>
+</div>
+<p class="font-body-lg text-body-lg text-on-surface-variant italic">"Brilliant design, zero distractions. It's built for performance, and it absolutely delivers on that promise."</p>
+</div>
+</div>
+</section>
+<!-- FAQ Section -->
+<section class="py-24 px-margin-mobile md:px-margin-desktop w-full max-w-4xl mx-auto">
+<h2 class="font-headline-lg text-headline-lg font-extrabold text-center mb-16 gradient-text tracking-tight">FAQ</h2>
+<div class="flex flex-col gap-6">
+<!-- FAQ Item 1 -->
+<div class="bg-surface-container-low rounded-xl border-[8px] border-surface-variant p-6 hover:border-[#6b7280] transition-colors duration-300 cursor-pointer group">
+<div class="flex justify-between items-center">
+<h3 class="font-headline-md text-[20px] md:text-headline-md font-bold text-on-surface">Is FitVerse suitable for beginners?</h3>
+<span class="material-symbols-outlined gradient-text group-hover:-rotate-180 transition-transform duration-300 text-[32px]">expand_more</span>
+</div>
+</div>
+<!-- FAQ Item 2 -->
+<div class="bg-surface-container-low rounded-xl border-[8px] border-surface-variant p-6 hover:border-[#6b7280] transition-colors duration-300 cursor-pointer group">
+<div class="flex justify-between items-center">
+<h3 class="font-headline-md text-[20px] md:text-headline-md font-bold text-on-surface">How does the AI generate my plan?</h3>
+<span class="material-symbols-outlined gradient-text group-hover:-rotate-180 transition-transform duration-300 text-[32px]">expand_more</span>
+</div>
+</div>
+<!-- FAQ Item 3 -->
+<div class="bg-surface-container-low rounded-xl border-[8px] border-surface-variant p-6 hover:border-[#6b7280] transition-colors duration-300 cursor-pointer group">
+<div class="flex justify-between items-center">
+<h3 class="font-headline-md text-[20px] md:text-headline-md font-bold text-on-surface">Can I sync data from my smartwatch?</h3>
+<span class="material-symbols-outlined gradient-text group-hover:-rotate-180 transition-transform duration-300 text-[32px]">expand_more</span>
+</div>
+</div>
+<!-- FAQ Item 4 -->
+<div class="bg-surface-container-low rounded-xl border-[8px] border-surface-variant p-6 hover:border-[#6b7280] transition-colors duration-300 cursor-pointer group">
+<div class="flex justify-between items-center">
+<h3 class="font-headline-md text-[20px] md:text-headline-md font-bold text-on-surface">Is there a free trial available?</h3>
+<span class="material-symbols-outlined gradient-text group-hover:-rotate-180 transition-transform duration-300 text-[32px]">expand_more</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Footer -->
+<footer class="bg-[#131313] w-full border-t-[8px] border-surface-variant py-16 px-margin-mobile md:px-margin-desktop">
+  <div class="max-w-7xl mx-auto flex flex-col gap-16">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-12 items-start">
+      <div class="flex flex-col gap-6">
+        <div class="font-headline-md text-headline-md font-bold gradient-text">FitVerse</div>
+        <p class="text-on-surface-variant font-body-md max-w-xs">Elevating fitness through data-driven discipline and community.</p>
+        <div class="flex gap-4">
+          <a href="#" class="w-10 h-10 rounded-full border border-surface-variant flex items-center justify-center hover:border-primary transition-colors group">
+            <span class="material-symbols-outlined text-on-surface-variant group-hover:text-primary">photo_camera</span>
+          </a>
+          <a href="#" class="w-10 h-10 rounded-full border border-surface-variant flex items-center justify-center hover:border-primary transition-colors group">
+            <span class="material-symbols-outlined text-on-surface-variant group-hover:text-primary">close</span>
+          </a>
+          <a href="#" class="w-10 h-10 rounded-full border border-surface-variant flex items-center justify-center hover:border-primary transition-colors group">
+            <span class="material-symbols-outlined text-on-surface-variant group-hover:text-primary">play_circle</span>
+          </a>
+        </div>
+      </div>
+      <div class="flex flex-col gap-6">
+        <h4 class="font-label-caps text-label-caps text-white tracking-widest uppercase">Partnerships</h4>
+        <div class="flex flex-col gap-4">
+          <a href="#" class="text-on-surface-variant hover:text-white transition-colors font-body-md">Start Your Own Club</a>
+          <a href="#" class="text-on-surface-variant hover:text-white transition-colors font-body-md">Become a Venue Partner</a>
+        </div>
+      </div>
+      <div class="flex flex-col gap-6">
+        <h4 class="font-label-caps text-label-caps text-white tracking-widest uppercase">Download the App</h4>
+        <div class="flex flex-col sm:flex-row gap-4">
+          <button class="bg-surface-container-high border border-surface-variant px-4 py-2 rounded-lg flex items-center gap-3 hover:bg-surface-variant transition-colors">
+            <span class="material-symbols-outlined text-[24px]">phone_iphone</span>
+            <div class="text-left">
+              <div class="text-[10px] uppercase leading-none opacity-60">Download on the</div>
+              <div class="text-[14px] font-bold leading-none">App Store</div>
+            </div>
+          </button>
+          <button class="bg-surface-container-high border border-surface-variant px-4 py-2 rounded-lg flex items-center gap-3 hover:bg-surface-variant transition-colors">
+            <span class="material-symbols-outlined text-[24px]">play_arrow</span>
+            <div class="text-left">
+              <div class="text-[10px] uppercase leading-none opacity-60">Get it on</div>
+              <div class="text-[14px] font-bold leading-none">Google Play</div>
+            </div>
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="border-t border-surface-variant pt-12 flex flex-col items-center text-center gap-8">
+      <div class="flex gap-8 font-label-caps text-label-caps text-on-surface-variant">
+        <a href="#" class="hover:text-white transition-colors">Terms &amp; Conditions</a>
+        <a href="#" class="hover:text-white transition-colors">Privacy Policy</a>
+      </div>
+      <div class="flex flex-col gap-1 font-body-md text-on-surface-variant opacity-60">
+        <div class="">Made with ❤️</div>
+        <div class="">in Greater Noida<div class="">by Team NEXUS...;-)</div></div>
+      </div>
+      <div class="font-label-caps text-[10px] text-on-surface-variant opacity-40 uppercase tracking-[0.2em]">
+        © 2024 FitVerse. All rights reserved.
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+
+
+
+
+</body></html>

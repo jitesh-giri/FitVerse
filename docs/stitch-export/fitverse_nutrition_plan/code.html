@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>FitVerse - Nutrition</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&amp;family=Montserrat:wght@700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-tint": "#adc6ff",
+                        "on-secondary-fixed": "#1a1c1c",
+                        "secondary-fixed-dim": "#c6c6c7",
+                        "on-background": "#e5e2e1",
+                        "on-tertiary-fixed-variant": "#7c2e00",
+                        "secondary-fixed": "#e2e2e2",
+                        "inverse-surface": "#e5e2e1",
+                        "on-secondary": "#2f3131",
+                        "surface-container-highest": "#353534",
+                        "tertiary-fixed-dim": "#ffb595",
+                        "on-tertiary": "#571e00",
+                        "error": "#ffb4ab",
+                        "on-primary": "#002e69",
+                        "tertiary-fixed": "#ffdbcc",
+                        "on-surface-variant": "#c1c6d7",
+                        "secondary": "#c6c6c7",
+                        "outline": "#8b90a0",
+                        "surface-bright": "#3a3939",
+                        "outline-variant": "#414755",
+                        "primary-fixed-dim": "#adc6ff",
+                        "surface-container-high": "#2a2a2a",
+                        "on-primary-container": "#00285c",
+                        "on-surface": "#e5e2e1",
+                        "primary": "#adc6ff",
+                        "secondary-container": "#454747",
+                        "on-error": "#690005",
+                        "on-tertiary-container": "#4c1a00",
+                        "surface-container": "#201f1f",
+                        "background": "#131313",
+                        "on-primary-fixed": "#001a41",
+                        "inverse-primary": "#005bc1",
+                        "surface-container-lowest": "#0e0e0e",
+                        "surface-variant": "#353534",
+                        "on-tertiary-fixed": "#351000",
+                        "on-secondary-container": "#b4b5b5",
+                        "tertiary": "#ffb595",
+                        "tertiary-container": "#ef6719",
+                        "on-error-container": "#ffdad6",
+                        "primary-container": "#4b8eff",
+                        "inverse-on-surface": "#313030",
+                        "error-container": "#93000a",
+                        "surface-container-low": "#1c1b1b",
+                        "on-secondary-fixed-variant": "#454747",
+                        "on-primary-fixed-variant": "#004493",
+                        "surface-dim": "#131313",
+                        "primary-fixed": "#d8e2ff",
+                        "surface": "#131313"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "gutter": "24px",
+                        "margin-mobile": "20px",
+                        "border-thick": "8px",
+                        "margin-desktop": "64px",
+                        "unit": "8px"
+                    },
+                    "fontFamily": {
+                        "headline-lg": ["Montserrat"],
+                        "body-md": ["Inter"],
+                        "headline-md": ["Montserrat"],
+                        "headline-lg-mobile": ["Montserrat"],
+                        "headline-xl": ["Montserrat"],
+                        "label-caps": ["Inter"],
+                        "body-lg": ["Inter"]
+                    },
+                    "fontSize": {
+                        "headline-lg": ["40px", { "lineHeight": "1.2", "letterSpacing": "-0.01em", "fontWeight": "700" }],
+                        "body-md": ["16px", { "lineHeight": "1.5", "fontWeight": "400" }],
+                        "headline-md": ["24px", { "lineHeight": "1.3", "fontWeight": "700" }],
+                        "headline-lg-mobile": ["32px", { "lineHeight": "1.2", "fontWeight": "700" }],
+                        "headline-xl": ["64px", { "lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "800" }],
+                        "label-caps": ["12px", { "lineHeight": "1", "letterSpacing": "0.1em", "fontWeight": "600" }],
+                        "body-lg": ["18px", { "lineHeight": "1.6", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body {
+            background-color: #131313;
+            color: #e5e2e1;
+        }
+        .ai-glow {
+            box-shadow: 0 0 15px rgba(173, 198, 255, 0.2);
+        }
+        .glass-card {
+            background: rgba(18, 18, 18, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid #1C1C1E;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-surface font-body-md antialiased min-h-screen flex flex-col">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-background dark:bg-background border-b-8 border-primary dark:border-primary flex justify-between items-center px-margin-desktop py-4 max-w-full mx-auto">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-primary dark:text-primary" style="font-variation-settings: 'FILL' 1;">fitness_center</span>
+<span class="font-headline-md text-headline-md font-bold text-primary dark:text-primary">FitVerse</span>
+</div>
+<div class="hidden md:flex gap-8">
+<a class="text-on-surface-variant font-medium hover:text-primary transition-colors duration-300" href="#">Features</a>
+<a class="text-on-surface-variant font-medium hover:text-primary transition-colors duration-300" href="#">Community</a>
+<a class="text-on-surface-variant font-medium hover:text-primary transition-colors duration-300" href="#">Pricing</a>
+<a class="text-primary font-bold hover:text-primary transition-colors duration-300" href="#">About</a>
+</div>
+<button class="bg-primary text-on-primary font-body-md font-bold px-6 py-2 rounded-full hover:bg-primary-container transition-transform scale-95 active:scale-90">
+            Get Started
+        </button>
+</header>
+<!-- Main Content Canvas -->
+<main class="flex-grow pt-[104px] px-margin-mobile md:px-margin-desktop pb-24 max-w-[1440px] mx-auto w-full">
+<!-- Header Section -->
+<div class="mb-16 mt-8 md:w-8/12">
+<h1 class="font-headline-xl text-headline-xl text-on-surface mb-4">Fuel Your Potential</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant">Based on your recent heavy lifting sessions, our AI recommends a high-protein, nutrient-dense protocol for optimal recovery.</p>
+</div>
+<!-- AI Chat Interface / Quick Tips -->
+<div class="glass-card rounded-xl p-8 mb-16 flex flex-col md:flex-row gap-8 items-start md:items-center relative overflow-hidden border-l-[8px] border-l-primary">
+<div class="flex-shrink-0 bg-surface-container-high p-4 rounded-full ai-glow">
+<span class="material-symbols-outlined text-primary" style="font-size: 32px; font-variation-settings: 'FILL' 1;">smart_toy</span>
+</div>
+<div>
+<h3 class="font-headline-md text-headline-md text-on-surface mb-2">AI Nutrition Insight</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">Your glycogen levels might be depleted after yesterday's leg day. Focus on complex carbohydrates combined with lean protein for your next meal to accelerate muscle repair.</p>
+</div>
+<button class="md:ml-auto bg-surface-container border border-outline-variant px-6 py-3 rounded-full text-primary hover:bg-surface-variant transition-colors flex items-center gap-2">
+<span class="material-symbols-outlined">forum</span> Ask AI
+            </button>
+</div>
+<!-- Meal Recommendations Bento Grid -->
+<h2 class="font-headline-lg text-headline-lg text-on-surface mb-8 border-b-2 border-surface-variant pb-4 inline-block">Today's Protocol</h2>
+<div class="grid grid-cols-1 md:grid-cols-12 gap-8">
+<!-- Meal 1: Breakfast (Spans 8 cols) -->
+<div class="md:col-span-8 bg-surface rounded-xl overflow-hidden group">
+<div class="relative h-80 w-full border-[8px] border-surface group-hover:border-primary transition-colors duration-300">
+<img class="w-full h-full object-cover" data-alt="A high-quality, top-down food photography shot of a nutritious power breakfast. The dish features a bowl of steel-cut oats topped with vibrant fresh berries, sliced bananas, and a generous dollop of almond butter. The scene is illuminated by dramatic, high-contrast studio lighting typical of premium modern fitness brands, emphasizing the textures of the food against a sleek, dark background. The mood is energetic and disciplined." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDP8JcNeVz-cXd58RLvglGTnrWJclgxLdY_ar8Sl-UvH4D58anHHZI6yt-OTudgxrL38MGdTbKg9am-IyR-48G9GsrNgw9hISUoQv-oydbvBprIysg0QvA-tbLKhkyI4Ch99oIJHpnt2gCS_8t4hAfF-rglBj7KelUXETfBs0d1h7TTmMYUOBfGKy7foct2fIKZLIx5xnzJVlJUcy9t-jJ9yY7LvzcVQDHcRWM3aq2hQaLa8xwVvF9e"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent flex flex-col justify-end p-8">
+<div class="flex items-center gap-3 mb-2">
+<span class="bg-primary text-on-primary px-3 py-1 rounded-full font-label-caps text-label-caps uppercase tracking-wider">Breakfast</span>
+<span class="text-on-surface font-body-md flex items-center gap-1"><span class="material-symbols-outlined text-sm">local_fire_department</span> 450 kcal</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-on-surface">Oatmeal Power Bowl</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mt-2 line-clamp-2">Complex carbs from oats combined with antioxidant-rich berries to kickstart your metabolism and prepare you for today's active recovery session.</p>
+</div>
+</div>
+</div>
+<!-- Macro Tracker (Spans 4 cols) -->
+<div class="md:col-span-4 glass-card rounded-xl p-8 flex flex-col justify-between">
+<h3 class="font-headline-md text-headline-md text-on-surface mb-6">Daily Macros</h3>
+<div class="space-y-6 flex-grow flex flex-col justify-center">
+<!-- Protein -->
+<div>
+<div class="flex justify-between font-label-caps text-label-caps text-on-surface mb-2">
+<span>Protein</span>
+<span class="text-primary">120g / 180g</span>
+</div>
+<div class="w-full bg-surface-container-high rounded-full h-2">
+<div class="bg-primary h-2 rounded-full" style="width: 66%"></div>
+</div>
+</div>
+<!-- Carbs -->
+<div>
+<div class="flex justify-between font-label-caps text-label-caps text-on-surface mb-2">
+<span>Carbs</span>
+<span class="text-tertiary">200g / 250g</span>
+</div>
+<div class="w-full bg-surface-container-high rounded-full h-2">
+<div class="bg-tertiary h-2 rounded-full" style="width: 80%"></div>
+</div>
+</div>
+<!-- Fats -->
+<div>
+<div class="flex justify-between font-label-caps text-label-caps text-on-surface mb-2">
+<span>Fats</span>
+<span class="text-secondary-fixed">45g / 65g</span>
+</div>
+<div class="w-full bg-surface-container-high rounded-full h-2">
+<div class="bg-secondary-fixed h-2 rounded-full" style="width: 70%"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Meal 2: Lunch (Spans 6 cols) -->
+<div class="md:col-span-6 bg-surface rounded-xl overflow-hidden group">
+<div class="relative h-64 w-full border-[8px] border-surface group-hover:border-primary transition-colors duration-300">
+<img class="w-full h-full object-cover" data-alt="A striking, modern food photograph of a lean grilled chicken breast salad served in a matte black ceramic bowl. The salad includes dark leafy greens, vibrant cherry tomatoes, and sliced avocado. The lighting is moody and focused, highlighting the grill marks on the chicken and the freshness of the vegetables against a dark, minimalist surface. The aesthetic is high-performance, clean, and disciplined." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCRP4a-uDAJBW2HIdd7nZeQJGIeIvz2dyw53AnImIgMtk_pSlGt4Gk8rXRMQ4SilMAhrgcFMpFa-viK1b7wF35pJgng176C2yoFWIU5iHV68ciF1rXNa3BlUzuDkEzydajDFUa3C8hEH_jakuXLVMT-3CCNEQ98BvTb3LpQoEQJTCFDeQC0LlKqkHyA1zdktMzCGOZapHt7EtjtXIKebOIH5G0AaFh-gwuHv85A3y6jys4DUATG0_eP"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent flex flex-col justify-end p-6">
+<div class="flex items-center gap-3 mb-2">
+<span class="bg-surface-variant text-on-surface px-3 py-1 rounded-full font-label-caps text-label-caps uppercase tracking-wider group-hover:bg-primary group-hover:text-on-primary transition-colors">Lunch</span>
+<span class="text-on-surface font-body-md flex items-center gap-1"><span class="material-symbols-outlined text-sm">local_fire_department</span> 620 kcal</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-on-surface">Grilled Chicken &amp; Greens</h3>
+</div>
+</div>
+</div>
+<!-- Meal 3: Dinner (Spans 6 cols) -->
+<div class="md:col-span-6 bg-surface rounded-xl overflow-hidden group">
+<div class="relative h-64 w-full border-[8px] border-surface group-hover:border-primary transition-colors duration-300">
+<img class="w-full h-full object-cover" data-alt="A premium culinary shot of a pan-seared salmon fillet alongside roasted asparagus and quinoa. The dish is presented on a textured dark slate plate. The lighting is dramatic, casting deep shadows while emphasizing the rich pink color of the salmon and the bright green of the asparagus. The composition is asymmetrical and modern, fitting for a high-end fitness and nutrition application." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDdAu3bacePVJAQC46AjKx4LZ_HPNPUw68DnlPOL978oTNFxhphxR6zi2H8tCrkNFBsqV4nRJNyAbgP1d54tSqbkkvPonF7rJPKPjMwCgRsQr9YAnZ1W3oZT4Q9GmHl3F0qhImBdSz-jGE1iwn9lmjIF6CjLyYidroo3jUmoN0gFJAgXSzm_Kg09JBHyMUrFtVVK9qtkV3QXjeUOO52mHAR8YhCP3mVaJC1jA0od08ptMCd2sid7mN9"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent flex flex-col justify-end p-6">
+<div class="flex items-center gap-3 mb-2">
+<span class="bg-surface-variant text-on-surface px-3 py-1 rounded-full font-label-caps text-label-caps uppercase tracking-wider group-hover:bg-primary group-hover:text-on-primary transition-colors">Dinner</span>
+<span class="text-on-surface font-body-md flex items-center gap-1"><span class="material-symbols-outlined text-sm">local_fire_department</span> 580 kcal</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-on-surface">Wild Salmon &amp; Quinoa</h3>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Footer -->
+<footer class="bg-surface-container-lowest dark:bg-surface-container-lowest text-primary dark:text-primary font-label-caps text-label-caps w-full border-t-8 border-surface-variant flex flex-col md:flex-row justify-between items-center px-margin-desktop py-12 mt-auto">
+<div class="font-headline-md text-headline-md text-on-surface mb-6 md:mb-0">FitVerse</div>
+<div class="flex gap-6 mb-6 md:mb-0">
+<a class="text-on-surface-variant hover:text-primary-fixed opacity-80 hover:opacity-100 transition-opacity" href="#">Privacy Policy</a>
+<a class="text-on-surface-variant hover:text-primary-fixed opacity-80 hover:opacity-100 transition-opacity" href="#">Terms of Service</a>
+<a class="text-on-surface-variant hover:text-primary-fixed opacity-80 hover:opacity-100 transition-opacity" href="#">Contact</a>
+<a class="text-on-surface-variant hover:text-primary-fixed opacity-80 hover:opacity-100 transition-opacity" href="#">Support</a>
+</div>
+<div class="text-on-surface-variant">© 2024 FitVerse. All rights reserved.</div>
+</footer>
+</body></html>
