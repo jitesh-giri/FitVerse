@@ -1,6 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
+import { Menu, X } from 'lucide-react';
 import DotBackground from '../components/DotBackground';
+
+const navItems = [
+  { name: 'Home', path: '/' },
+  { name: 'Workout', path: '/workout' },
+  { name: 'Nutrition', path: '/nutrition' },
+  { name: 'Community', path: '/community' },
+  { name: 'Profile', path: '/profile' },
+];
 
 const galleryImages = [
   { src: '/images/gallery/gallery-1.jpg', alt: 'Fitness training' },
@@ -81,6 +90,7 @@ const rotatingWords = ['TRANSFORM', 'ELEVATE', 'REWRITE'];
 export default function Home() {
   const [openFaq, setOpenFaq] = useState(null);
   const [currentWordIndex, setCurrentWordIndex] = useState(0);
+  const [mobileOpen, setMobileOpen] = useState(false);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -89,6 +99,18 @@ export default function Home() {
     return () => clearInterval(interval);
   }, []);
 
+  // Lock body scroll when mobile menu is open
+  useEffect(() => {
+    if (mobileOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [mobileOpen]);
+
   const toggleFaq = (idx) => {
     setOpenFaq(openFaq === idx ? null : idx);
   };
@@ -96,7 +118,7 @@ export default function Home() {
   return (
     <div className="bg-[#121212] text-on-background min-h-screen flex flex-col font-body overflow-x-hidden">
       {/* Hero Section */}
-      <section className="relative pt-20 pb-20 px-4 md:px-16 min-h-[90vh] flex flex-col justify-center items-center overflow-hidden">
+      <section className="relative h-screen w-full overflow-hidden bg-[#131313] flex flex-col justify-between">
         {/* Animated dot-grid background — sits at z-0 behind everything */}
         <DotBackground />
 
@@ -106,98 +128,271 @@ export default function Home() {
           <div className="absolute bottom-[-10%] right-[-5%] w-[40rem] h-[40rem] border-[8px] border-secondary-container rounded-full mix-blend-overlay"></div>
         </div>
 
-        {/* Floating Image Cards */}
+        {/* Floating Image Cards (Background visual layer behind glass content) */}
         <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden">
           {/* Card 1 */}
           <img
             alt="Hero Visual 1"
-            className="absolute top-[15%] left-[5%] w-40 h-56 object-cover rounded-xl border-[10px] gallery-border shadow-2xl transform -rotate-12 opacity-80 md:w-64 md:h-80 md:left-[10%]"
+            className="absolute top-[14%] left-[4%] w-36 h-48 object-cover rounded-xl border-[6px] gallery-border shadow-2xl transform -rotate-12 opacity-50 sm:w-48 sm:h-64 sm:opacity-60 md:left-[6%]"
             src="/images/gallery/gallery-1.jpg"
           />
           {/* Card 2 */}
           <img
             alt="Hero Visual 2"
-            className="absolute top-[10%] right-[5%] w-32 h-48 object-cover rounded-xl border-[10px] gallery-border shadow-2xl transform rotate-6 opacity-70 md:w-56 md:h-72 md:right-[15%]"
+            className="absolute top-[10%] right-[4%] w-32 h-44 object-cover rounded-xl border-[6px] gallery-border shadow-2xl transform rotate-6 opacity-45 sm:w-44 sm:h-60 sm:opacity-55 md:right-[10%]"
             src="/images/gallery/gallery-2.jpg"
           />
           {/* Card 3 */}
           <img
             alt="Hero Visual 3"
-            className="absolute bottom-[20%] left-[10%] w-36 h-52 object-cover rounded-xl border-[10px] gallery-border shadow-2xl transform rotate-12 opacity-60 md:w-60 md:h-80 md:bottom-[15%]"
+            className="absolute top-[42%] left-[2%] w-32 h-44 object-cover rounded-xl border-[6px] gallery-border shadow-2xl transform rotate-12 opacity-35 sm:w-44 sm:h-60 sm:opacity-45 md:left-[4%]"
             src="/images/gallery/gallery-3.jpg"
           />
           {/* Card 4 */}
           <img
             alt="Hero Visual 4"
-            className="absolute bottom-[15%] right-[10%] w-44 h-60 object-cover rounded-xl border-[10px] gallery-border shadow-2xl transform -rotate-6 opacity-90 md:w-72 md:h-96 md:bottom-[10%] md:right-[5%]"
+            className="absolute top-[38%] right-[3%] w-36 h-48 object-cover rounded-xl border-[6px] gallery-border shadow-2xl transform -rotate-6 opacity-45 sm:w-52 sm:h-68 sm:opacity-55 md:right-[5%]"
             src="/images/gallery/gallery-4.jpg"
           />
           {/* Card 5 */}
           <img
             alt="Hero Visual 5"
-            className="absolute top-[40%] left-[50%] -translate-x-1/2 w-48 h-48 object-cover rounded-xl border-[10px] gallery-border shadow-2xl transform rotate-45 opacity-30 md:w-80 md:h-80 mix-blend-luminosity"
+            className="absolute top-[24%] left-[50%] -translate-x-1/2 w-36 h-36 object-cover rounded-xl border-[6px] gallery-border shadow-2xl transform rotate-45 opacity-20 sm:w-56 sm:h-56 mix-blend-luminosity"
             src="/images/gallery/gallery-5.jpg"
           />
         </div>
 
-        {/* Hero Content Canvas */}
-        <div className="relative z-10 flex flex-col items-center text-center max-w-4xl mx-auto mt-6 md:mt-0 bg-[#121212]/85 backdrop-blur-md p-8 md:p-12 rounded-3xl border border-surface-variant shadow-2xl">
-          <h1 className="font-headline text-[42px] md:text-[64px] font-black text-on-background leading-tight mb-4 flex flex-col items-center justify-center min-h-[140px] md:min-h-[160px] text-center w-full">
-            {/* Rotating Word Container */}
-            <div className="relative h-[65px] md:h-[85px] w-full max-w-[340px] sm:max-w-[420px] md:max-w-[520px] overflow-hidden flex items-center justify-center">
-              {rotatingWords.map((word, idx) => {
-                const isActive = idx === currentWordIndex;
-                const isPrev = idx === (currentWordIndex - 1 + rotatingWords.length) % rotatingWords.length;
-                return (
-                  <span
-                    key={word}
-                    className={`absolute inset-0 flex items-center justify-center gradient-text font-headline text-[42px] md:text-[64px] font-black tracking-tighter uppercase transition-all duration-700 ease-in-out select-none ${
-                      isActive
-                        ? 'opacity-100 translate-y-0 scale-100 pointer-events-auto'
-                        : isPrev
-                        ? 'opacity-0 -translate-y-6 scale-95 pointer-events-none'
-                        : 'opacity-0 translate-y-6 scale-95 pointer-events-none'
-                    }`}
-                  >
-                    {word}
-                  </span>
-                );
-              })}
-            </div>
-            <span className="block mt-2 font-headline font-black text-on-background">Your Fitness Path</span>
-          </h1>
-
-          <p className="font-body text-base md:text-lg text-on-surface-variant max-w-2xl mx-auto mb-10 leading-relaxed">
-            An AI-driven fitness ecosystem that adapts your training, personalizes your nutrition, and connects you with a community built for real progress.
-          </p>
-
-          <div className="flex flex-col sm:flex-row gap-6 items-center justify-center w-full relative">
-            {/* Primary CTA */}
+        {/* Foreground Content Container */}
+        <div className="relative z-10 flex flex-col h-full justify-between">
+          {/* Desktop & Mobile Top Bar Navigation */}
+          <nav className="w-full flex items-center justify-between px-5 py-5 sm:px-8 sm:py-6 lg:px-12">
+            {/* Left: FitVerse Wordmark */}
             <Link
-              to="/onboarding"
-              className="w-full sm:w-auto bg-transparent border-8 border-surface-variant font-headline text-xs md:text-sm uppercase tracking-widest px-8 py-4 rounded-lg hover:border-primary hover:bg-primary hover:text-on-primary transition-all duration-300 scale-100 hover:scale-105 active:scale-95 font-bold z-20 backdrop-blur-md text-white shadow-lg text-center"
+              to="/"
+              className="font-headline text-lg sm:text-xl font-semibold text-primary tracking-tight hover:opacity-90 transition-opacity"
             >
-              START YOUR TRANSFORMATION
+              FitVerse
             </Link>
-            {/* Secondary CTA */}
-            <button
-              onClick={() => {
-                const element = document.getElementById('how-it-works');
-                if (element) {
-                  element.scrollIntoView({ behavior: 'smooth' });
-                }
-              }}
-              className="w-full sm:w-auto bg-transparent border-8 border-surface-variant font-headline text-xs md:text-sm uppercase tracking-widest px-8 py-4 rounded-lg hover:border-secondary hover:bg-surface-variant/50 transition-all duration-300 scale-100 hover:scale-105 active:scale-95 font-bold z-10 backdrop-blur-md text-white text-center cursor-pointer"
-            >
-              SEE HOW IT WORKS
-            </button>
-          </div>
-        </div>
 
-        {/* Scroll Indicator */}
-        <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-70 animate-bounce">
-          <span className="font-headline text-[10px] tracking-widest uppercase text-on-surface-variant font-bold">SCROLL</span>
-          <span className="material-symbols-outlined text-on-surface-variant">keyboard_arrow_down</span>
+            {/* Desktop Navigation (hidden md:flex) */}
+            <div className="hidden md:flex items-center gap-3">
+              {/* Glass pill nav cluster */}
+              <div className="rounded-full bg-white/10 px-1.5 py-1.5 backdrop-blur-lg border border-white/10 flex items-center gap-1 shadow-lg">
+                {navItems.map((item) => (
+                  <NavLink
+                    key={item.path}
+                    to={item.path}
+                    className={({ isActive }) =>
+                      `rounded-full px-4 py-1.5 text-sm font-medium transition-all duration-200 ${
+                        isActive
+                          ? 'bg-white/15 text-white font-semibold shadow-sm'
+                          : 'text-white/80 hover:bg-white/10 hover:text-white'
+                      }`
+                    }
+                  >
+                    {item.name}
+                  </NavLink>
+                ))}
+              </div>
+
+              {/* Separate Get Started Pill */}
+              <Link
+                to="/onboarding"
+                className="self-stretch flex items-center justify-center rounded-full px-5 py-1.5 text-sm font-bold bg-gradient-to-r from-[#adc6ff] via-[#4b8eff] to-[#ffb595] text-[#00285c] hover:brightness-110 active:scale-95 transition-all shadow-[0_0_20px_rgba(173,198,255,0.25)]"
+              >
+                Get Started
+              </Link>
+            </div>
+
+            {/* Mobile Hamburger Button (md:hidden) */}
+            <button
+              onClick={() => setMobileOpen(!mobileOpen)}
+              className="relative md:hidden h-10 w-10 rounded-full bg-white/10 backdrop-blur-lg border border-white/10 flex items-center justify-center z-50 text-white hover:bg-white/20 active:scale-95 transition-all cursor-pointer shadow-lg"
+              aria-label={mobileOpen ? 'Close menu' : 'Open menu'}
+            >
+              <Menu
+                className={`w-5 h-5 absolute transition-all duration-300 transform ${
+                  mobileOpen ? 'opacity-0 rotate-90 scale-50' : 'opacity-100 rotate-0 scale-100'
+                }`}
+              />
+              <X
+                className={`w-5 h-5 absolute transition-all duration-300 transform ${
+                  mobileOpen ? 'opacity-100 rotate-0 scale-100' : 'opacity-0 -rotate-90 scale-50'
+                }`}
+              />
+            </button>
+          </nav>
+
+          {/* Mobile Menu Backdrop */}
+          <div
+            onClick={() => setMobileOpen(false)}
+            className={`fixed inset-0 z-40 bg-black/80 backdrop-blur-md transition-opacity duration-300 md:hidden ${
+              mobileOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
+            }`}
+            aria-hidden="true"
+          />
+
+          {/* Mobile Menu Slide-in Panel */}
+          <div
+            className={`fixed right-0 top-0 z-40 h-full w-72 bg-black/90 backdrop-blur-xl border-l border-white/10 flex flex-col justify-between md:hidden transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] ${
+              mobileOpen ? 'translate-x-0' : 'translate-x-full'
+            }`}
+          >
+            {/* Links */}
+            <div className="flex flex-col px-6 pt-24 gap-2">
+              {navItems.map((item, index) => (
+                <NavLink
+                  key={item.path}
+                  to={item.path}
+                  onClick={() => setMobileOpen(false)}
+                  style={{
+                    transitionDelay: mobileOpen ? `${(index + 1) * 60}ms` : '0ms',
+                    transform: mobileOpen ? 'translateX(0)' : 'translateX(24px)',
+                    opacity: mobileOpen ? 1 : 0,
+                    transitionProperty: 'opacity, transform, background-color, color',
+                    transitionDuration: '300ms',
+                  }}
+                  className={({ isActive }) =>
+                    `rounded-xl px-4 py-3.5 text-base font-medium transition-all ${
+                      isActive
+                        ? 'bg-white/15 text-white font-semibold'
+                        : 'text-white/80 hover:bg-white/10 hover:text-white'
+                    }`
+                  }
+                >
+                  {item.name}
+                </NavLink>
+              ))}
+            </div>
+
+            {/* Bottom CTA */}
+            <div
+              className="mt-auto px-6 pb-10"
+              style={{
+                transitionDelay: mobileOpen ? '300ms' : '0ms',
+                transform: mobileOpen ? 'translateY(0)' : 'translateY(24px)',
+                opacity: mobileOpen ? 1 : 0,
+                transitionProperty: 'opacity, transform',
+                transitionDuration: '400ms',
+              }}
+            >
+              <Link
+                to="/onboarding"
+                onClick={() => setMobileOpen(false)}
+                className="w-full py-3.5 rounded-full bg-gradient-to-r from-[#adc6ff] via-[#4b8eff] to-[#ffb595] text-[#00285c] font-bold text-center block shadow-lg hover:brightness-110 active:scale-95 transition-all text-sm uppercase tracking-wider"
+              >
+                Get Started
+              </Link>
+            </div>
+          </div>
+
+          {/* Main Content Area - Bottom Anchored */}
+          <div className="mt-auto w-full px-5 pb-8 sm:px-8 sm:pb-12 lg:px-12 lg:pb-16 max-w-7xl mx-auto">
+            <div className="flex flex-col lg:flex-row items-start lg:items-end justify-between gap-8 lg:gap-12 w-full">
+              {/* Left Column: Rotating headline + Subheading + CTA buttons */}
+              <div className="flex-1 max-w-2xl text-left">
+                <h1 className="font-headline text-3xl sm:text-5xl lg:text-6xl font-black text-on-background leading-[1.08] tracking-tight">
+                  {/* Rotating Word Container */}
+                  <span className="relative inline-block h-[38px] sm:h-[54px] lg:h-[68px] w-full max-w-[260px] sm:max-w-[380px] lg:max-w-[460px] overflow-hidden align-bottom">
+                    {rotatingWords.map((word, idx) => {
+                      const isActive = idx === currentWordIndex;
+                      const isPrev =
+                        idx === (currentWordIndex - 1 + rotatingWords.length) % rotatingWords.length;
+                      return (
+                        <span
+                          key={word}
+                          className={`absolute left-0 top-0 gradient-text font-headline text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight uppercase transition-all duration-700 ease-in-out select-none ${
+                            isActive
+                              ? 'opacity-100 translate-y-0 scale-100 pointer-events-auto'
+                              : isPrev
+                              ? 'opacity-0 -translate-y-6 scale-95 pointer-events-none'
+                              : 'opacity-0 translate-y-6 scale-95 pointer-events-none'
+                          }`}
+                        >
+                          {word}
+                        </span>
+                      );
+                    })}
+                  </span>
+                  <span className="block mt-1 font-headline font-black text-white">Your Fitness Path</span>
+                </h1>
+
+                <p className="font-body text-sm sm:text-base text-white/70 mt-3 sm:mt-4 max-w-xl leading-relaxed">
+                  An AI-driven fitness ecosystem that adapts your training, personalizes your nutrition, and connects you with a community built for real progress.
+                </p>
+
+                {/* CTA Buttons */}
+                <div className="flex flex-wrap gap-4 mt-6 sm:mt-8 items-center">
+                  <Link
+                    to="/onboarding"
+                    className="px-6 py-3.5 rounded-xl bg-gradient-to-r from-[#adc6ff] via-[#4b8eff] to-[#ffb595] text-[#00285c] font-headline font-bold text-xs sm:text-sm uppercase tracking-wider shadow-[0_0_20px_rgba(173,198,255,0.25)] hover:brightness-110 active:scale-95 transition-all text-center"
+                  >
+                    START YOUR TRANSFORMATION
+                  </Link>
+
+                  <button
+                    onClick={() => {
+                      const element = document.getElementById('how-it-works');
+                      if (element) {
+                        element.scrollIntoView({ behavior: 'smooth' });
+                      }
+                    }}
+                    className="px-6 py-3.5 rounded-xl bg-white/10 hover:bg-white/15 border border-white/20 backdrop-blur-md text-white font-headline font-bold text-xs sm:text-sm uppercase tracking-wider active:scale-95 transition-all cursor-pointer text-center"
+                  >
+                    SEE HOW IT WORKS
+                  </button>
+                </div>
+              </div>
+
+              {/* Right Column: Glass Cards (Stats + Testimonial) */}
+              <div className="flex flex-col sm:flex-row gap-4 lg:w-auto lg:gap-5 shrink-0 w-full sm:w-auto">
+                {/* Stats Card */}
+                <div className="w-full sm:w-64 rounded-2xl bg-white/10 backdrop-blur-lg p-5 sm:p-6 border border-white/10 shadow-2xl flex flex-col justify-between">
+                  <div>
+                    <div className="font-headline text-4xl sm:text-5xl font-black gradient-text tracking-tight">
+                      5,000+
+                    </div>
+                    <p className="font-body text-sm leading-relaxed mt-3 sm:mt-4 text-white/70">
+                      Members transforming their fitness with FitVerse's AI-powered plans.
+                    </p>
+                  </div>
+                </div>
+
+                {/* Testimonial Card */}
+                <div className="w-full sm:w-64 rounded-2xl bg-white/10 backdrop-blur-lg p-5 sm:p-6 border border-white/10 shadow-2xl flex flex-col justify-between">
+                  <div>
+                    <div className="flex items-center gap-2 mb-3 sm:mb-4">
+                      <div className="w-6 h-6 rounded-md bg-primary/20 border border-primary/40 flex items-center justify-center text-primary text-xs font-headline font-bold">
+                        FV
+                      </div>
+                      <span className="font-headline text-sm font-semibold text-white tracking-tight">
+                        FitVerse
+                      </span>
+                    </div>
+                    <p className="font-body text-sm leading-relaxed text-white/80 italic">
+                      "FitVerse's AI actually adapts my plan every week instead of just handing me a static PDF."
+                    </p>
+                  </div>
+
+                  <div className="flex items-center gap-3 mt-4 sm:mt-5 pt-3 border-t border-white/10">
+                    <img
+                      src="/images/gallery/gallery-1.jpg"
+                      alt="Rohan Verma"
+                      className="w-9 h-9 rounded-full object-cover border border-primary/50"
+                    />
+                    <div>
+                      <div className="font-headline text-sm font-semibold text-white leading-tight">
+                        Rohan Verma
+                      </div>
+                      <div className="font-body text-xs text-white/60">
+                        Early Member
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Routes, Route, Navigate } from 'react-router-dom';
+import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Home from './pages/Home';
 import Profile from './pages/Profile';
@@ -10,9 +10,12 @@ import AdminModeration from './pages/AdminModeration';
 import Onboarding from './pages/Onboarding';
 
 export default function App() {
+  const location = useLocation();
+  const isHome = location.pathname === '/';
+
   return (
     <div className="min-h-screen bg-background text-on-background flex flex-col font-sans selection:bg-primary selection:text-on-primary">
-      <Navbar />
+      {!isHome && <Navbar />}
       <main className="flex-1 flex flex-col">
         <Routes>
           <Route path="/" element={<Home />} />
