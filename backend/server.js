@@ -8,12 +8,20 @@ dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 5000;
-const FRONTEND_URL = process.env.FRONTEND_URL || 'http://localhost:5173';
 
-// CORS configuration allowing requests from frontend
+const allowedOrigins = [
+  "http://localhost:5173",
+  "https://fit-verse-ecru.vercel.app"
+];
+
 app.use(cors({
-  origin: [FRONTEND_URL, 'http://localhost:5173', 'http://127.0.0.1:5173'],
-  credentials: true
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  }
 }));
 
 app.use(express.json());
