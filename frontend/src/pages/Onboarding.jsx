@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { usePlan } from '../context/PlanContext';
+import { API_URL } from '../config';
 import WindowDots from '../components/WindowDots';
 import NearbyGyms from '../components/NearbyGyms';
 
@@ -540,7 +541,7 @@ export default function Onboarding() {
     setActiveDay(0);
 
     try {
-      const response = await fetch('http://localhost:5000/api/generate-plan', {
+      const response = await fetch(`${API_URL}/api/generate-plan`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -580,7 +581,7 @@ export default function Onboarding() {
   const handleSaveAndNavigate = async () => {
     setSaveState('saving');
     try {
-      const response = await fetch('http://localhost:5000/api/profile', {
+      const response = await fetch(`${API_URL}/api/profile`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

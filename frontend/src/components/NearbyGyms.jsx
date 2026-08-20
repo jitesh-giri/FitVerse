@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { API_URL } from '../config';
 import WindowDots from './WindowDots';
 
 // Pre-configured coordinates for quick manual search fallback
@@ -61,7 +62,7 @@ export default function NearbyGyms() {
       setError('');
       try {
         const response = await fetch(
-          `http://localhost:5000/api/gyms/nearby?lat=${coords.lat}&lng=${coords.lng}&radius=${radius}`
+          `${API_URL}/api/gyms/nearby?lat=${coords.lat}&lng=${coords.lng}&radius=${radius}`
         );
         const data = await response.json();
 
