@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { usePlan } from '../context/PlanContext';
 import WindowDots from '../components/WindowDots';
 import NearbyGyms from '../components/NearbyGyms';
 
@@ -458,22 +459,25 @@ function AiPlanLoader({ diet, goal }) {
 
 export default function Onboarding() {
   const navigate = useNavigate();
+  const { plan, setPlan, profile, setProfile, clearPlan } = usePlan();
   const [currentStep, setCurrentStep] = useState(1);
 
-  const [formData, setFormData] = useState({
-    age: '26',
-    gender: 'male',
-    height: '178',
-    weight: '75',
-    goal: 'hypertrophy',
-    diet: 'Non-Vegetarian',
-    activityStyle: 'gym',
-    frequency: '4',
-  });
+  const [formData, setFormData] = useState(() => ({
+    age: profile?.age || '26',
+    gender: profile?.gender || 'male',
+    height: profile?.height || '178',
+    weight: profile?.weight || '75',
+    menstruates: profile?.menstruates || 'no',
+    lastPeriodDate: profile?.lastPeriodDate || '',
+    cycleLength: profile?.cycleLength || '28',
+    goal: profile?.goal || 'hypertrophy',
+    diet: profile?.diet || 'Non-Vegetarian',
+    activityStyle: profile?.activityStyle || 'gym',
+    frequency: profile?.frequency || '4',
+  }));
 
-  // Step 5 state
-  const [planState, setPlanState] = useState('idle'); // idle | loading | success | error
-  const [generatedPlan, setGeneratedPlan] = useState(null);
+  // Step 5 state (loading/error remain local, plan data lives in PlanContext)
+  const [planState, setPlanState] = useState(() => (plan ? 'success' : 'idle'));
   const [planError, setPlanError] = useState('');
   const [activeDay, setActiveDay] = useState(0); // 0-6 = Mon-Sun
   const [activePlanTab, setActivePlanTab] = useState('workout'); // 'workout' | 'nutrition' | 'supplements'
@@ -533,7 +537,6 @@ export default function Onboarding() {
   const handleGeneratePlan = async () => {
     setPlanState('loading');
     setPlanError('');
-    setGeneratedPlan(null);
     setActiveDay(0);
 
     try {
@@ -547,6 +550,9 @@ export default function Onboarding() {
           dietaryPreference: formData.diet,
           activityStyle: formData.activityStyle,
           frequency: formData.frequency,
+          menstruates: formData.menstruates,
+          lastPeriodDate: formData.lastPeriodDate,
+          cycleLength: formData.cycleLength,
         }),
       });
 
@@ -556,7 +562,13 @@ export default function Onboarding() {
         throw new Error(data.error || 'Plan generation failed.');
       }
 
-      setGeneratedPlan(data.plan);
+      // Persist to PlanContext and localStorage
+      setPlan(data.plan);
+      setProfile({
+        ...formData,
+        bmi: bmiData.bmi,
+        bmiCategory: bmiData.category,
+      });
       setPlanState('success');
     } catch (err) {
       setPlanError(err.message || 'Unknown error occurred.');
@@ -573,7 +585,7 @@ export default function Onboarding() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           userId: 'user_' + Date.now(),
-          plan: generatedPlan,
+          plan: plan,
           onboardingData: {
             ...formData,
             bmi: bmiData.bmi,
@@ -696,6 +708,79 @@ export default function Onboarding() {
                       className="w-full bg-surface border border-outline-variant rounded-xl px-4 py-3 text-on-surface focus:border-primary outline-none text-sm font-semibold"
                       placeholder="e.g. 75"
                     />
+                  </div>
+
+                  {/* ── Cycle Tracking (Menstruation Question) ── */}
+                  <div className="pt-3 border-t border-surface-variant space-y-3">
+                    <div>
+                      <label className="block font-headline text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-2">
+                        Do you menstruate?
+                      </label>
+                      <div className="grid grid-cols-3 gap-2">
+                        {[
+                          { id: 'yes', label: 'Yes' },
+                          { id: 'no', label: 'No' },
+                          { id: 'prefer_not_to_say', label: 'Prefer not to say' },
+                        ].map((opt) => (
+                          <button
+                            key={opt.id}
+                            type="button"
+                            onClick={() => setFormData({ ...formData, menstruates: opt.id })}
+                            className={`py-2.5 px-2 sm:px-3 rounded-xl font-headline text-xs font-bold transition-all duration-150 cursor-pointer text-center border ${
+                              formData.menstruates === opt.id
+                                ? 'bg-primary-container text-on-primary-container border-primary shadow-sm'
+                                : 'bg-surface text-on-surface-variant border-outline-variant hover:bg-surface-variant hover:text-white'
+                            }`}
+                          >
+                            {opt.label}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Inline smooth expand if 'Yes' is selected */}
+                    {formData.menstruates === 'yes' && (
+                      <div className="bg-surface rounded-xl p-4 border border-primary/30 space-y-3 animate-fadeIn">
+                        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1">
+                          <span className="font-headline text-xs font-bold text-primary flex items-center gap-1.5">
+                            <span className="material-symbols-outlined text-sm">female</span>
+                            Cycle Parameters
+                          </span>
+                          <span className="text-[10px] text-on-surface-variant/70 italic">
+                            Optional — helps us tailor your plan to your cycle
+                          </span>
+                        </div>
+
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
+                          <div>
+                            <label className="block font-headline text-[10px] font-bold text-on-surface-variant uppercase tracking-wider mb-1">
+                              Date of last period start
+                            </label>
+                            <input
+                              type="date"
+                              value={formData.lastPeriodDate}
+                              onChange={(e) => setFormData({ ...formData, lastPeriodDate: e.target.value })}
+                              className="w-full bg-surface-container border border-outline-variant rounded-xl px-3 py-2 text-on-surface focus:border-primary outline-none text-xs font-semibold"
+                            />
+                          </div>
+
+                          <div>
+                            <label className="block font-headline text-[10px] font-bold text-on-surface-variant uppercase tracking-wider mb-1">
+                              Average cycle length (days)
+                            </label>
+                            <input
+                              type="number"
+                              value={formData.cycleLength}
+                              onChange={(e) => setFormData({ ...formData, cycleLength: e.target.value })}
+                              className="w-full bg-surface-container border border-outline-variant rounded-xl px-3 py-2 text-on-surface focus:border-primary outline-none text-xs font-semibold"
+                              placeholder="28"
+                              min="21"
+                              max="35"
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    )}
                   </div>
                 </div>
 
@@ -1001,7 +1086,7 @@ export default function Onboarding() {
               )}
 
               {/* ── Phase C: Plan Display ── */}
-              {planState === 'success' && generatedPlan && (
+              {((planState === 'success' && plan) || plan) && (
                 <div className="space-y-6">
                   <WindowDots />
                   {/* Plan summary banner */}
@@ -1009,14 +1094,47 @@ export default function Onboarding() {
                     <span className="material-symbols-outlined text-primary text-xl shrink-0 mt-0.5">smart_toy</span>
                     <div>
                       <span className="font-headline text-[10px] uppercase font-bold text-primary tracking-widest">GEMINI AI PROTOCOL GENERATED</span>
-                      <p className="text-sm text-on-surface-variant mt-1 leading-relaxed">{generatedPlan.planSummary}</p>
+                      <p className="text-sm text-on-surface-variant mt-1 leading-relaxed">{plan.planSummary}</p>
                     </div>
                   </div>
+
+                  {/* Cycle Adaptation Note — renders only when Gemini returned a non-null note */}
+                  {plan.cycleAdaptationNote && (
+                    <div
+                      className="p-5 rounded-xl border flex gap-3 items-start"
+                      style={{
+                        background: 'linear-gradient(135deg, rgba(245,163,199,0.12) 0%, rgba(179,153,224,0.12) 100%)',
+                        borderColor: 'rgba(245,163,199,0.35)',
+                      }}
+                    >
+                      <span
+                        className="material-symbols-outlined text-xl shrink-0 mt-0.5"
+                        style={{ color: '#f5a3c7' }}
+                      >
+                        cycle
+                      </span>
+                      <div>
+                        <span
+                          className="font-headline text-[10px] uppercase font-bold tracking-widest"
+                          style={{
+                            background: 'linear-gradient(90deg, #f5a3c7, #b399e0)',
+                            WebkitBackgroundClip: 'text',
+                            WebkitTextFillColor: 'transparent',
+                          }}
+                        >
+                          CYCLE-SYNCED ADAPTATION
+                        </span>
+                        <p className="text-sm mt-1 leading-relaxed" style={{ color: 'rgba(245,163,199,0.9)' }}>
+                          {plan.cycleAdaptationNote}
+                        </p>
+                      </div>
+                    </div>
+                  )}
 
                   {/* ── Outer Workout / Nutrition / Supplements / Nearby Gyms pill-tabs ── */}
                   <div className="flex gap-2 p-1 bg-surface-container rounded-xl border border-surface-variant w-fit overflow-x-auto max-w-full">
                     {[
-                      { id: 'workout',      icon: 'fitness_center',  label: 'Workout' },
+                      { id: 'workout',      icon: 'fitness_center',  label: 'Workout Routine' },
                       { id: 'nutrition',    icon: 'restaurant_menu', label: 'Nutrition' },
                       { id: 'supplements',  icon: 'medication',      label: 'Supplements' },
                       { id: 'nearby_gyms',  icon: 'location_on',     label: 'Nearby Gyms' },
@@ -1024,7 +1142,7 @@ export default function Onboarding() {
                       <button
                         key={tab.id}
                         onClick={() => setActivePlanTab(tab.id)}
-                        className={`flex items-center gap-1.5 px-4 py-2 rounded-lg font-headline text-xs font-bold uppercase tracking-wider transition-all cursor-pointer shrink-0 ${
+                        className={`flex items-center gap-1.5 px-4 py-2 rounded-lg font-headline text-xs font-bold uppercase tracking-wider transition-all duration-150 ease-out cursor-pointer shrink-0 ${
                           activePlanTab === tab.id
                             ? 'bg-primary text-on-primary shadow-md'
                             : 'text-on-surface-variant hover:bg-surface-variant'
@@ -1036,114 +1154,116 @@ export default function Onboarding() {
                     ))}
                   </div>
 
-                  {/* ── WORKOUT TAB ── */}
-                  {activePlanTab === 'workout' && (
-                    <div className="space-y-4">
-                      {/* Day tabs (Mon–Sun) */}
-                      <div className="flex gap-1 overflow-x-auto pb-1 scrollbar-thin">
-                        {(generatedPlan.weeklyWorkout || []).map((day, idx) => (
-                          <button
-                            key={idx}
-                            onClick={() => setActiveDay(idx)}
-                            className={`shrink-0 px-3 py-2 rounded-lg font-headline text-xs font-bold transition-all cursor-pointer ${
-                              activeDay === idx
-                                ? 'bg-primary text-on-primary shadow-md'
-                                : 'bg-surface-container text-on-surface-variant hover:bg-surface-variant'
-                            }`}
-                          >
-                            {day.day?.slice(0, 3).toUpperCase()}
-                            {day.type === 'Rest' || day.type === 'Active Recovery' ? (
-                              <span className="block text-[9px] font-normal opacity-70">Rest</span>
-                            ) : (
-                              <span className="block text-[9px] font-normal opacity-70">{(day.exercises || []).length} ex</span>
-                            )}
-                          </button>
-                        ))}
+                  <div key={activePlanTab} className="tab-transition">
+                    {/* ── WORKOUT TAB ── */}
+                    {activePlanTab === 'workout' && (
+                      <div className="space-y-4">
+                        {/* Day tabs (Mon–Sun) */}
+                        <div className="flex gap-1 overflow-x-auto pb-1 scrollbar-thin">
+                          {(plan.weeklyWorkout || []).map((day, idx) => (
+                            <button
+                              key={idx}
+                              onClick={() => setActiveDay(idx)}
+                              className={`shrink-0 px-3 py-2 rounded-lg font-headline text-xs font-bold transition-all duration-150 ease-out cursor-pointer ${
+                                activeDay === idx
+                                  ? 'bg-primary text-on-primary shadow-md'
+                                  : 'bg-surface-container text-on-surface-variant hover:bg-surface-variant'
+                              }`}
+                            >
+                              {day.day?.slice(0, 3).toUpperCase()}
+                              {day.type === 'Rest' || day.type === 'Active Recovery' ? (
+                                <span className="block text-[9px] font-normal opacity-70">Rest</span>
+                              ) : (
+                                <span className="block text-[9px] font-normal opacity-70">{(day.exercises || []).length} ex</span>
+                              )}
+                            </button>
+                          ))}
+                        </div>
+                        {/* Day panel (workout only — no diet in this tab) */}
+                        <div className="bg-surface rounded-xl border border-surface-variant p-6">
+                          <DayPanel
+                            key={activeDay}
+                            workout={plan.weeklyWorkout[activeDay]}
+                            diet={null}
+                            dayIdx={activeDay}
+                          />
+                        </div>
                       </div>
-                      {/* Day panel (workout only — no diet in this tab) */}
-                      <div className="bg-surface rounded-xl border border-surface-variant p-6">
-                        <DayPanel
-                          key={activeDay}
-                          workout={generatedPlan.weeklyWorkout[activeDay]}
-                          diet={null}
-                          dayIdx={activeDay}
-                        />
-                      </div>
-                    </div>
-                  )}
+                    )}
 
-                  {/* ── NUTRITION TAB ── */}
-                  {activePlanTab === 'nutrition' && (
-                    <div className="space-y-4">
-                      {/* Day tabs (Mon–Sun) */}
-                      <div className="flex gap-1 overflow-x-auto pb-1 scrollbar-thin">
-                        {(generatedPlan.weeklyDiet || []).map((day, idx) => (
-                          <button
-                            key={idx}
-                            onClick={() => setActiveDay(idx)}
-                            className={`shrink-0 px-3 py-2 rounded-lg font-headline text-xs font-bold transition-all cursor-pointer ${
-                              activeDay === idx
-                                ? 'bg-tertiary text-on-primary shadow-md'
-                                : 'bg-surface-container text-on-surface-variant hover:bg-surface-variant'
-                            }`}
-                          >
-                            {(generatedPlan.weeklyWorkout?.[idx]?.day || `Day ${idx + 1}`)?.slice(0, 3).toUpperCase()}
-                            <span className="block text-[9px] font-normal opacity-70">
-                              {day?.totalCalories ? `${day.totalCalories} kcal` : 'Diet'}
-                            </span>
-                          </button>
-                        ))}
-                      </div>
-                      {/* Diet panel */}
-                      <div className="bg-surface rounded-xl border border-surface-variant p-6 animate-fadeIn">
-                        {generatedPlan.weeklyDiet?.[activeDay] ? (
-                          <div className="space-y-4">
-                            <div className="flex items-center gap-3 mb-2">
-                              <span className="material-symbols-outlined text-tertiary">restaurant_menu</span>
-                              <h3 className="font-headline text-lg font-bold text-on-surface">Nutrition Protocol</h3>
-                              <div className="ml-auto flex gap-3 text-[10px] font-headline font-bold">
-                                <span className="px-2.5 py-1 bg-primary/10 text-primary rounded border border-primary/30">{generatedPlan.weeklyDiet[activeDay].macros?.protein}g Protein</span>
-                                <span className="px-2.5 py-1 bg-tertiary/10 text-tertiary rounded border border-tertiary/30 hidden sm:inline">{generatedPlan.weeklyDiet[activeDay].macros?.carbs}g Carbs</span>
-                                <span className="px-2.5 py-1 bg-surface-container-high text-on-surface-variant rounded border border-surface-variant hidden md:inline">{generatedPlan.weeklyDiet[activeDay].totalCalories} kcal</span>
+                    {/* ── NUTRITION TAB ── */}
+                    {activePlanTab === 'nutrition' && (
+                      <div className="space-y-4">
+                        {/* Day tabs (Mon–Sun) */}
+                        <div className="flex gap-1 overflow-x-auto pb-1 scrollbar-thin">
+                          {(plan.weeklyDiet || []).map((day, idx) => (
+                            <button
+                              key={idx}
+                              onClick={() => setActiveDay(idx)}
+                              className={`shrink-0 px-3 py-2 rounded-lg font-headline text-xs font-bold transition-all duration-150 ease-out cursor-pointer ${
+                                activeDay === idx
+                                  ? 'bg-tertiary text-on-primary shadow-md'
+                                  : 'bg-surface-container text-on-surface-variant hover:bg-surface-variant'
+                              }`}
+                            >
+                              {(plan.weeklyWorkout?.[idx]?.day || `Day ${idx + 1}`)?.slice(0, 3).toUpperCase()}
+                              <span className="block text-[9px] font-normal opacity-70">
+                                {day?.totalCalories ? `${day.totalCalories} kcal` : 'Diet'}
+                              </span>
+                            </button>
+                          ))}
+                        </div>
+                        {/* Diet panel */}
+                        <div className="bg-surface rounded-xl border border-surface-variant p-6 animate-fadeIn">
+                          {plan.weeklyDiet?.[activeDay] ? (
+                            <div className="space-y-4">
+                              <div className="flex items-center gap-3 mb-2">
+                                <span className="material-symbols-outlined text-tertiary">restaurant_menu</span>
+                                <h3 className="font-headline text-lg font-bold text-on-surface">Nutrition Protocol</h3>
+                                <div className="ml-auto flex gap-3 text-[10px] font-headline font-bold">
+                                  <span className="px-2.5 py-1 bg-primary/10 text-primary rounded border border-primary/30">{plan.weeklyDiet[activeDay].macros?.protein}g Protein</span>
+                                  <span className="px-2.5 py-1 bg-tertiary/10 text-tertiary rounded border border-tertiary/30 hidden sm:inline">{plan.weeklyDiet[activeDay].macros?.carbs}g Carbs</span>
+                                  <span className="px-2.5 py-1 bg-surface-container-high text-on-surface-variant rounded border border-surface-variant hidden md:inline">{plan.weeklyDiet[activeDay].totalCalories} kcal</span>
+                                </div>
+                              </div>
+                              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                                {(plan.weeklyDiet[activeDay].meals || []).map((meal, mIdx) => (
+                                  <div key={mIdx} className="bg-surface-container rounded-xl border border-surface-variant p-5 hover:border-outline transition-colors">
+                                    <div className="flex justify-between items-start mb-2">
+                                      <span className="font-headline text-xs uppercase font-bold text-on-surface-variant tracking-wider">{meal.name}</span>
+                                      <span className="font-headline text-xs font-bold text-tertiary">{meal.calories} kcal</span>
+                                    </div>
+                                    <p className="text-xs text-on-surface-variant leading-relaxed">{meal.description}</p>
+                                    {meal.protein && (
+                                      <span className="mt-3 inline-block text-[10px] font-headline font-bold px-2 py-0.5 bg-primary/10 text-primary rounded border border-primary/20">
+                                        {meal.protein}g protein
+                                      </span>
+                                    )}
+                                  </div>
+                                ))}
                               </div>
                             </div>
-                            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-                              {(generatedPlan.weeklyDiet[activeDay].meals || []).map((meal, mIdx) => (
-                                <div key={mIdx} className="bg-surface-container rounded-xl border border-surface-variant p-5 hover:border-outline transition-colors">
-                                  <div className="flex justify-between items-start mb-2">
-                                    <span className="font-headline text-xs uppercase font-bold text-on-surface-variant tracking-wider">{meal.name}</span>
-                                    <span className="font-headline text-xs font-bold text-tertiary">{meal.calories} kcal</span>
-                                  </div>
-                                  <p className="text-xs text-on-surface-variant leading-relaxed">{meal.description}</p>
-                                  {meal.protein && (
-                                    <span className="mt-3 inline-block text-[10px] font-headline font-bold px-2 py-0.5 bg-primary/10 text-primary rounded border border-primary/20">
-                                      {meal.protein}g protein
-                                    </span>
-                                  )}
-                                </div>
-                              ))}
-                            </div>
-                          </div>
-                        ) : (
-                          <p className="text-on-surface-variant text-sm">No nutrition data for this day.</p>
-                        )}
+                          ) : (
+                            <p className="text-on-surface-variant text-sm">No nutrition data for this day.</p>
+                          )}
+                        </div>
                       </div>
-                    </div>
-                  )}
+                    )}
 
-                  {/* ── SUPPLEMENTS TAB ── */}
-                  {activePlanTab === 'supplements' && (
-                    <div className="bg-surface rounded-xl border border-surface-variant p-6">
-                      <SupplementsPanel supplements={generatedPlan.supplements || []} />
-                    </div>
-                  )}
+                    {/* ── SUPPLEMENTS TAB ── */}
+                    {activePlanTab === 'supplements' && (
+                      <div className="bg-surface rounded-xl border border-surface-variant p-6">
+                        <SupplementsPanel supplements={plan.supplements || []} />
+                      </div>
+                    )}
 
-                  {/* ── NEARBY GYMS TAB ── */}
-                  {activePlanTab === 'nearby_gyms' && (
-                    <div className="bg-surface rounded-xl border border-surface-variant p-6">
-                      <NearbyGyms />
-                    </div>
-                  )}
+                    {/* ── NEARBY GYMS TAB ── */}
+                    {activePlanTab === 'nearby_gyms' && (
+                      <div className="bg-surface rounded-xl border border-surface-variant p-6">
+                        <NearbyGyms />
+                      </div>
+                    )}
+                  </div>
 
                   {/* Save CTA */}
                   <div className="flex items-center gap-4 pt-2">
@@ -1164,7 +1284,7 @@ export default function Onboarding() {
                       {saveState === 'saving' ? 'Saving...' : saveState === 'saved' ? 'Saved! Redirecting...' : 'Save Plan & Go to Profile'}
                     </button>
                     <button
-                      onClick={() => { setPlanState('idle'); setGeneratedPlan(null); }}
+                      onClick={() => { setPlanState('idle'); clearPlan(); }}
                       className="text-xs font-headline font-bold text-on-surface-variant hover:text-on-surface transition-colors cursor-pointer"
                     >
                       ↩ Regenerate

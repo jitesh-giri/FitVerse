@@ -8,6 +8,7 @@ const navItems = [
   { name: 'Workout', path: '/workout' },
   { name: 'Nutrition', path: '/nutrition' },
   { name: 'Community', path: '/community' },
+  { name: 'Female Health', path: '/female-health' },
   { name: 'Profile', path: '/profile' },
 ];
 
@@ -174,8 +175,8 @@ export default function Home() {
               FitVerse
             </Link>
 
-            {/* Desktop Navigation (hidden md:flex) */}
-            <div className="hidden md:flex items-center gap-3">
+            {/* Desktop Navigation (hidden lg:flex) */}
+            <div className="hidden lg:flex items-center gap-3">
               {/* Glass pill nav cluster */}
               <div className="rounded-full bg-white/10 px-1.5 py-1.5 backdrop-blur-lg border border-white/10 flex items-center gap-1 shadow-lg">
                 {navItems.map((item) => (
@@ -183,7 +184,7 @@ export default function Home() {
                     key={item.path}
                     to={item.path}
                     className={({ isActive }) =>
-                      `rounded-full px-4 py-1.5 text-sm font-medium transition-all duration-200 ${
+                      `rounded-full px-3.5 py-1.5 text-xs xl:text-sm font-medium transition-all duration-150 ease-out whitespace-nowrap ${
                         isActive
                           ? 'bg-white/15 text-white font-semibold shadow-sm'
                           : 'text-white/80 hover:bg-white/10 hover:text-white'
@@ -198,16 +199,16 @@ export default function Home() {
               {/* Separate Get Started Pill */}
               <Link
                 to="/onboarding"
-                className="self-stretch flex items-center justify-center rounded-full px-5 py-1.5 text-sm font-bold bg-gradient-to-r from-[#adc6ff] via-[#4b8eff] to-[#ffb595] text-[#00285c] hover:brightness-110 active:scale-95 transition-all shadow-[0_0_20px_rgba(173,198,255,0.25)]"
+                className="self-stretch flex items-center justify-center rounded-full px-5 py-1.5 text-xs xl:text-sm font-bold bg-gradient-to-r from-[#adc6ff] via-[#4b8eff] to-[#ffb595] text-[#00285c] hover:brightness-110 active:scale-95 transition-all shadow-[0_0_20px_rgba(173,198,255,0.25)] whitespace-nowrap"
               >
                 Get Started
               </Link>
             </div>
 
-            {/* Mobile Hamburger Button (md:hidden) */}
+            {/* Mobile Hamburger Button (lg:hidden) */}
             <button
               onClick={() => setMobileOpen(!mobileOpen)}
-              className="relative md:hidden h-10 w-10 rounded-full bg-white/10 backdrop-blur-lg border border-white/10 flex items-center justify-center z-50 text-white hover:bg-white/20 active:scale-95 transition-all cursor-pointer shadow-lg"
+              className="relative lg:hidden h-10 w-10 rounded-full bg-white/10 backdrop-blur-lg border border-white/10 flex items-center justify-center z-50 text-white hover:bg-white/20 active:scale-95 transition-all cursor-pointer shadow-lg"
               aria-label={mobileOpen ? 'Close menu' : 'Open menu'}
             >
               <Menu
@@ -226,7 +227,7 @@ export default function Home() {
           {/* Mobile Menu Backdrop */}
           <div
             onClick={() => setMobileOpen(false)}
-            className={`fixed inset-0 z-40 bg-black/80 backdrop-blur-md transition-opacity duration-300 md:hidden ${
+            className={`fixed inset-0 z-40 bg-black/80 backdrop-blur-md transition-opacity duration-300 lg:hidden ${
               mobileOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
             }`}
             aria-hidden="true"
@@ -234,7 +235,7 @@ export default function Home() {
 
           {/* Mobile Menu Slide-in Panel */}
           <div
-            className={`fixed right-0 top-0 z-40 h-full w-72 bg-black/90 backdrop-blur-xl border-l border-white/10 flex flex-col justify-between md:hidden transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] ${
+            className={`fixed right-0 top-0 z-40 h-full w-72 bg-black/90 backdrop-blur-xl border-l border-white/10 flex flex-col justify-between lg:hidden transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] ${
               mobileOpen ? 'translate-x-0' : 'translate-x-full'
             }`}
           >
@@ -288,108 +289,58 @@ export default function Home() {
 
           {/* Main Content Area - Bottom Anchored */}
           <div className="mt-auto w-full px-5 pb-8 sm:px-8 sm:pb-12 lg:px-12 lg:pb-16 max-w-7xl mx-auto">
-            <div className="flex flex-col lg:flex-row items-start lg:items-end justify-between gap-8 lg:gap-12 w-full">
-              {/* Left Column: Rotating headline + Subheading + CTA buttons */}
-              <div className="flex-1 max-w-2xl text-left">
-                <h1 className="font-headline text-3xl sm:text-5xl lg:text-6xl font-black text-on-background leading-[1.08] tracking-tight">
-                  {/* Rotating Word Container */}
-                  <span className="relative inline-block h-[38px] sm:h-[54px] lg:h-[68px] w-full max-w-[260px] sm:max-w-[380px] lg:max-w-[460px] overflow-hidden align-bottom">
-                    {rotatingWords.map((word, idx) => {
-                      const isActive = idx === currentWordIndex;
-                      const isPrev =
-                        idx === (currentWordIndex - 1 + rotatingWords.length) % rotatingWords.length;
-                      return (
-                        <span
-                          key={word}
-                          className={`absolute left-0 top-0 gradient-text font-headline text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight uppercase transition-all duration-700 ease-in-out select-none ${
-                            isActive
-                              ? 'opacity-100 translate-y-0 scale-100 pointer-events-auto'
-                              : isPrev
-                              ? 'opacity-0 -translate-y-6 scale-95 pointer-events-none'
-                              : 'opacity-0 translate-y-6 scale-95 pointer-events-none'
-                          }`}
-                        >
-                          {word}
-                        </span>
-                      );
-                    })}
-                  </span>
-                  <span className="block mt-1 font-headline font-black text-white">Your Fitness Path</span>
-                </h1>
-
-                <p className="font-body text-sm sm:text-base text-white/70 mt-3 sm:mt-4 max-w-xl leading-relaxed">
-                  An AI-driven fitness ecosystem that adapts your training, personalizes your nutrition, and connects you with a community built for real progress.
-                </p>
-
-                {/* CTA Buttons */}
-                <div className="flex flex-wrap gap-4 mt-6 sm:mt-8 items-center">
-                  <Link
-                    to="/onboarding"
-                    className="px-6 py-3.5 rounded-xl bg-gradient-to-r from-[#adc6ff] via-[#4b8eff] to-[#ffb595] text-[#00285c] font-headline font-bold text-xs sm:text-sm uppercase tracking-wider shadow-[0_0_20px_rgba(173,198,255,0.25)] hover:brightness-110 active:scale-95 transition-all text-center"
-                  >
-                    START YOUR TRANSFORMATION
-                  </Link>
-
-                  <button
-                    onClick={() => {
-                      const element = document.getElementById('how-it-works');
-                      if (element) {
-                        element.scrollIntoView({ behavior: 'smooth' });
-                      }
-                    }}
-                    className="px-6 py-3.5 rounded-xl bg-white/10 hover:bg-white/15 border border-white/20 backdrop-blur-md text-white font-headline font-bold text-xs sm:text-sm uppercase tracking-wider active:scale-95 transition-all cursor-pointer text-center"
-                  >
-                    SEE HOW IT WORKS
-                  </button>
-                </div>
-              </div>
-
-              {/* Right Column: Glass Cards (Stats + Testimonial) */}
-              <div className="flex flex-col sm:flex-row gap-4 lg:w-auto lg:gap-5 shrink-0 w-full sm:w-auto">
-                {/* Stats Card */}
-                <div className="w-full sm:w-64 rounded-2xl bg-white/10 backdrop-blur-lg p-5 sm:p-6 border border-white/10 shadow-2xl flex flex-col justify-between">
-                  <div>
-                    <div className="font-headline text-4xl sm:text-5xl font-black gradient-text tracking-tight">
-                      5,000+
-                    </div>
-                    <p className="font-body text-sm leading-relaxed mt-3 sm:mt-4 text-white/70">
-                      Members transforming their fitness with FitVerse's AI-powered plans.
-                    </p>
-                  </div>
-                </div>
-
-                {/* Testimonial Card */}
-                <div className="w-full sm:w-64 rounded-2xl bg-white/10 backdrop-blur-lg p-5 sm:p-6 border border-white/10 shadow-2xl flex flex-col justify-between">
-                  <div>
-                    <div className="flex items-center gap-2 mb-3 sm:mb-4">
-                      <div className="w-6 h-6 rounded-md bg-primary/20 border border-primary/40 flex items-center justify-center text-primary text-xs font-headline font-bold">
-                        FV
-                      </div>
-                      <span className="font-headline text-sm font-semibold text-white tracking-tight">
-                        FitVerse
+            <div className="w-full max-w-2xl">
+              {/* Hero Headline + Subheading + CTA buttons */}
+              <h1 className="font-headline text-3xl sm:text-5xl lg:text-6xl font-black text-on-background leading-[1.08] tracking-tight">
+                {/* Rotating Word Container */}
+                <span className="relative inline-block h-[38px] sm:h-[54px] lg:h-[68px] w-full max-w-[260px] sm:max-w-[380px] lg:max-w-[460px] overflow-hidden align-bottom">
+                  {rotatingWords.map((word, idx) => {
+                    const isActive = idx === currentWordIndex;
+                    const isPrev =
+                      idx === (currentWordIndex - 1 + rotatingWords.length) % rotatingWords.length;
+                    return (
+                      <span
+                        key={word}
+                        className={`absolute left-0 top-0 gradient-text font-headline text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight uppercase transition-all duration-700 ease-in-out select-none ${
+                          isActive
+                            ? 'opacity-100 translate-y-0 scale-100 pointer-events-auto'
+                            : isPrev
+                            ? 'opacity-0 -translate-y-6 scale-95 pointer-events-none'
+                            : 'opacity-0 translate-y-6 scale-95 pointer-events-none'
+                        }`}
+                      >
+                        {word}
                       </span>
-                    </div>
-                    <p className="font-body text-sm leading-relaxed text-white/80 italic">
-                      "FitVerse's AI actually adapts my plan every week instead of just handing me a static PDF."
-                    </p>
-                  </div>
+                    );
+                  })}
+                </span>
+                <span className="block mt-1 font-headline font-black text-white">Your Fitness Path</span>
+              </h1>
 
-                  <div className="flex items-center gap-3 mt-4 sm:mt-5 pt-3 border-t border-white/10">
-                    <img
-                      src="/images/gallery/gallery-1.jpg"
-                      alt="Rohan Verma"
-                      className="w-9 h-9 rounded-full object-cover border border-primary/50"
-                    />
-                    <div>
-                      <div className="font-headline text-sm font-semibold text-white leading-tight">
-                        Rohan Verma
-                      </div>
-                      <div className="font-body text-xs text-white/60">
-                        Early Member
-                      </div>
-                    </div>
-                  </div>
-                </div>
+              <p className="font-body text-sm sm:text-base text-white/70 mt-3 sm:mt-4 max-w-xl leading-relaxed">
+                An AI-driven fitness ecosystem that adapts your training, personalizes your nutrition, and connects you with a community built for real progress.
+              </p>
+
+              {/* CTA Buttons */}
+              <div className="flex flex-wrap gap-4 mt-6 sm:mt-8 items-center">
+                <Link
+                  to="/onboarding"
+                  className="px-6 py-3.5 rounded-xl bg-gradient-to-r from-[#adc6ff] via-[#4b8eff] to-[#ffb595] text-[#00285c] font-headline font-bold text-xs sm:text-sm uppercase tracking-wider shadow-[0_0_20px_rgba(173,198,255,0.25)] hover:brightness-110 active:scale-95 transition-all text-center"
+                >
+                  START YOUR TRANSFORMATION
+                </Link>
+
+                <button
+                  onClick={() => {
+                    const element = document.getElementById('how-it-works');
+                    if (element) {
+                      element.scrollIntoView({ behavior: 'smooth' });
+                    }
+                  }}
+                  className="px-6 py-3.5 rounded-xl bg-white/10 hover:bg-white/15 border border-white/20 backdrop-blur-md text-white font-headline font-bold text-xs sm:text-sm uppercase tracking-wider active:scale-95 transition-all cursor-pointer text-center"
+                >
+                  SEE HOW IT WORKS
+                </button>
               </div>
             </div>
           </div>
@@ -440,34 +391,6 @@ export default function Home() {
           ))}
         </div>
       </section>
-
-      {/* GOING LIVE Section */}
-      <section className="py-24 px-4 md:px-16 bg-surface-container-low border-y-[8px] border-surface-variant overflow-hidden">
-        <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-16">
-          <div className="flex-1 text-center md:text-left z-10">
-            <h2 className="font-headline text-3xl md:text-5xl font-extrabold mb-10 gradient-text uppercase tracking-tighter leading-tight">
-              GOING LIVE ACROSS INDIA
-            </h2>
-            <div className="flex flex-col sm:flex-row gap-12 justify-center md:justify-start">
-              <div>
-                <div className="font-headline text-5xl md:text-6xl font-black gradient-text mb-2">1</div>
-                <div className="font-headline text-xs text-on-surface-variant tracking-widest font-bold">CITY</div>
-              </div>
-              <div>
-                <div className="font-headline text-5xl md:text-6xl font-black gradient-text mb-2">10,000+</div>
-                <div className="font-headline text-xs text-on-surface-variant tracking-widest font-bold">MEMBERS</div>
-              </div>
-            </div>
-          </div>
-          <div className="flex-1 relative h-80 w-full flex items-center justify-center pointer-events-none">
-            <div className="absolute w-64 h-64 rounded-full border-[12px] border-surface-variant opacity-20 animate-[spin_10s_linear_infinite]"></div>
-            <div className="absolute w-48 h-48 rounded-xl border-[12px] border-[#6b7280] opacity-30 transform rotate-45 animate-[spin_15s_linear_infinite_reverse]"></div>
-            <div className="absolute w-32 h-32 rounded-full border-[12px] border-[#eab308] opacity-40"></div>
-            <span className="material-symbols-outlined text-[120px] gradient-text z-10">share</span>
-          </div>
-        </div>
-      </section>
-
       {/* REVIEWS Section */}
       <section className="py-24 w-full overflow-hidden">
         <div className="px-4 md:px-16 max-w-7xl mx-auto">

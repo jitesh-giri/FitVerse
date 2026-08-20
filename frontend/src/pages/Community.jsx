@@ -94,29 +94,44 @@ export default function Community() {
   };
 
   return (
-    <div className="bg-background text-on-background min-h-screen flex flex-col font-body selection:bg-primary selection:text-on-primary">
+    <div className="text-on-background min-h-screen flex flex-col font-body selection:bg-primary selection:text-on-primary">
+      {/* Hero-style Header Section */}
+      <header className="mb-4 text-left w-full max-w-7xl mx-auto px-4 md:px-12 pt-10">
+        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 border border-white/10 backdrop-blur-md text-xs font-headline font-semibold text-primary mb-4 shadow-sm w-fit">
+          <span className="material-symbols-outlined text-sm text-primary">groups</span>
+          GLOBAL ATHLETE FEED • 24.8K ACTIVE
+        </div>
+        <h1 className="font-headline text-3xl sm:text-5xl lg:text-6xl font-black text-on-background leading-[1.08] tracking-tight">
+          <span className="gradient-text uppercase">CONNECT</span>
+          <span className="text-white ml-2 sm:ml-3">With The Tribe</span>
+        </h1>
+        <p className="font-body text-sm sm:text-base text-white/70 mt-2 max-w-2xl leading-relaxed">
+          Share PRs, exchange data-backed strategies, and evolve alongside driven athletes worldwide.
+        </p>
+      </header>
+
       {/* Main Canvas */}
       <div className="flex-grow flex justify-center w-full px-4 md:px-12 py-8 relative z-10 max-w-7xl mx-auto">
         {/* Left Sidebar (Desktop) */}
         <aside className="hidden xl:block w-64 shrink-0 mr-10 sticky top-28 h-fit">
           <div className="space-y-6">
             {/* Community Hubs */}
-            <div className="bg-surface-container-high p-6 rounded-2xl border border-surface-variant shadow-xl">
+            <div className="rounded-2xl bg-white/10 backdrop-blur-lg border border-white/10 p-6 shadow-2xl">
               <h2 className="font-headline text-xl font-black text-primary mb-4">FitVerse Hubs</h2>
               <div className="flex flex-col gap-2">
                 {['All', '#Powerlifting', '#NutritionHacks', '#MarathonPrep'].map((hub) => (
                   <button
                     key={hub}
                     onClick={() => setSelectedHub(hub)}
-                    className={`flex items-center justify-between p-3 rounded-xl text-sm font-medium transition-all ${
+                    className={`flex items-center justify-between p-3 rounded-xl text-sm font-medium transition-all duration-150 ease-out cursor-pointer ${
                       selectedHub === hub
-                        ? 'bg-primary-container text-on-primary-container font-bold'
-                        : 'text-on-surface-variant hover:bg-surface-variant'
+                        ? 'bg-white/15 text-white font-bold shadow-sm'
+                        : 'text-white/70 hover:bg-white/10 hover:text-white'
                     }`}
                   >
                     <span>{hub}</span>
                     {hub !== 'All' && (
-                      <span className="bg-surface-variant px-2 py-0.5 rounded text-xs">
+                      <span className="bg-white/10 px-2 py-0.5 rounded text-xs text-white/60">
                         {hub === '#Powerlifting' ? '2.4k' : hub === '#NutritionHacks' ? '1.8k' : '940'}
                       </span>
                     )}
@@ -126,11 +141,11 @@ export default function Community() {
             </div>
 
             {/* Quick Links */}
-            <div className="bg-surface-container p-6 rounded-2xl border-l-4 border-primary shadow-lg">
-              <h3 className="font-headline text-xs font-bold text-on-surface mb-3 uppercase tracking-wider">
+            <div className="rounded-2xl bg-white/5 backdrop-blur-md border border-white/10 p-6 shadow-lg">
+              <h3 className="font-headline text-xs font-bold text-white mb-3 uppercase tracking-wider">
                 Community Guidelines
               </h3>
-              <p className="text-xs text-on-surface-variant leading-relaxed">
+              <p className="text-xs text-white/70 leading-relaxed">
                 Respect, discipline, and data-backed motivation. No spam or commercial solicitations.
               </p>
             </div>
@@ -140,15 +155,15 @@ export default function Community() {
         {/* Feed Center */}
         <main className="w-full max-w-2xl flex flex-col gap-8">
           {/* Create Post */}
-          <div className="bg-surface border-[8px] border-surface-variant rounded-2xl p-5 flex gap-4 items-center shadow-xl">
+          <div className="rounded-2xl bg-white/10 backdrop-blur-lg border border-white/10 p-4 sm:p-5 flex gap-4 items-center shadow-2xl">
             <img
-              className="w-12 h-12 rounded-full object-cover border-2 border-primary shrink-0"
+              className="w-12 h-12 rounded-full object-cover border border-white/20 shrink-0"
               alt="User avatar"
               src="/images/hero/hero-1.jpg"
             />
             <form onSubmit={handleCreatePost} className="flex-grow flex gap-3">
               <input
-                className="flex-grow bg-surface-container-high border border-outline-variant focus:border-primary text-on-surface p-3.5 transition-all outline-none rounded-xl text-sm"
+                className="flex-grow bg-white/5 border border-white/15 focus:border-primary text-white p-3.5 transition-all outline-none rounded-full text-sm placeholder-white/40"
                 placeholder="Share your progress or PR..."
                 type="text"
                 value={newPostText}
@@ -156,146 +171,146 @@ export default function Community() {
               />
               <button
                 type="submit"
-                className="bg-primary text-on-primary p-3.5 rounded-xl hover:bg-primary-container transition-colors shrink-0 flex items-center justify-center"
+                className="px-5 py-3.5 rounded-full bg-gradient-to-r from-[#adc6ff] via-[#4b8eff] to-[#ffb595] text-[#00285c] hover:brightness-110 active:scale-95 transition-all shrink-0 flex items-center justify-center cursor-pointer shadow-md"
               >
-                <span className="material-symbols-outlined">send</span>
+                <span className="material-symbols-outlined text-lg font-bold">send</span>
               </button>
             </form>
           </div>
 
           {/* Posts Feed */}
-          {posts
-            .filter((p) => selectedHub === 'All' || p.tag === selectedHub)
-            .map((post) => (
-              <article
-                key={post.id}
-                className="bg-surface border-[8px] border-surface-variant rounded-2xl relative group overflow-hidden shadow-xl"
-              >
-                {/* Top Accent Line */}
-                <div className="absolute top-0 left-0 right-0 h-1.5 bg-gradient-border opacity-80"></div>
-                <div className="p-6">
-                  <div className="flex justify-between items-start mb-4">
-                    <div className="flex items-center gap-3">
-                      <img
-                        className="w-10 h-10 rounded-full object-cover border border-outline-variant"
-                        alt={post.author}
-                        src={post.avatar}
-                      />
-                      <div>
-                        <h4 className="font-headline text-sm font-bold text-on-surface">{post.author}</h4>
-                        <p className="text-xs text-on-surface-variant">
-                          {post.time} • <span className="text-primary font-medium">{post.tag}</span>
-                        </p>
-                      </div>
-                    </div>
-                    <button
-                      onClick={() => handleFlag(post.id)}
-                      className="text-on-surface-variant hover:text-error opacity-60 hover:opacity-100 transition-opacity"
-                      title="Report to Moderator"
-                    >
-                      <span className={`material-symbols-outlined text-sm ${flaggedPosts[post.id] ? 'text-error' : ''}`}>
-                        flag
-                      </span>
-                    </button>
-                  </div>
-
-                  {flaggedPosts[post.id] && (
-                    <div className="mb-3 px-3 py-1.5 bg-error-container/40 border border-error/50 rounded-lg text-xs text-error font-medium">
-                      Report submitted to moderation queue.
-                    </div>
-                  )}
-
-                  <h3 className="font-headline text-lg md:text-xl font-bold mb-2 text-on-surface">{post.title}</h3>
-                  <p className="font-body text-sm md:text-base text-on-surface-variant mb-4 leading-relaxed">
-                    {post.content}
-                  </p>
-
-                  {/* Post Image */}
-                  {post.image && (
-                    <div className="w-full aspect-video bg-surface-container-high rounded-xl relative border border-outline-variant overflow-hidden shadow-inner">
-                      <img
-                        className="w-full h-full object-cover"
-                        alt={post.title}
-                        src={post.image}
-                      />
-                    </div>
-                  )}
-
-                  {/* Post Metrics if present */}
-                  {post.metrics && (
-                    <div className="w-full bg-surface-container-high p-5 rounded-xl border border-outline-variant flex flex-col gap-3">
-                      {post.metrics.map((m, idx) => (
-                        <div key={idx} className="flex justify-between items-end border-b border-surface-variant pb-2">
-                          <span className="text-xs text-on-surface-variant font-medium">{m.label}</span>
-                          <span className={`font-headline text-lg font-bold ${m.color}`}>{m.val}</span>
+          <div key={selectedHub} className="flex flex-col gap-8 tab-transition">
+            {posts
+              .filter((p) => selectedHub === 'All' || p.tag === selectedHub)
+              .map((post) => (
+                <article
+                  key={post.id}
+                  className="rounded-2xl bg-white/10 backdrop-blur-lg border border-white/10 relative group overflow-hidden shadow-2xl hover:border-white/20 transition-all duration-300"
+                >
+                  <div className="p-6">
+                    <div className="flex justify-between items-start mb-4">
+                      <div className="flex items-center gap-3">
+                        <img
+                          className="w-10 h-10 rounded-full object-cover border border-white/20"
+                          alt={post.author}
+                          src={post.avatar}
+                        />
+                        <div>
+                          <h4 className="font-headline text-sm font-bold text-white">{post.author}</h4>
+                          <p className="text-xs text-white/60">
+                            {post.time} • <span className="text-primary font-medium">{post.tag}</span>
+                          </p>
                         </div>
-                      ))}
+                      </div>
+                      <button
+                        onClick={() => handleFlag(post.id)}
+                        className="text-white/50 hover:text-error opacity-60 hover:opacity-100 transition-opacity cursor-pointer"
+                        title="Report to Moderator"
+                      >
+                        <span className={`material-symbols-outlined text-sm ${flaggedPosts[post.id] ? 'text-error' : ''}`}>
+                          flag
+                        </span>
+                      </button>
                     </div>
-                  )}
-                </div>
 
-                {/* Interaction Bar */}
-                <div className="bg-surface-container-low px-6 py-3 flex justify-between items-center border-t border-surface-variant">
-                  <div className="flex gap-1 bg-surface-container-highest rounded-full border border-outline-variant items-center">
-                    <button
-                      onClick={() => handleVote(post.id, 'up')}
-                      className={`p-2 rounded-l-full flex items-center transition-colors ${
-                        post.userVote === 'up'
-                          ? 'text-primary bg-primary/20 font-bold'
-                          : 'text-on-surface-variant hover:text-primary hover:bg-surface-variant'
-                      }`}
-                    >
-                      <span className="material-symbols-outlined text-sm">arrow_upward</span>
-                    </button>
-                    <span className="font-headline text-xs font-black px-2 py-1 flex items-center text-on-surface">
-                      {post.upvotes}
-                    </span>
-                    <button
-                      onClick={() => handleVote(post.id, 'down')}
-                      className={`p-2 rounded-r-full flex items-center transition-colors ${
-                        post.userVote === 'down'
-                          ? 'text-error bg-error/20 font-bold'
-                          : 'text-on-surface-variant hover:text-error hover:bg-surface-variant'
-                      }`}
-                    >
-                      <span className="material-symbols-outlined text-sm">arrow_downward</span>
-                    </button>
+                    {flaggedPosts[post.id] && (
+                      <div className="mb-3 px-3 py-1.5 bg-error-container/40 border border-error/50 rounded-lg text-xs text-error font-medium">
+                        Report submitted to moderation queue.
+                      </div>
+                    )}
+
+                    <h3 className="font-headline text-lg md:text-xl font-bold mb-2 text-white">{post.title}</h3>
+                    <p className="font-body text-sm md:text-base text-white/75 mb-4 leading-relaxed">
+                      {post.content}
+                    </p>
+
+                    {/* Post Image */}
+                    {post.image && (
+                      <div className="w-full aspect-video rounded-xl relative border border-white/10 overflow-hidden shadow-md">
+                        <img
+                          className="w-full h-full object-cover"
+                          alt={post.title}
+                          src={post.image}
+                        />
+                      </div>
+                    )}
+
+                    {/* Post Metrics if present */}
+                    {post.metrics && (
+                      <div className="w-full bg-white/5 p-5 rounded-xl border border-white/10 flex flex-col gap-3">
+                        {post.metrics.map((m, idx) => (
+                          <div key={idx} className="flex justify-between items-end border-b border-white/10 pb-2">
+                            <span className="text-xs text-white/70 font-medium">{m.label}</span>
+                            <span className={`font-headline text-lg font-bold ${m.color}`}>{m.val}</span>
+                          </div>
+                        ))}
+                      </div>
+                    )}
                   </div>
 
-                  <button className="flex items-center gap-2 text-on-surface-variant hover:text-primary transition-colors text-xs font-semibold">
-                    <span className="material-symbols-outlined text-base">chat_bubble</span>
-                    <span>{post.comments} Comments</span>
-                  </button>
+                  {/* Interaction Bar */}
+                  <div className="bg-white/5 px-6 py-3 flex justify-between items-center border-t border-white/10">
+                    <div className="flex gap-1 bg-white/10 rounded-full border border-white/10 items-center">
+                      <button
+                        onClick={() => handleVote(post.id, 'up')}
+                        className={`p-2 rounded-l-full flex items-center transition-colors cursor-pointer ${
+                          post.userVote === 'up'
+                            ? 'text-primary bg-primary/20 font-bold'
+                            : 'text-white/70 hover:text-primary hover:bg-white/10'
+                        }`}
+                      >
+                        <span className="material-symbols-outlined text-sm">arrow_upward</span>
+                      </button>
+                      <span className="font-headline text-xs font-black px-2 py-1 flex items-center text-white">
+                        {post.upvotes}
+                      </span>
+                      <button
+                        onClick={() => handleVote(post.id, 'down')}
+                        className={`p-2 rounded-r-full flex items-center transition-colors cursor-pointer ${
+                          post.userVote === 'down'
+                            ? 'text-error bg-error/20 font-bold'
+                            : 'text-white/70 hover:text-error hover:bg-white/10'
+                        }`}
+                      >
+                        <span className="material-symbols-outlined text-sm">arrow_downward</span>
+                      </button>
+                    </div>
 
-                  <button className="flex items-center gap-2 text-on-surface-variant hover:text-primary transition-colors text-xs font-semibold">
-                    <span className="material-symbols-outlined text-base">share</span>
-                  </button>
-                </div>
-              </article>
-            ))}
+                    <button className="flex items-center gap-2 text-white/70 hover:text-primary transition-colors text-xs font-semibold cursor-pointer">
+                      <span className="material-symbols-outlined text-base">chat_bubble</span>
+                      <span>{post.comments} Comments</span>
+                    </button>
+
+                    <button className="flex items-center gap-2 text-white/70 hover:text-primary transition-colors text-xs font-semibold cursor-pointer">
+                      <span className="material-symbols-outlined text-base">share</span>
+                    </button>
+                  </div>
+                </article>
+              ))}
+          </div>
         </main>
 
         {/* Right Sidebar (Desktop Stats) */}
         <aside className="hidden lg:block w-72 shrink-0 ml-10 sticky top-28 h-fit">
-          <div className="bg-surface border-[8px] border-surface-variant rounded-2xl p-6 mb-6 shadow-xl">
-            <h3 className="font-headline text-base font-bold mb-1 text-on-surface">Your Weekly Stats</h3>
-            <p className="text-xs text-on-surface-variant mb-4">Goal: 5 Sessions / Week</p>
+          <div className="rounded-2xl bg-white/10 backdrop-blur-lg border border-white/10 p-6 mb-6 shadow-2xl">
+            <h3 className="font-headline text-base font-bold mb-1 text-white">Your Weekly Stats</h3>
+            <p className="text-xs text-white/60 mb-4">Goal: 5 Sessions / Week</p>
             <div className="space-y-4">
               <div>
-                <div className="flex justify-between text-xs mb-1.5 text-on-surface-variant font-medium">
+                <div className="flex justify-between text-xs mb-1.5 text-white/70 font-medium">
                   <span>Workouts</span>
                   <span className="text-primary font-bold">4 / 5</span>
                 </div>
-                <div className="w-full bg-surface-container-high h-2.5 rounded-full overflow-hidden">
-                  <div className="bg-gradient-border h-full rounded-full" style={{ width: '80%' }}></div>
+                <div className="w-full bg-white/10 h-2.5 rounded-full overflow-hidden">
+                  <div className="bg-gradient-to-r from-[#adc6ff] to-[#ffb595] h-full rounded-full" style={{ width: '80%' }}></div>
                 </div>
               </div>
               <div>
-                <div className="flex justify-between text-xs mb-1.5 text-on-surface-variant font-medium">
+                <div className="flex justify-between text-xs mb-1.5 text-white/70 font-medium">
                   <span>Active Minutes</span>
                   <span className="text-tertiary font-bold">320m</span>
                 </div>
-                <div className="w-full bg-surface-container-high h-2.5 rounded-full overflow-hidden">
+                <div className="w-full bg-white/10 h-2.5 rounded-full overflow-hidden">
                   <div className="bg-primary h-full rounded-full" style={{ width: '60%' }}></div>
                 </div>
               </div>
@@ -305,15 +320,15 @@ export default function Community() {
       </div>
 
       {/* Footer */}
-      <footer className="bg-surface-container-lowest text-primary font-headline text-xs border-t-8 border-surface-variant flex flex-col md:flex-row justify-between items-center px-4 md:px-16 py-10 w-full mt-auto">
-        <div className="font-headline text-xl font-bold text-on-surface mb-4 md:mb-0">FitVerse</div>
-        <nav className="flex flex-wrap justify-center gap-6 font-headline text-xs uppercase font-bold">
-          <Link to="/onboarding" className="text-on-surface-variant hover:text-primary transition-colors">Privacy Policy</Link>
-          <Link to="/onboarding" className="text-on-surface-variant hover:text-primary transition-colors">Terms of Service</Link>
-          <Link to="/profile" className="text-on-surface-variant hover:text-primary transition-colors">Profile</Link>
-          <Link to="/admin" className="text-on-surface-variant hover:text-primary transition-colors">Admin</Link>
+      <footer className="border-t border-white/10 text-primary font-headline text-xs flex flex-col md:flex-row justify-between items-center px-4 md:px-16 py-10 w-full mt-auto">
+        <div className="font-headline text-xl font-bold text-primary mb-4 md:mb-0">FitVerse</div>
+        <nav className="flex flex-wrap justify-center gap-6 font-headline text-xs uppercase font-bold text-white/60">
+          <Link to="/onboarding" className="hover:text-primary transition-colors">Privacy Policy</Link>
+          <Link to="/onboarding" className="hover:text-primary transition-colors">Terms of Service</Link>
+          <Link to="/profile" className="hover:text-primary transition-colors">Profile</Link>
+          <Link to="/admin" className="hover:text-primary transition-colors">Admin</Link>
         </nav>
-        <div className="text-on-surface-variant font-headline text-[10px] uppercase tracking-widest mt-4 md:mt-0">
+        <div className="text-white/40 font-headline text-[10px] uppercase tracking-widest mt-4 md:mt-0">
           © {new Date().getFullYear()} FitVerse. All rights reserved.
         </div>
       </footer>

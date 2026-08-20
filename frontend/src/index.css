@@ -133,3 +133,11 @@
 ::-webkit-scrollbar-thumb:hover {
   background: #adc6ff;
 }
+
+/* Route & Tab Transitions — exit handled by Framer Motion AnimatePresence in App.jsx */
+
+.tab-transition {
+  animation: tabFadeSlide 180ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  will-change: opacity, transform;
+}
+

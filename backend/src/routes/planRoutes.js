@@ -1,5 +1,5 @@
 import express from 'express';
-import { generatePlan } from '../agents/planGeneratorAgent.js';
+import { generatePlan, calculateCycleInfo } from '../agents/planGeneratorAgent.js';
 
 let firestoreDb = null;
 
@@ -34,11 +34,22 @@ const router = express.Router();
 
 /**
  * POST /api/generate-plan
- * Body: { bmi, bmiCategory, goal, dietaryPreference, activityStyle, frequency }
+ * Body: { bmi, bmiCategory, goal, dietaryPreference, activityStyle, frequency, menstruates, lastPeriodDate, lastPeriodStart, cycleLength }
  * Returns: { success: true, plan: { weeklyWorkout, weeklyDiet, supplements, planSummary } }
  */
 router.post('/generate-plan', async (req, res) => {
-  const { bmi, bmiCategory, goal, dietaryPreference, activityStyle, frequency } = req.body;
+  const {
+    bmi,
+    bmiCategory,
+    goal,
+    dietaryPreference,
+    activityStyle,
+    frequency,
+    menstruates,
+    lastPeriodDate,
+    lastPeriodStart,
+    cycleLength,
+  } = req.body;
 
   // Basic validation
   if (!bmi || !bmiCategory || !goal || !dietaryPreference || !activityStyle || !frequency) {
@@ -48,8 +59,25 @@ router.post('/generate-plan', async (req, res) => {
     });
   }
 
+  // Calculate cycle info if applicable (menstruates: true or 'yes', with start date)
+  let cycleInfo = null;
+  const isMenstruating = menstruates === true || menstruates === 'yes';
+  const startDate = lastPeriodStart || lastPeriodDate;
+
+  if (isMenstruating && startDate) {
+    cycleInfo = calculateCycleInfo(startDate, cycleLength);
+  }
+
   try {
-    const plan = await generatePlan({ bmi, bmiCategory, goal, dietaryPreference, activityStyle, frequency });
+    const plan = await generatePlan({
+      bmi,
+      bmiCategory,
+      goal,
+      dietaryPreference,
+      activityStyle,
+      frequency,
+      cycleInfo,
+    });
     return res.json({ success: true, plan });
   } catch (err) {
     console.error('[POST /api/generate-plan] Error:', err.message);

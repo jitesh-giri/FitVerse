@@ -1,272 +1,275 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-
-const meals = [
-  {
-    type: 'Breakfast',
-    calories: '450 kcal',
-    title: 'Oatmeal Power Bowl',
-    desc: 'Complex carbs from oats combined with antioxidant-rich berries to kickstart your metabolism and prepare you for today\'s active recovery session.',
-    image: '/images/gallery/gallery-7.jpg',
-    colSpan: 'md:col-span-8',
-    height: 'h-80',
-  },
-  {
-    type: 'Lunch',
-    calories: '620 kcal',
-    title: 'Grilled Chicken & Greens',
-    desc: 'Lean poultry breast loaded with complete amino acids, served over dark leafy greens and avocado for micronutrient balance.',
-    image: '/images/gallery/gallery-8.jpg',
-    colSpan: 'md:col-span-6',
-    height: 'h-64',
-  },
-  {
-    type: 'Dinner',
-    calories: '580 kcal',
-    title: 'Wild Salmon & Quinoa',
-    desc: 'Pan-seared omega-3 rich salmon with slow-burning tri-color quinoa and roasted asparagus spears.',
-    image: '/images/gallery/gallery-9.jpg',
-    colSpan: 'md:col-span-6',
-    height: 'h-64',
-  },
-];
+import { usePlan } from '../context/PlanContext';
 
 export default function Nutrition() {
+  const { plan, profile } = usePlan();
+  const [activeDay, setActiveDay] = useState(0);
   const [showAiModal, setShowAiModal] = useState(false);
   const [aiQuestion, setAiQuestion] = useState('');
   const [aiResponse, setAiResponse] = useState('');
 
+  const hasPlan = plan && Array.isArray(plan.weeklyDiet) && plan.weeklyDiet.length > 0;
+  const currentDayDiet = hasPlan ? plan.weeklyDiet[activeDay] || plan.weeklyDiet[0] : null;
+
   const handleAskAi = (e) => {
     e.preventDefault();
     if (!aiQuestion.trim()) return;
+    const proteinTarget = currentDayDiet?.macros?.protein || 160;
+    const dietType = profile?.diet || 'balanced';
     setAiResponse(
-      `Based on your target of 180g protein and today's 65-min hypertrophy training, adding 30g of whey isolate and 5g creatine post-workout will optimize MPS (muscle protein synthesis) by 24%.`
+      `Based on your active ${dietType} protocol and daily target of ${proteinTarget}g protein (${currentDayDiet?.totalCalories || 2200} kcal), this query is optimized for your metabolic demands.`
     );
   };
 
   return (
-    <div className="bg-background text-on-surface font-body antialiased min-h-screen flex flex-col selection:bg-primary selection:text-on-primary">
+    <div className="text-on-surface font-body antialiased min-h-screen flex flex-col selection:bg-primary selection:text-on-primary">
       {/* Main Content Canvas */}
-      <main className="flex-grow pt-12 px-4 md:px-16 pb-24 max-w-7xl mx-auto w-full">
-        {/* Header Section */}
-        <div className="mb-14 mt-4 md:w-8/12">
-          <span className="px-3 py-1 bg-surface-container-high rounded-full font-headline text-[10px] uppercase font-bold tracking-widest text-primary">
-            PRECISION MACRONUTRIENTS
-          </span>
-          <h1 className="font-headline text-4xl md:text-5xl lg:text-6xl font-black text-on-surface mb-4 mt-3 tracking-tight">
-            Fuel Your Potential
-          </h1>
-          <p className="font-body text-base md:text-lg text-on-surface-variant leading-relaxed">
-            Based on your recent heavy lifting sessions, our AI recommends a high-protein, nutrient-dense protocol for optimal recovery.
-          </p>
-        </div>
-
-        {/* AI Chat Interface / Quick Tips */}
-        <div className="glass-card rounded-2xl p-8 mb-16 flex flex-col md:flex-row gap-8 items-start md:items-center relative overflow-hidden border-l-[8px] border-l-primary shadow-xl">
-          <div className="flex-shrink-0 bg-surface-container-high p-4 rounded-full ai-glow border border-primary/40">
-            <span className="material-symbols-outlined text-primary text-3xl icon-fill">smart_toy</span>
+      <main className="flex-grow pt-10 px-4 md:px-16 pb-24 max-w-7xl mx-auto w-full flex flex-col gap-10">
+        {/* Hero-style Header Section */}
+        <header className="max-w-3xl text-left mt-4">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 border border-white/10 backdrop-blur-md text-xs font-headline font-semibold text-tertiary mb-4 shadow-sm w-fit">
+            <span className="material-symbols-outlined text-sm text-tertiary">restaurant_menu</span>
+            {hasPlan
+              ? `PRECISION MACRONUTRIENTS • ${currentDayDiet?.totalCalories || 2200} KCAL TARGET`
+              : 'PRECISION MACRONUTRIENTS • NO ACTIVE PLAN'}
           </div>
-          <div className="flex-1">
-            <h3 className="font-headline text-xl md:text-2xl font-bold text-on-surface mb-2">
-              AI Nutrition Insight
+          <h1 className="font-headline text-3xl sm:text-5xl lg:text-6xl font-black text-on-background leading-[1.08] tracking-tight">
+            <span className="gradient-text uppercase">FUEL</span>
+            <span className="text-white ml-2 sm:ml-3">Your Potential</span>
+          </h1>
+          <p className="font-body text-sm sm:text-base text-white/70 mt-2 max-w-2xl leading-relaxed">
+            {hasPlan
+              ? `AI-calibrated macronutrient fueling structured for your ${profile?.diet || 'current'} dietary profile and ${profile?.goal?.replace('_', ' ') || 'fitness'} targets.`
+              : 'Generate your personalized 7-day nutrition and macronutrient protocol tailored by Gemini AI to your dietary preferences and fitness goals.'}
+          </p>
+        </header>
+
+        {/* Empty State if No Plan Generated */}
+        {!hasPlan ? (
+          <div className="rounded-2xl bg-white/10 backdrop-blur-lg border border-white/10 p-10 sm:p-14 text-center flex flex-col items-center gap-4 max-w-xl mx-auto my-8 shadow-2xl">
+            <div className="w-16 h-16 rounded-full bg-tertiary/20 border border-tertiary/40 flex items-center justify-center text-tertiary mb-2">
+              <span className="material-symbols-outlined text-3xl">restaurant_menu</span>
+            </div>
+            <h3 className="font-headline text-2xl sm:text-3xl font-black text-white">
+              No Active Nutrition Protocol
             </h3>
-            <p className="font-body text-sm md:text-base text-on-surface-variant leading-relaxed">
-              Your glycogen levels might be depleted after yesterday's leg day. Focus on complex carbohydrates combined with lean protein for your next meal to accelerate muscle repair.
+            <p className="text-sm text-white/70 leading-relaxed max-w-md">
+              You haven't generated a nutrition protocol yet. Complete the onboarding questionnaire to receive day-by-day meal recommendations and macro targets.
             </p>
-            {aiResponse && (
-              <div className="mt-4 p-4 bg-surface-container rounded-xl border border-primary/30 text-xs md:text-sm text-primary font-medium animate-fadeIn">
-                🤖 <strong>AI Recommendation:</strong> {aiResponse}
+            <Link
+              to="/onboarding"
+              className="mt-4 px-8 py-3.5 rounded-full bg-gradient-to-r from-[#adc6ff] via-[#4b8eff] to-[#ffb595] text-[#00285c] font-headline text-xs uppercase font-bold tracking-wider hover:brightness-110 active:scale-95 transition-all shadow-lg text-center"
+            >
+              Start Onboarding & Generate Plan
+            </Link>
+          </div>
+        ) : (
+          <div className="space-y-10">
+            {/* Day Selector Tabs (Monday - Sunday) */}
+            <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-thin">
+              {plan.weeklyDiet.map((day, idx) => {
+                const isActive = activeDay === idx;
+                return (
+                  <button
+                    key={idx}
+                    onClick={() => setActiveDay(idx)}
+                    className={`shrink-0 px-4 py-2.5 rounded-xl font-headline text-xs font-bold transition-all duration-150 ease-out cursor-pointer flex flex-col items-center min-w-[76px] border ${
+                      isActive
+                        ? 'bg-tertiary text-on-primary border-tertiary shadow-lg scale-105'
+                        : 'bg-white/5 text-white/70 border-white/10 hover:bg-white/10 hover:text-white'
+                    }`}
+                  >
+                    <span>{(day.day || `Day ${idx + 1}`).slice(0, 3).toUpperCase()}</span>
+                    <span className="text-[10px] font-normal opacity-80 mt-0.5">
+                      {day.totalCalories ? `${day.totalCalories} kcal` : 'Diet'}
+                    </span>
+                  </button>
+                );
+              })}
+            </div>
+
+            {/* AI Chat Interface / Quick Tips */}
+            <div className="rounded-2xl bg-white/10 backdrop-blur-lg border border-white/10 p-6 sm:p-8 flex flex-col md:flex-row gap-6 md:gap-8 items-start md:items-center shadow-2xl relative overflow-hidden">
+              <div className="flex-shrink-0 bg-white/10 p-4 rounded-full border border-white/15 shadow-inner">
+                <span className="material-symbols-outlined text-primary text-3xl icon-fill">smart_toy</span>
+              </div>
+              <div className="flex-1">
+                <h3 className="font-headline text-xl md:text-2xl font-bold text-white mb-2">
+                  AI Nutrition Strategy
+                </h3>
+                <p className="font-body text-sm md:text-base text-white/75 leading-relaxed">
+                  {plan.planSummary ||
+                    `Targeting ${currentDayDiet?.totalCalories || 2200} kcal with ${currentDayDiet?.macros?.protein || 150}g protein to optimize recovery and energy balance.`}
+                </p>
+                {aiResponse && (
+                  <div className="mt-4 p-4 bg-white/5 backdrop-blur-md rounded-xl border border-primary/40 text-xs md:text-sm text-primary font-medium animate-fadeIn">
+                    🤖 <strong>AI Recommendation:</strong> {aiResponse}
+                  </div>
+                )}
+              </div>
+              <button
+                onClick={() => setShowAiModal(true)}
+                className="md:ml-auto px-6 py-3 rounded-full bg-gradient-to-r from-[#adc6ff] via-[#4b8eff] to-[#ffb595] text-[#00285c] font-headline text-xs uppercase font-bold tracking-wider hover:brightness-110 active:scale-95 transition-all flex items-center gap-2 shadow-lg shrink-0 cursor-pointer"
+              >
+                <span className="material-symbols-outlined text-lg">forum</span> Ask AI
+              </button>
+            </div>
+
+            {/* AI Modal */}
+            {showAiModal && (
+              <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-4">
+                <div className="bg-black/90 backdrop-blur-xl border border-white/15 p-6 sm:p-8 rounded-2xl max-w-lg w-full shadow-2xl">
+                  <div className="flex justify-between items-center mb-6">
+                    <h3 className="font-headline text-xl font-bold text-primary flex items-center gap-2">
+                      <span className="material-symbols-outlined">psychology</span>
+                      FitVerse Nutrition AI
+                    </h3>
+                    <button onClick={() => setShowAiModal(false)} className="text-white/60 hover:text-white transition-colors cursor-pointer">
+                      <span className="material-symbols-outlined">close</span>
+                    </button>
+                  </div>
+                  <form onSubmit={handleAskAi} className="flex flex-col gap-4">
+                    <textarea
+                      value={aiQuestion}
+                      onChange={(e) => setAiQuestion(e.target.value)}
+                      placeholder="e.g. How can I adjust my meal timing for optimal recovery?"
+                      className="w-full bg-white/5 border border-white/15 rounded-xl p-4 text-white text-sm focus:border-primary outline-none resize-none h-28"
+                      autoFocus
+                    ></textarea>
+                    <div className="flex justify-end gap-3">
+                      <button
+                        type="button"
+                        onClick={() => setShowAiModal(false)}
+                        className="px-5 py-2.5 rounded-full bg-white/10 hover:bg-white/15 border border-white/20 text-white font-headline text-xs font-bold uppercase tracking-wider transition-all cursor-pointer"
+                      >
+                        Cancel
+                      </button>
+                      <button
+                        type="submit"
+                        onClick={() => {
+                          if (aiQuestion.trim()) setShowAiModal(false);
+                        }}
+                        className="px-6 py-2.5 rounded-full bg-gradient-to-r from-[#adc6ff] via-[#4b8eff] to-[#ffb595] text-[#00285c] font-headline text-xs uppercase font-bold tracking-wider hover:brightness-110 active:scale-95 transition-all shadow-md cursor-pointer"
+                      >
+                        Submit Query
+                      </button>
+                    </div>
+                  </form>
+                </div>
               </div>
             )}
-          </div>
-          <button
-            onClick={() => setShowAiModal(true)}
-            className="md:ml-auto bg-surface-container border border-outline-variant px-6 py-3 rounded-full text-primary font-headline text-xs uppercase font-bold hover:bg-surface-variant hover:border-primary transition-all flex items-center gap-2 shadow-md shrink-0"
-          >
-            <span className="material-symbols-outlined text-lg">forum</span> Ask AI
-          </button>
-        </div>
 
-        {/* AI Modal */}
-        {showAiModal && (
-          <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
-            <div className="bg-surface-container-high border-[8px] border-surface-variant p-8 rounded-2xl max-w-lg w-full shadow-2xl">
-              <div className="flex justify-between items-center mb-6">
-                <h3 className="font-headline text-xl font-bold text-primary flex items-center gap-2">
-                  <span className="material-symbols-outlined">psychology</span>
-                  FitVerse Nutrition AI
-                </h3>
-                <button onClick={() => setShowAiModal(false)} className="text-on-surface-variant hover:text-white">
-                  <span className="material-symbols-outlined">close</span>
-                </button>
+            {/* Meal Recommendations Bento Grid */}
+            <div className="space-y-6">
+              <div className="flex justify-between items-center border-b border-white/10 pb-4">
+                <h2 className="font-headline text-2xl md:text-3xl font-extrabold text-white tracking-tight">
+                  {(currentDayDiet?.day || `Day ${activeDay + 1}`)}'s Protocol
+                </h2>
+                <span className="text-xs font-headline font-bold text-tertiary bg-tertiary/10 px-3 py-1 rounded-full border border-tertiary/30">
+                  {currentDayDiet?.totalCalories || 2200} kcal total
+                </span>
               </div>
-              <form onSubmit={handleAskAi} className="flex flex-col gap-4">
-                <textarea
-                  value={aiQuestion}
-                  onChange={(e) => setAiQuestion(e.target.value)}
-                  placeholder="e.g. What should I eat before my 6 PM deadlift session?"
-                  className="w-full bg-surface border border-outline-variant rounded-xl p-4 text-on-surface text-sm focus:border-primary outline-none resize-none h-28"
-                  autoFocus
-                ></textarea>
-                <div className="flex justify-end gap-3">
-                  <button
-                    type="button"
-                    onClick={() => setShowAiModal(false)}
-                    className="px-5 py-2.5 rounded-lg border border-outline-variant text-on-surface-variant text-xs font-bold uppercase"
-                  >
-                    Cancel
-                  </button>
-                  <button
-                    type="submit"
-                    onClick={() => {
-                      if (aiQuestion.trim()) setShowAiModal(false);
-                    }}
-                    className="bg-primary text-on-primary font-headline text-xs uppercase font-bold px-6 py-2.5 rounded-lg hover:bg-primary-container"
-                  >
-                    Submit Query
-                  </button>
+
+              <div className="grid grid-cols-1 md:grid-cols-12 gap-8">
+                {/* Macro Tracker Card */}
+                <div className="md:col-span-12 lg:col-span-4 rounded-2xl bg-white/10 backdrop-blur-lg border border-white/10 p-6 sm:p-8 flex flex-col justify-between shadow-2xl">
+                  <div className="flex justify-between items-center mb-6">
+                    <h3 className="font-headline text-xl font-bold text-white">Target Macros</h3>
+                    <span className="text-xs text-primary font-headline font-bold uppercase">TARGET</span>
+                  </div>
+                  <div className="space-y-6 flex-grow flex flex-col justify-center">
+                    {/* Protein */}
+                    <div>
+                      <div className="flex justify-between font-headline text-xs text-white font-bold mb-2">
+                        <span>Protein</span>
+                        <span className="text-primary font-black">{currentDayDiet?.macros?.protein || 150}g</span>
+                      </div>
+                      <div className="w-full bg-white/10 rounded-full h-2.5 overflow-hidden">
+                        <div
+                          className="bg-primary h-full rounded-full transition-all duration-700"
+                          style={{ width: `${Math.min(100, Math.round(((currentDayDiet?.macros?.protein || 150) / 220) * 100))}%` }}
+                        ></div>
+                      </div>
+                    </div>
+                    {/* Carbs */}
+                    <div>
+                      <div className="flex justify-between font-headline text-xs text-white font-bold mb-2">
+                        <span>Carbohydrates</span>
+                        <span className="text-tertiary font-black">{currentDayDiet?.macros?.carbs || 220}g</span>
+                      </div>
+                      <div className="w-full bg-white/10 rounded-full h-2.5 overflow-hidden">
+                        <div
+                          className="bg-tertiary h-full rounded-full transition-all duration-700"
+                          style={{ width: `${Math.min(100, Math.round(((currentDayDiet?.macros?.carbs || 220) / 300) * 100))}%` }}
+                        ></div>
+                      </div>
+                    </div>
+                    {/* Fats */}
+                    <div>
+                      <div className="flex justify-between font-headline text-xs text-white font-bold mb-2">
+                        <span>Fats</span>
+                        <span className="text-primary-container font-black">{currentDayDiet?.macros?.fat || 65}g</span>
+                      </div>
+                      <div className="w-full bg-white/10 rounded-full h-2.5 overflow-hidden">
+                        <div
+                          className="bg-primary-container h-full rounded-full transition-all duration-700"
+                          style={{ width: `${Math.min(100, Math.round(((currentDayDiet?.macros?.fat || 65) / 100) * 100))}%` }}
+                        ></div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
-              </form>
+
+                {/* Meals List (8 cols) */}
+                <div className="md:col-span-12 lg:col-span-8 grid grid-cols-1 sm:grid-cols-2 gap-6">
+                  {(currentDayDiet?.meals || []).map((meal, mIdx) => (
+                    <div
+                      key={mIdx}
+                      className="rounded-2xl bg-white/10 backdrop-blur-lg border border-white/10 p-6 flex flex-col justify-between hover:border-white/20 transition-all duration-300 shadow-2xl group"
+                    >
+                      <div>
+                        <div className="flex justify-between items-start mb-3">
+                          <span className="bg-white/10 text-white px-3 py-1 rounded-full font-headline text-[10px] uppercase font-bold tracking-wider group-hover:bg-tertiary group-hover:text-on-primary transition-colors">
+                            {meal.name || `Meal ${mIdx + 1}`}
+                          </span>
+                          <span className="text-tertiary font-headline text-xs font-bold flex items-center gap-1">
+                            <span className="material-symbols-outlined text-sm">local_fire_department</span>
+                            {meal.calories} kcal
+                          </span>
+                        </div>
+                        <p className="font-body text-sm text-white/80 leading-relaxed mt-2">
+                          {meal.description}
+                        </p>
+                      </div>
+
+                      {meal.protein && (
+                        <div className="mt-4 pt-3 border-t border-white/10 flex items-center justify-between">
+                          <span className="text-xs font-headline font-semibold text-white/60">Protein</span>
+                          <span className="px-2.5 py-0.5 rounded-full bg-primary/10 text-primary font-headline text-xs font-bold border border-primary/20">
+                            {meal.protein}g
+                          </span>
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              </div>
             </div>
           </div>
         )}
-
-        {/* Meal Recommendations Bento Grid */}
-        <h2 className="font-headline text-2xl md:text-3xl font-extrabold text-on-surface mb-8 border-b-2 border-surface-variant pb-4 inline-block tracking-tight">
-          Today's Protocol
-        </h2>
-
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-8">
-          {/* Meal 1: Breakfast */}
-          <div className="md:col-span-8 bg-surface rounded-2xl overflow-hidden group shadow-xl">
-            <div className="relative h-80 w-full border-[8px] border-surface group-hover:border-primary transition-colors duration-300 rounded-2xl overflow-hidden">
-              <img
-                className="w-full h-full object-cover"
-                alt="Oatmeal Power Bowl"
-                src={meals[0].image}
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent flex flex-col justify-end p-8">
-                <div className="flex items-center gap-3 mb-2">
-                  <span className="bg-primary text-on-primary px-3 py-1 rounded-full font-headline text-[10px] uppercase font-bold tracking-wider">
-                    {meals[0].type}
-                  </span>
-                  <span className="text-on-surface font-headline text-xs font-bold flex items-center gap-1">
-                    <span className="material-symbols-outlined text-sm text-tertiary">local_fire_department</span>
-                    {meals[0].calories}
-                  </span>
-                </div>
-                <h3 className="font-headline text-2xl font-black text-on-surface">
-                  {meals[0].title}
-                </h3>
-                <p className="font-body text-sm text-on-surface-variant mt-2 line-clamp-2 max-w-xl">
-                  {meals[0].desc}
-                </p>
-              </div>
-            </div>
-          </div>
-
-          {/* Macro Tracker */}
-          <div className="md:col-span-4 glass-card rounded-2xl p-8 flex flex-col justify-between border-[8px] border-surface-container-high shadow-xl">
-            <div className="flex justify-between items-center mb-6">
-              <h3 className="font-headline text-xl font-bold text-on-surface">Daily Macros</h3>
-              <span className="text-xs text-primary font-headline font-bold">75% GOAL</span>
-            </div>
-            <div className="space-y-6 flex-grow flex flex-col justify-center">
-              {/* Protein */}
-              <div>
-                <div className="flex justify-between font-headline text-xs text-on-surface font-bold mb-2">
-                  <span>Protein</span>
-                  <span className="text-primary font-black">120g / 180g</span>
-                </div>
-                <div className="w-full bg-surface-container-high rounded-full h-2.5 overflow-hidden">
-                  <div className="bg-primary h-full rounded-full transition-all duration-700" style={{ width: '66%' }}></div>
-                </div>
-              </div>
-              {/* Carbs */}
-              <div>
-                <div className="flex justify-between font-headline text-xs text-on-surface font-bold mb-2">
-                  <span>Carbs</span>
-                  <span className="text-tertiary font-black">200g / 250g</span>
-                </div>
-                <div className="w-full bg-surface-container-high rounded-full h-2.5 overflow-hidden">
-                  <div className="bg-tertiary h-full rounded-full transition-all duration-700" style={{ width: '80%' }}></div>
-                </div>
-              </div>
-              {/* Fats */}
-              <div>
-                <div className="flex justify-between font-headline text-xs text-on-surface font-bold mb-2">
-                  <span>Fats</span>
-                  <span className="text-secondary-fixed font-black">45g / 65g</span>
-                </div>
-                <div className="w-full bg-surface-container-high rounded-full h-2.5 overflow-hidden">
-                  <div className="bg-secondary-fixed h-full rounded-full transition-all duration-700" style={{ width: '70%' }}></div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Meal 2: Lunch */}
-          <div className="md:col-span-6 bg-surface rounded-2xl overflow-hidden group shadow-xl">
-            <div className="relative h-64 w-full border-[8px] border-surface group-hover:border-primary transition-colors duration-300 rounded-2xl overflow-hidden">
-              <img
-                className="w-full h-full object-cover"
-                alt="Grilled Chicken & Greens"
-                src={meals[1].image}
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent flex flex-col justify-end p-6">
-                <div className="flex items-center gap-3 mb-2">
-                  <span className="bg-surface-variant text-on-surface px-3 py-1 rounded-full font-headline text-[10px] uppercase font-bold tracking-wider group-hover:bg-primary group-hover:text-on-primary transition-colors">
-                    {meals[1].type}
-                  </span>
-                  <span className="text-on-surface font-headline text-xs font-bold flex items-center gap-1">
-                    <span className="material-symbols-outlined text-sm text-tertiary">local_fire_department</span>
-                    {meals[1].calories}
-                  </span>
-                </div>
-                <h3 className="font-headline text-xl font-bold text-on-surface">
-                  {meals[1].title}
-                </h3>
-              </div>
-            </div>
-          </div>
-
-          {/* Meal 3: Dinner */}
-          <div className="md:col-span-6 bg-surface rounded-2xl overflow-hidden group shadow-xl">
-            <div className="relative h-64 w-full border-[8px] border-surface group-hover:border-primary transition-colors duration-300 rounded-2xl overflow-hidden">
-              <img
-                className="w-full h-full object-cover"
-                alt="Wild Salmon & Quinoa"
-                src={meals[2].image}
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent flex flex-col justify-end p-6">
-                <div className="flex items-center gap-3 mb-2">
-                  <span className="bg-surface-variant text-on-surface px-3 py-1 rounded-full font-headline text-[10px] uppercase font-bold tracking-wider group-hover:bg-primary group-hover:text-on-primary transition-colors">
-                    {meals[2].type}
-                  </span>
-                  <span className="text-on-surface font-headline text-xs font-bold flex items-center gap-1">
-                    <span className="material-symbols-outlined text-sm text-tertiary">local_fire_department</span>
-                    {meals[2].calories}
-                  </span>
-                </div>
-                <h3 className="font-headline text-xl font-bold text-on-surface">
-                  {meals[2].title}
-                </h3>
-              </div>
-            </div>
-          </div>
-        </div>
       </main>
 
       {/* Footer */}
-      <footer className="bg-surface-container-lowest text-primary font-headline text-xs w-full border-t-8 border-surface-variant flex flex-col md:flex-row justify-between items-center px-4 md:px-16 py-12 mt-auto">
-        <div className="font-headline text-xl font-bold text-on-surface mb-6 md:mb-0">FitVerse</div>
-        <div className="flex gap-6 mb-6 md:mb-0 uppercase tracking-widest font-bold">
-          <Link to="/onboarding" className="text-on-surface-variant hover:text-primary transition-opacity">Privacy Policy</Link>
-          <Link to="/onboarding" className="text-on-surface-variant hover:text-primary transition-opacity">Terms of Service</Link>
-          <Link to="/community" className="text-on-surface-variant hover:text-primary transition-opacity">Contact</Link>
-          <Link to="/workout" className="text-on-surface-variant hover:text-primary transition-opacity">Support</Link>
+      <footer className="border-t border-white/10 text-primary font-headline text-xs w-full flex flex-col md:flex-row justify-between items-center px-4 md:px-16 py-12 mt-auto">
+        <div className="font-headline text-xl font-bold text-primary mb-6 md:mb-0">FitVerse</div>
+        <div className="flex gap-6 mb-6 md:mb-0 uppercase tracking-widest font-bold text-white/60">
+          <Link to="/onboarding" className="hover:text-primary transition-opacity">Privacy Policy</Link>
+          <Link to="/onboarding" className="hover:text-primary transition-opacity">Terms of Service</Link>
+          <Link to="/community" className="hover:text-primary transition-opacity">Contact</Link>
+          <Link to="/workout" className="hover:text-primary transition-opacity">Support</Link>
         </div>
-        <div className="text-on-surface-variant font-headline text-[10px] uppercase tracking-widest">
+        <div className="text-white/40 font-headline text-[10px] uppercase tracking-widest">
           © {new Date().getFullYear()} FitVerse. All rights reserved.
         </div>
       </footer>

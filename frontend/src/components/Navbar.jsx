@@ -1,104 +1,152 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { NavLink, Link } from 'react-router-dom';
+import { Menu, X } from 'lucide-react';
 
 const navItems = [
   { name: 'Home', path: '/' },
   { name: 'Workout', path: '/workout' },
   { name: 'Nutrition', path: '/nutrition' },
   { name: 'Community', path: '/community' },
+  { name: 'Female Health', path: '/female-health' },
   { name: 'Profile', path: '/profile' },
-  { name: 'Admin', path: '/admin' },
 ];
 
 export default function Navbar() {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
+
+  useEffect(() => {
+    if (mobileOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [mobileOpen]);
 
   return (
-    <header className="sticky top-0 w-full z-50 bg-[#131313] border-b-8 border-primary transition-all duration-300">
-      <div className="flex justify-between items-center px-4 md:px-16 py-4 w-full max-w-7xl mx-auto">
-        <div className="flex items-center gap-4">
-          <button
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="text-on-background hover:text-primary transition-colors duration-300 md:hidden scale-95 active:scale-90"
-            aria-label="Toggle menu"
+    <header className="sticky top-0 w-full z-50 bg-[#131313]/80 backdrop-blur-xl border-b border-white/10 transition-all duration-300">
+      <div className="w-full max-w-7xl mx-auto flex items-center justify-between px-5 py-4 sm:px-8 sm:py-5 lg:px-12">
+        {/* Left: FitVerse Wordmark */}
+        <Link
+          to="/"
+          className="font-headline text-lg sm:text-xl font-semibold text-primary tracking-tight hover:opacity-90 transition-opacity shrink-0"
+        >
+          FitVerse
+        </Link>
+
+        {/* Desktop Navigation (hidden lg:flex) */}
+        <div className="hidden lg:flex items-center gap-3">
+          {/* Glass pill nav cluster */}
+          <div className="rounded-full bg-white/10 px-1.5 py-1.5 backdrop-blur-lg border border-white/10 flex items-center gap-1 shadow-lg">
+            {navItems.map((item) => (
+              <NavLink
+                key={item.path}
+                to={item.path}
+                className={({ isActive }) =>
+                  `rounded-full px-3.5 py-1.5 text-xs xl:text-sm font-medium transition-all duration-150 ease-out whitespace-nowrap ${
+                    isActive
+                      ? 'bg-white/15 text-white font-semibold shadow-sm'
+                      : 'text-white/80 hover:bg-white/10 hover:text-white'
+                  }`
+                }
+              >
+                {item.name}
+              </NavLink>
+            ))}
+          </div>
+
+          {/* Separate Get Started Pill */}
+          <Link
+            to="/onboarding"
+            className="self-stretch flex items-center justify-center rounded-full px-5 py-1.5 text-xs xl:text-sm font-bold bg-gradient-to-r from-[#adc6ff] via-[#4b8eff] to-[#ffb595] text-[#00285c] hover:brightness-110 active:scale-95 transition-all shadow-[0_0_20px_rgba(173,198,255,0.25)] whitespace-nowrap"
           >
-            <span className="material-symbols-outlined text-[28px]">
-              {mobileMenuOpen ? 'close' : 'menu'}
-            </span>
-          </button>
-          
-          <Link to="/" className="flex items-center cursor-pointer scale-95 active:scale-90 transition-transform hover:opacity-90">
-            <span className="font-headline text-2xl md:text-3xl font-black text-primary tracking-tight">
-              FitVerse
-            </span>
+            Get Started
           </Link>
         </div>
 
-        {/* Desktop Navigation */}
-        <nav aria-label="Main Navigation" className="hidden md:flex gap-6 lg:gap-8 items-center font-body text-base">
-          {navItems.map((item) => (
+        {/* Mobile Hamburger Button (lg:hidden) */}
+        <button
+          onClick={() => setMobileOpen(!mobileOpen)}
+          className="relative lg:hidden h-10 w-10 rounded-full bg-white/10 backdrop-blur-lg border border-white/10 flex items-center justify-center z-50 text-white hover:bg-white/20 active:scale-95 transition-all cursor-pointer shadow-lg"
+          aria-label={mobileOpen ? 'Close menu' : 'Open menu'}
+        >
+          <Menu
+            className={`w-5 h-5 absolute transition-all duration-300 transform ${
+              mobileOpen ? 'opacity-0 rotate-90 scale-50' : 'opacity-100 rotate-0 scale-100'
+            }`}
+          />
+          <X
+            className={`w-5 h-5 absolute transition-all duration-300 transform ${
+              mobileOpen ? 'opacity-100 rotate-0 scale-100' : 'opacity-0 -rotate-90 scale-50'
+            }`}
+          />
+        </button>
+      </div>
+
+      {/* Mobile Menu Backdrop */}
+      <div
+        onClick={() => setMobileOpen(false)}
+        className={`fixed inset-0 z-40 bg-black/80 backdrop-blur-md transition-opacity duration-300 lg:hidden ${
+          mobileOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
+        }`}
+        aria-hidden="true"
+      />
+
+      {/* Mobile Menu Slide-in Panel */}
+      <div
+        className={`fixed right-0 top-0 z-40 h-full w-72 bg-black/90 backdrop-blur-xl border-l border-white/10 flex flex-col justify-between lg:hidden transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] ${
+          mobileOpen ? 'translate-x-0' : 'translate-x-full'
+        }`}
+      >
+        {/* Links */}
+        <div className="flex flex-col px-6 pt-24 gap-2">
+          {navItems.map((item, index) => (
             <NavLink
               key={item.path}
               to={item.path}
+              onClick={() => setMobileOpen(false)}
+              style={{
+                transitionDelay: mobileOpen ? `${(index + 1) * 60}ms` : '0ms',
+                transform: mobileOpen ? 'translateX(0)' : 'translateX(24px)',
+                opacity: mobileOpen ? 1 : 0,
+                transitionProperty: 'opacity, transform, background-color, color',
+                transitionDuration: '300ms',
+              }}
               className={({ isActive }) =>
-                `transition-colors duration-300 font-medium ${
+                `rounded-xl px-4 py-3.5 text-base font-medium transition-all ${
                   isActive
-                    ? 'text-primary font-bold border-b-2 border-primary pb-1'
-                    : 'text-on-surface-variant hover:text-white pb-1'
+                    ? 'bg-white/15 text-white font-semibold'
+                    : 'text-white/80 hover:bg-white/10 hover:text-white'
                 }`
               }
             >
               {item.name}
             </NavLink>
           ))}
-        </nav>
+        </div>
 
-        {/* Action Button */}
-        <div className="flex items-center gap-4">
+        {/* Bottom CTA */}
+        <div
+          className="mt-auto px-6 pb-10"
+          style={{
+            transitionDelay: mobileOpen ? '300ms' : '0ms',
+            transform: mobileOpen ? 'translateY(0)' : 'translateY(24px)',
+            opacity: mobileOpen ? 1 : 0,
+            transitionProperty: 'opacity, transform',
+            transitionDuration: '400ms',
+          }}
+        >
           <Link
-            to="/workout"
-            className="bg-primary text-on-primary font-headline text-xs md:text-sm uppercase tracking-widest font-extrabold px-5 py-2.5 rounded hover:bg-primary-container transition-all scale-95 active:scale-90 shadow-[0_0_15px_rgba(173,198,255,0.3)] hidden sm:inline-block"
+            to="/onboarding"
+            onClick={() => setMobileOpen(false)}
+            className="w-full py-3.5 rounded-full bg-gradient-to-r from-[#adc6ff] via-[#4b8eff] to-[#ffb595] text-[#00285c] font-bold text-center block shadow-lg hover:brightness-110 active:scale-95 transition-all text-sm uppercase tracking-wider"
           >
             Get Started
           </Link>
         </div>
       </div>
-
-      {/* Mobile Drawer */}
-      {mobileMenuOpen && (
-        <div className="md:hidden bg-surface-container-high border-t border-surface-variant p-6 flex flex-col gap-4 animate-fadeIn">
-          {navItems.map((item) => (
-            <NavLink
-              key={item.path}
-              to={item.path}
-              onClick={() => setMobileMenuOpen(false)}
-              className={({ isActive }) =>
-                `px-4 py-3 rounded-lg flex items-center gap-3 font-medium transition-colors ${
-                  isActive
-                    ? 'bg-primary-container text-on-primary-container font-bold'
-                    : 'text-on-surface-variant hover:bg-surface-variant hover:text-white'
-                }`
-              }
-            >
-              <span className="material-symbols-outlined">
-                {item.path === '/' ? 'home' :
-                 item.path === '/workout' ? 'fitness_center' :
-                 item.path === '/nutrition' ? 'restaurant' :
-                 item.path === '/community' ? 'groups' :
-                 item.path === '/profile' ? 'person' : 'gavel'}
-              </span>
-              <span>{item.name}</span>
-            </NavLink>
-          ))}
-          <Link
-            to="/workout"
-            onClick={() => setMobileMenuOpen(false)}
-            className="mt-2 text-center bg-primary text-on-primary font-headline text-xs uppercase tracking-widest font-bold py-3 rounded"
-          >
-            Get Started
-          </Link>
-        </div>
-      )}
     </header>
   );
 }
